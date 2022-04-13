@@ -2,4 +2,4 @@
 User-agent:*
 Disallow:
 
-Sitemap: http://www.zhangsj.xyz.sitemap.xml
+Sitemap: http://www.zhangsj.xyz./sitemap.xml
