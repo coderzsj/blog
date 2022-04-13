@@ -7,5 +7,5 @@ category: 目录
 ## java基础目录
 
 - [hashmap](hashmap.md)
-- [java异常](java的异常.md)
+- [java异常](java-exception.md)
 

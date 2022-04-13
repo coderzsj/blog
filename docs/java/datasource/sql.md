@@ -2,7 +2,7 @@
 title: sql keyword
 icon: sql
 category: mysql
-tags:
+tag:
   - mysql
   - sql
 ---

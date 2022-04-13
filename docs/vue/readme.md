@@ -2,7 +2,7 @@
 title: frontend-content
 icon: WEBqianduan
 category: 目录
-tags:
+tag:
     - 目录
 star: 9
 sticky: 2
@@ -11,6 +11,6 @@ sticky: 2
 ## 前端目录
 
 - [Typescript](Typescript.md)
-- [vue知识点1](vue知识点.md)
-- [vue知识点2](常见的问题.md)
-- [vue指令](指令.md)
+- [vue知识点1](vue-knowledge-points.md)
+- [vue知识点2](frequently-asked-questions.md)
+- [vue指令](instruction.md)

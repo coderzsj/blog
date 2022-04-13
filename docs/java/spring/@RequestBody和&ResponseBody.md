@@ -2,7 +2,7 @@
 title: RequestBody&ResponseBody
 category: spring
 icon: annotation
-time: 2019-06-23
+date: 2019-06-23
 tag:
   - RequestBody&ResponseBody
   - annotation

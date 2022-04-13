@@ -2,7 +2,7 @@
 title: hashmap
 icon: hashmap
 category: java
-tags:
+tag:
   - 集合
   - java
 ---

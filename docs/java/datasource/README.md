@@ -2,15 +2,15 @@
 title: datasource mulu
 icon: mulu
 category: 目录
-time: 2021-10-01
+date: 2021-10-01
 ---
 
 ## MySQL目录
 
-- [索引结构 b&b+树](B树、B+树详解.md)
-- [sql优化](mysql调优.md)
-- [Mysql流式查询](MySQL流式查询.md)
-- [mysql事务](mysql事务.md)
-- [存储引擎](存储引擎.md)
-- [mysql调优](mysql调优.md)
+- [索引结构 b&b+树](detailed-explanation-of-b-tree-and-b+-tree.md)
+- [sql优化](mysql tuning.md)
+- [Mysql流式查询](mysql-streaming-query.md)
+- [mysql事务](mysql transaction.md)
+- [存储引擎](storage-engine.md)
+- [mysql调优](mysql tuning.md)
 

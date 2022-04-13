@@ -1,7 +1,7 @@
 ---
 title: synchronized 
 category: concurrent 
-time: 2022-01-28 
+date: 2022-01-28 
 tag:
   - concurrent
   - synchronized

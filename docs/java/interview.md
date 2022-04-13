@@ -1,7 +1,7 @@
 ---
 title: interview technique
-time: 2022-01-01
-tags:
+date: 2022-01-01
+tag:
   - interview
 password: 1
 ---

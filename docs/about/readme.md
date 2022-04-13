@@ -2,7 +2,7 @@
 title: intro
 layout: Slide
 icon: people
-tags:
+tag:
   - 个人介绍
 article: false
 breadcrumb: false

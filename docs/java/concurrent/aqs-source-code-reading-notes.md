@@ -1,7 +1,7 @@
 ---
 title: AbstractQueuedSynchronizer
 category: concurrent
-tags:
+tag:
  - concurrent
  - aqs
 ---

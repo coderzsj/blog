@@ -4,9 +4,12 @@
   "description": "my blog",
   "main": "index.js",
   "scripts": {
-    "docs:dev": "vuepress dev docs",
-    "super:build": "node --max_old_space_size=12288 ./node_modules/vuepress/cli.js build docs",
-    "docs:build": "vuepress build docs",
+    "vite-build": "vuepress-vite build docs",
+    "vite-clean-serve": "vuepress-vite dev docs --clean-cache",
+    "vite-serve": "vuepress-vite dev docs",
+    "webpack-build": "vuepress-webpack build docs",
+    "webpack-clean-serve": "vuepress-webpack dev docs --clean-cache",
+    "webpack-serve": "vuepress-webpack dev docs",
     "lint": "prettier --check --write .",
     "lint:check": "prettier --check .",
     "lint-md": "markdownlint **/*.md --ignore node_modules --fix",
@@ -24,8 +27,10 @@
     "url": "git@gitee.com:/SHIJINGSPACE/myblog.git"
   },
   "dependencies": {
-    "vuepress": "1.9.7",
-    "vuepress-theme-hope": "1.27.3"
+    "vuepress-theme-hope": "2.0.0-beta.28",
+    "vuepress-vite": "2.0.0-beta.36",
+    "vuepress-webpack": "2.0.0-beta.36",
+    "@vuepress/plugin-search": "^2.0.0-beta.36"
   },
   "devDependencies": {
     "compression-webpack-plugin": "^5.0.0",

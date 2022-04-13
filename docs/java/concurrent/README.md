@@ -2,7 +2,7 @@
 title: concurrent-content
 icon: mulu
 category: 目录
-tags:
+tag:
   - 目录
 ---
 
@@ -12,7 +12,7 @@ tags:
 - [四种引用类型](4-reference-types.md)
 - [AbstractQueuedSynchronizer](aqs-source-code-reading-notes.md)
 - [synchronized](synchronized-principle-analysis-and-optimization.md)
-- [线程间的通信方式](java线程间的通信方式.md)
+- [线程间的通信方式](how-to-communicate-between-java-threads.md)
 - [线程生命周期，五大状态转换分析](thread-life-cycle.md)
 - [threadLocal](threadlocal.md)
 - [theadpool](threadpool-code-analysis.md)

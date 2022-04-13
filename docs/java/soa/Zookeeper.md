@@ -3,8 +3,8 @@ title: ZooKeeper
 category: soa
 icon: ZooKeeper
 author: lanqiu5ge
-time: 2018-08-02
-tags:
+date: 2018-08-02
+tag:
   - ZooKeeper
 ---
 
