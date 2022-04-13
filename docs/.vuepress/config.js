@@ -12,8 +12,8 @@ const nav = [
 
 module.exports = config({
     port: "1314",
-    title: "zhangsj的个人博客",
-    description: "Java学习",
+    title: "SHIJINGSPACE",
+    description: "个人博客",
     dest: "dist",
     base: "/blog/",
     locales: {
@@ -70,9 +70,13 @@ module.exports = config({
 
         blog: {
             sidebarDisplay: "mobile",
-            links: {
+            media: {
+                csdn: "https://blog.csdn.net/qq_43183527",
+                github: "https://github.com/coderzsj/",
+                gitee: "https://gitee.com/SHIJINGSPACE",
                 csdn: "https://blog.csdn.net/qq_43183527",
             },
+
         },
 
         copyright: {

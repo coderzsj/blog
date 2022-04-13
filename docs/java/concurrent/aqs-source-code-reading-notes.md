@@ -1,9 +1,9 @@
 ---
-title: aqs
+title: AbstractQueuedSynchronizer
 category: concurrent
-tag:
-  - concurrent
-  - aqs
+tags:
+ - concurrent
+ - aqs
 ---
 
 # AQS

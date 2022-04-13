@@ -1,6 +1,6 @@
 ---
 title: RabbitMQ
-category: mq
+category: message-queue
 tag:
   - mq
 ---

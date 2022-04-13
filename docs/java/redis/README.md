@@ -1,6 +1,6 @@
 ---
 title: redis-content
-category: mulu
+category: 目录
 icon: mulu
 star: 4
 sticky: 5

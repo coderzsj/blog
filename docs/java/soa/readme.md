@@ -1,7 +1,6 @@
 ---
-title: fubushi mulu
+title: distributed-content
 icon: mulu
-category: mulu
 tags:
   - 目录
 ---

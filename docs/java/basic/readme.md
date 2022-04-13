@@ -1,7 +1,7 @@
 ---
 title: basic mulu
 icon: mulu
-category: mulu
+category: 目录
 ---
 
 ## java基础目录

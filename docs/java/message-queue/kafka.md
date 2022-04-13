@@ -1,6 +1,6 @@
 ---
 title: kafka
-category: mq
+category: 消息队列
 tag:
   - mq
 ---

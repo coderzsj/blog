@@ -1,7 +1,7 @@
 ---
 title: frontend-content
 icon: WEBqianduan
-category: mulu
+category: 目录
 tags:
     - 目录
 star: 9

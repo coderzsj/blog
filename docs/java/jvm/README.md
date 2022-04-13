@@ -1,6 +1,6 @@
 ---
 title: jvm mulu
-category: mulu
+category: 目录
 icon: mulu
 star: 4
 ---

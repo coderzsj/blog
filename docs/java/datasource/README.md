@@ -1,7 +1,7 @@
 ---
 title: datasource mulu
 icon: mulu
-category: mulu
+category: 目录
 time: 2021-10-01
 ---
 

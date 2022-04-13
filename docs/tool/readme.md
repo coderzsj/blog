@@ -1,7 +1,7 @@
 ---
 title: tool-content
 icon: mulu
-category: mulu
+category: 目录
 star: 9
 sticky: 3
 ---

@@ -1,6 +1,6 @@
 ---
-title: mq
-category: mulu
+title: message-queue-content
+category: 目录
 icon: mulu
 star: 4
 ---
