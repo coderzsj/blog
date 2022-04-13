@@ -4,12 +4,24 @@
 
 一、类说明
 
-
 首先我们来看一下这个类。
 ```java
-public class LinkedLiist
-
+public class Node<E>{
+    E item;
+    Node<E> next;
+    Node<E> prev;
+    
+    Node(E item, Node<E> next, Node<E> prev){
+        this.item = item;
+        this.next = next;
+        this.prev = prev;
+    }
+}
 ```
+
+这是一个LinkedList的内部类，还是比较简单的。首先一个泛型的item变量，用来存储数据，然后有一个指向下一个结点的next指针，前一个结点的prev指针。
+
+至此我们其实就可以得出结论，LinkedList果然名不虚传，内部就是由链表的形式实现。它并没有用数组来存储数据元素，而是由一个个Node类型结点来储存数据，然后每个Node结点通过指向前后结点的next和prev指针将整个List串联起来。我们来画张简单图来看看ArrayList和LinkedList的基本区别：
 
 ## 总结
 

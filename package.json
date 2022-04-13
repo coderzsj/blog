@@ -16,7 +16,8 @@
     "lint-md:wording:fix": "textlint ./docs/**/*.md --fix",
     "comsol:get-words": "node script/comsol/get-words.js",
     "test": "echo \"Warning: no test specified\" && exit 0",
-    "cleanServe": "vuepress dev docs --no-cache"
+    "cleanServe": "vuepress dev docs --no-cache",
+    "deploy": "bash deploy.sh"
   },
   "repository": {
     "type": "git",
