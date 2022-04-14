@@ -11,7 +11,6 @@ tag:
   
 ![Java异常类的层次结构  ](./assets/20220413/java的异常-1649857259697.png)
 
-
 ## 检查型异常(CheckedException)
 
 在 Java 中所有不是 RuntimeException 派生的 Exception 都是检查型异常。

@@ -71,7 +71,8 @@ Broker(代理)
 
 - 主题（Topic）： Producer将消息发送到特定的主题，Consumer通过订阅特定的Topic（主题）来消费消息。
 - 分区（Partition）: `Partition`属于`Topic`的一部分。一个Topic可以有多个Partition ，并且同一 Topic 下的 Partition 可以分布在不同的 Broker 上，这也就表明一个 Topic 可以横跨多个 Broker 。这正如我上面所画的图一样。
-- 
+
+-
 
 > 划重点：Kafka 中的 Partition(分区) 实际上可以对应成为消息队列中的队列。这样是不是更好理解一点？
 
@@ -266,7 +267,7 @@ kafka 出现消息重复消费的原因：
 
 图上有个细节需要注意，producer到broker的过程是push，也就是有数据就推送到borker，而consumer到borker的过程就是pull，是通过consumer主动去拉数据的，而不是broker把数据主动发送到consumer端的。
 
-## 4、Zookeeper在kafka的作用：
+## 4、Zookeeper在kafka的作用
 
 上述，提到了Zookeeper，那么Zookeeper在kafka的作用是什么？
 
@@ -276,13 +277,11 @@ kafka 出现消息重复消费的原因：
 
 (3)、同时借助Z
 
-## 执行流程：
+## 执行流程
 
 我们看上面的图：我们把broker的数量减少，另有一台。现在假设我们安装上图进行部署:
 
-
-
-## 特性：
+## 特性
 
 高吞吐量、低延迟：
 
@@ -296,10 +295,7 @@ kafka 出现消息重复消费的原因：
 
 支持实时在线处理和离线处理：可以用时storm这种实时流处理系统对消息进行实时处理，同时还可以使用Hadoop这种批处理系统进行离线处理；
 
-
-
-
-## 使用场景：
+## 使用场景
 
 日志收集：
 
@@ -312,10 +308,3 @@ kafka 出现消息重复消费的原因：
 流式处理：
 
 事件源：
-
-
-
-
-
-
-

@@ -32,7 +32,7 @@ IDE eval reset
 jrebel and xrebel
 camelcase
 
-## IDEA的这八条配置你一定要改！
+## IDEA的这八条配置你一定要改
 
 自动编译开关（代码完成-> 区分大小写）
 
@@ -41,4 +41,3 @@ camelcase
 项目文件编码（编辑器-》文件编码）
 
 滚轴修改字体大小（常规-》鼠标控制）
-

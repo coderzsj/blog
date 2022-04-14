@@ -8,9 +8,7 @@ idea
 
 点击file，选择Invalidate Caches 进行清理一下。
 
-
 ## Idea运行报错Error running ‘Application‘: Command line is too long的解决方法
-
 
 首先找到项目里面的idea/workspace.xml文件，然后再找到
 `<component name="PropertiesComponent"></component >`

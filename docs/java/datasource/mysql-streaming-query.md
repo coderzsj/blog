@@ -101,6 +101,7 @@ public void scanFoo1(@PathVariable("limit") int limit) throws Exception {
 ```
 
 上面的代码中，
+
 1. 处我们开启了一个 SqlSession （实际上也代表了一个数据库连接），并保证它最后能关闭；
 2. 处我们使用 SqlSession 来获得 Mapper 对象。这样才能保证得到的 Cursor 对象是打开状态的。
 
@@ -144,7 +145,7 @@ public void scanFoo3(@PathVariable("limit") int limit) throws Exception {
 }
 ```
 
-它仅仅是在原来方法上面加了个 `@Transactional` 注解。这个方案看上去最简洁，但请注意 Spring 框架当中注解使用的坑：只在外部调用时生效。在当前类中调用这个方法，依旧会报错。 
+它仅仅是在原来方法上面加了个 `@Transactional` 注解。这个方案看上去最简洁，但请注意 Spring 框架当中注解使用的坑：只在外部调用时生效。在当前类中调用这个方法，依旧会报错。
 
 ## JDBC实现流式查询
 

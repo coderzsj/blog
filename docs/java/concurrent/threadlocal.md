@@ -18,7 +18,6 @@ tag:
 ThreadLocal<String> localName = new ThreadLocal(); localName.set("zs"); String name = localName.get();
 ```
 
-
 在线程 1 中初始化了一个 ThreadLocal 对象 localName，并通过 set 方法，保存了一个值 zs，同时在线程 1 中通过 localName.get()可以拿到之前设置的值，但是如果在线程 2 中，拿到的将是一个 null。
 
 这是为什么，如何实现？不过之前也说了，ThreadLocal 保证了各个线程的数据互不干扰。

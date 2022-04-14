@@ -694,7 +694,7 @@ Monitorexit插入在方法结束处和异常处，JVM保证每个monitorenter必
 
 ### JVM 源码下载
 
-[地址](http://openjdk.java.net) 
+[地址](http://openjdk.java.net)
 
 Mercurial --> jdk8 --> hotspot --> zip
 
@@ -1086,15 +1086,15 @@ Hashtable hs=new Hashtable();
 
 ```
 
-![](./img/6-9-1.png)
+![元素上锁](./img/6-9-1.png)
 
-![](./img/6-9-2.png)
+![元素上锁](./img/6-9-2.png)
 
-![](./img/6-9-3.png)
+![元素上锁](./img/6-9-3.png)
 
 `LinkedBlockingQueue` 入队和出队使用不同的锁，相对于读写只有一个锁效率要高
 
-![](./img/6-9-4.png)
+![元素上锁](./img/6-9-4.png)
 
 ### 读写分离
 

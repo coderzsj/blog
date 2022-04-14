@@ -51,5 +51,3 @@ application/json是POST请求以JSON的格式向服务请求发起请求或者�
 ## @ResponseBody
 
 @ResponseBody的作用是将后端以return返回的javabean类型数据转为json格式数据输出到HTTP响应中
-
-

@@ -10,8 +10,7 @@ tag:
 
 ### string对象
 
-String对象时JAVA中重要的数据类型，在大部分情况下我们都会用到String对象。 
-
+String对象时JAVA中重要的数据类型，在大部分情况下我们都会用到String对象。
 
 ## String s = new String("111 ")会创建几个对象？
 
@@ -67,6 +66,3 @@ User user = new User()
 ”这个对象的引用地址。变量是可以变的，不能变的是“111”。
 
 String 为什么是不可变的？
-
-
-

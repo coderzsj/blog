@@ -7,7 +7,7 @@ tag:
 
 Java 8并发包下常见的并发类
 
-## 阻塞队列：
+## 阻塞队列
 
 `BlockingQueue`：阻塞队列接口
 
@@ -25,19 +25,19 @@ Java 8并发包下常见的并发类
 
 `SynchronousQueue`：同步队列，但是队列长度为 0，生产者放入队列的操作会被阻塞，直到消费者过来取，所以这个队列根本不需要空间存放元素；有点像一个独木桥，一次只能一人通过，还不能在桥上停留
 
-## 非阻塞队列：
+## 非阻塞队列
 
 `ConcurrentLinkedDeque`：非阻塞双端队列，链表实现
 
 `ConcurrentLinkedQueue`：非阻塞队列，链表实现
 
-## 转移队列：
+## 转移队列
 
 `TransferQueue`：转移队列接口，生产者要等消费者消费的队列，生产者尝试把元素直接转移给消费者
 
 `LinkedTransferQueue`：转移队列的链表实现，它比 SynchronousQueue 更快
 
-## 其它容器：
+## 其它容器
 
 `ConcurrentMap`：并发 Map 的接口，定义了 putIfAbsent(k,v)、remove(k,v)、replace(k,oldV,newV)、replace(k,v) 这四个并发场景下特定的方法
 
@@ -126,7 +126,6 @@ ReentrantLock.class，可重入锁(lock 行为可以嵌套，但是需要和 unl
 ReentrantReadWriteLock.class，可重入读写锁
 
 Condition.class，使用锁的 newCondition 方法可以返回一个该锁的 Condition 对象，如果说锁对象是取代和增强了 synchronized 关键字的功能的话，那么 Condition 则是对象 wait/notify/notifyAll 方法的替代。在下面这个例子中，lock 生成了两个 condition，一个表示不满，一个表示不空：
-
 
 还有三个月就三年工作经验了。
 

@@ -10,12 +10,12 @@ tag:
 
 其中核心类是 `DispatcherServlet`，它是一个 Servlet，顶层是实现的Servlet接口。
 
-客户端发送请求-> 
-前端控制器 `DispatcherServlet` 接受客户端请求 -> 
+客户端发送请求->
+前端控制器 `DispatcherServlet` 接受客户端请求 ->
 找到处理器映射 `HandlerMapping` 解析请求对应的 Handler->
-`HandlerAdapter` 会根据 Handler 来调用真正的处理器开处理请求，并处理相应的业务逻辑 -> 
+`HandlerAdapter` 会根据 Handler 来调用真正的处理器开处理请求，并处理相应的业务逻辑 ->
 处理器返回一个模型视图 ModelAndView ->
-视图解析器进行解析 -> 
+视图解析器进行解析 ->
 返回一个视图对象（jsp、freemarker、pdf...）->
 前端控制器 DispatcherServlet 渲染数据（Moder）->
 将得到视图对象返回给用户
@@ -27,16 +27,17 @@ Spring在启动过程中，使用到了三个map，称为三级缓存。
 ```java
 public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements SingletonBeanRegistry {
 
-	/** Cache of singleton objects: bean name --> bean instance */
-	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
+ /** Cache of singleton objects: bean name --> bean instance */
+ private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
 
-	/** Cache of singleton factories: bean name --> ObjectFactory */
-	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
+ /** Cache of singleton factories: bean name --> ObjectFactory */
+ private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
 
-	/** Cache of early singleton objects: bean name --> bean instance */
-	private final Map<String, Object> earlySingletonObjects = new HashMap<>(16);
+ /** Cache of early singleton objects: bean name --> bean instance */
+ private final Map<String, Object> earlySingletonObjects = new HashMap<>(16);
 }
 ```
+
 Spring启动过程大致如下：
 
 1. 创建beanFactory，加载配置文件
@@ -77,10 +78,10 @@ Spring启动过程大致如下：
 
 ::: info 总结
 经过分析可以看到：
+
 1. 不支持循环依赖情况下，只有一级缓存生效，二三级缓存用不到
 2. 二三级缓存就是为了解决循环依赖，且之所以是二三级缓存而不是二级缓存，主要是可以解决循环依赖对象需要提前被aop代理，以及如果没有循环依赖，早期的bean也不会真正暴露，不用提前执行代理过程，也不用重复执行代理过程。
 :::
-
 
 ## 自动装配
 
@@ -103,11 +104,9 @@ Spring启动过程大致如下：
 - @EnableAutoConfiguration
 - @ComponentScan
 
-
 **@SpringBootConfiguration**
 
 这个注解之后会发现，原来该注解是@Configuration，一个JavaConfig配置类
-
 
 **@ComponentScan**
 
@@ -136,7 +135,6 @@ SpringBoot自动装配的本质就是通过Spring去读取META-INF/spring.factor
 如何实现”自动“：通过配置文件获取对应的批量配置类，然后通过配置类批量加载bean定义，只要有写好的配置文件spring.factories就实现了自动。
 
 :::
-
 
 ```java
 @Target({ElementType.TYPE})

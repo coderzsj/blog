@@ -13,6 +13,7 @@ date: 2018-02-04
 
 >5. 【强制】SimpleDateFormat
  是线程不安全的类，一般不要定义为static变量，如果定义为static，必须加锁，或者使用DateUtils工具类。 正例：注意线程安全，使用DateUtils。亦推荐如下处理：
+
 ```java
 private static final ThreadLocal<DateFormat> df = new ThreadLocal<DateFormat>() {
 @Override
@@ -21,6 +22,7 @@ return new SimpleDateFormat("yyyy-MM-dd");
 }
 };
 ```
+
 >说明：如果是JDK8的应用，可以使用Instant
 代替Date，LocalDateTime代替Calendar，DateTimeFormatter代替SimpleDateFormat，官方给出的解释：simple beautiful strong immutable thread-safe。
 
@@ -215,7 +217,3 @@ public class DateTimeFormatterTest {
 运行结果就不贴了，不会出现报错和时间不准确的问题。
 
 DateTimeFormatter源码上作者也加注释说明了，他的类是不可变的，并且是线程安全的。
-
-
-
-

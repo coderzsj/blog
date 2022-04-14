@@ -12,7 +12,6 @@ Netty 是一个异步的、基于事件驱动的网络应用框架，它可以�
 
 ## NIO
 
-
 ## 1、Buffer-缓冲区
 
 Buffer是一个对象，它包含一些要写入或者要读取的数据。在NIO类库中加入Buffer对象，体现了新库与原IO的一个重要的区别。
@@ -46,8 +45,6 @@ Selector模式：当IO事件注册到选择器以后，selector会分配给每�
 但是，我们需要注意，虽然说NIO是非阻塞的，但是，sellector中的sellector.select()，是阻塞的，所以，你是不是会有什么有趣的想法呢？例如，把sellector这个线程，也是用线程池来分配。
 
 好的，别想了，在想那就是Netty了。Netty的底层就是NIO。
-
-
 
 为了解决上述的问题，推出了 NIO 的概念，也就是(Non-blocking I/O)。其中，Selector 机制就是 NIO 的核心。
 
@@ -84,7 +81,3 @@ AIO编程，在NIO基础之上引入了异步通道的概念。并提供异步�
 ## 三者区别
 
 BIO：BIO方式适用于
-
-
-
-

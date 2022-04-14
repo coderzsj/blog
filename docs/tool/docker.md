@@ -11,7 +11,7 @@ tag:
 Docker 是一个软件容器化平台，它以容器的形式将您的应用程序及其所有依赖项打包在一起，以确保你的应用程序在任何环境中无缝运行。
 
 :::
- 
+
 Docker 容器包括应用程序及其所有依赖项，作为操作系统的独立进程运行。
 
 Docker 镜像是 Docker 容器的源代码，Docker 镜像用于创建容器。使用 build 命令创建镜像。
@@ -57,28 +57,27 @@ nginx
 
 ```
 
-
-### docker pull 
+### docker pull
 
 拉取或者更新指定镜像
 
-### docker push 
+### docker push
 
 将镜像推送至远程仓库
 
-### docker rmi 
+### docker rmi
 
 删除镜像
 
-### docker rm 
+### docker rm
 
 删除容器
 
-### docker images 
+### docker images
 
 查看镜像库，列出所有镜像
 
-### docker ps 
+### docker ps
 
 列出所有容器
 
@@ -126,7 +125,7 @@ docker exec -it <container id> <path_of_nginx> reload
 docker exec -it nginx /home/userfile reload
 ```
 
-##案例：创建mysql容器
+## 案例：创建mysql容器
 
 1、在本地创建mysql的映射目录
 
@@ -140,7 +139,7 @@ mkdir -p /root/mysql/data /root/mysql/logs /root/mysql/conf
 touch my.cnf
 ```
 
-2、拉取官方mysql5.7镜像 
+2、拉取官方mysql5.7镜像
 
 ```bash
 docker pull mysql:5.7
@@ -163,7 +162,6 @@ docker start mysql
 ```bash
 cd /root/mysql/data
 ```
-
 
 6、使用navicat工具连接测试
   

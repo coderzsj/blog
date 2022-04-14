@@ -38,7 +38,6 @@ sudo apt install docker-ce
 
 docker exec -ti nginx /bin/bash
 
-
 service nginx reload (热重载)：
 
 Nginx 服务不会终止，使用主进程检查配置，如果配置文件语法正确，则主进程会启动一个新的工作进程处理新来的请求。主进程发送消息给原来的工作进程，通知旧的进程不在接受请求，处理完现有的请求后退出(优雅退出)；如果语法不正确，则继续使用旧的进程继续处理请求。

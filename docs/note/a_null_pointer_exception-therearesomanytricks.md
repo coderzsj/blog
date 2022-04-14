@@ -5,7 +5,7 @@ author: Felix zyf
 date: 2018-02-04
 ---
 
-## 一个 NullPointerException ，竟然有这么多花样！
+## 一个 NullPointerException ，竟然有这么多花样
 
 敢问各位大佬，在使用spring 的缓存注解@Cacheable 时，缓存配置的时redis，客户端Jedis ,生产时单点，线上是否碰到过随机的空指针异常，有spring的RedisCache在get时抛出的；
 
@@ -32,12 +32,3 @@ date: 2018-02-04
 有还有另一种奇葩问法：
 
 XX功能怎么做，如何实现？
-
-
-
-
-
-
-
-
-

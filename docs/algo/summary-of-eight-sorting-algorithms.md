@@ -12,9 +12,7 @@ tag:
 > 原地排序：是否使用了利用辅助的空间。
 > 稳定排序：数列值相等的元素排序后相对顺序不变
 
-
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/80025882a2694b9e9a7cf955c07760ab.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5Y2I5aScLuW5vemtgi7nlLc=,size_11,color_FFFFFF,t_70,g_se,x_16)
- 
 
 ## 堆排序(不稳定,原地)
 

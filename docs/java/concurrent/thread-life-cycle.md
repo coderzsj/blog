@@ -126,5 +126,3 @@ Java.lang.Thread.State
 - 线程执行完成或者调用 stop 方法或者判断某个逻辑标识，直接进入 Terminated 阶段
 
 ### wait
-
-

@@ -1,5 +1,4 @@
 
-
 虽然我们都知道有二十三种设计模式，但是大多停留在概念层面，真实开发中很少遇到。mybatis源码中使用了大量的设计模式，阅读源码并观察设计模式在其中的应用，能够更深入的理解设计模式。
 
 1. Builder模式，例如SqlSessionFactoryBuilder、XMLConfigBuilder、XMLMapperBuilder、XMLStatementBuilder、CacheBuilder；

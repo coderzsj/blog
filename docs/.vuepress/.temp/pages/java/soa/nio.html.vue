@@ -1,0 +1,43 @@
+<template><h2 id="netty-nio" tabindex="-1"><a class="header-anchor" href="#netty-nio" aria-hidden="true">#</a> Netty&amp;NIO</h2>
+<p>Netty 是一个异步的、基于事件驱动的网络应用框架，它可以用来开发高性能服务端和客户端。</p>
+<h3 id="问题" tabindex="-1"><a class="header-anchor" href="#问题" aria-hidden="true">#</a> 问题</h3>
+<p>以前编写网络调用程序的时候，我们都会在客户端创建一个 Socket，通过这个 Socket 连接到服务端。</p>
+<p>服务端根据这个 Socket 创建一个 Thread，用来发出请求。客户端在发起调用以后，需要等待服务端处理完成，才能继续后面的操作。这样线程会出现等待的状态。</p>
+<p>如果客户端请求数越多，服务端创建的处理线程也会越多，JVM 如此多的线程并不是一件容易的事。</p>
+<h2 id="nio" tabindex="-1"><a class="header-anchor" href="#nio" aria-hidden="true">#</a> NIO</h2>
+<h2 id="_1、buffer-缓冲区" tabindex="-1"><a class="header-anchor" href="#_1、buffer-缓冲区" aria-hidden="true">#</a> 1、Buffer-缓冲区</h2>
+<p>Buffer是一个对象，它包含一些要写入或者要读取的数据。在NIO类库中加入Buffer对象，体现了新库与原IO的一个重要的区别。</p>
+<p>在面向流的IO中，可以将数据直接写入或读取到Stream对象中。在NIO库中，所有的数据都是用缓冲区处理的（读写）。缓冲区实质上是一个数组，通常它是一个字节数组（ByteBuffer），这个字节输出同时存储输入及输出数据，当然也可以使用其他类型的数组，这个数组为缓冲区提供了数据的访问读写等操作属性，如位置，容量，上限等概念。</p>
+<p>Buffer类型：我们常用的是ByteBuffer，实际上每一种Java基本类型都对应了一种缓冲区（除了Boolean类型）。</p>
+<p>ByteBuffer CharBuffer ShortBuffer IntBuffer LongBuffer FloatBuffer DoubleBuffer BooleanBuffer ByteOrder</p>
+<h2 id="_2、channel-通道" tabindex="-1"><a class="header-anchor" href="#_2、channel-通道" aria-hidden="true">#</a> 2、Channel-通道</h2>
+<p>通道（Channel），也被成为管道，它就像自来水管道一样，网络数据通过Channel读取和写入，通道与流不同之处在于通道是双向的，而流只是一个方向上移动（一个流必须是inputStream或者outputStream的子类），而通道可以用于读，写或者二者同时进行，最关键是可以与多路复用器（Selector）结合起来，有多钟的状态位，方便多路复用器去识别，以此执行不同的handler。</p>
+<h2 id="_3、selector-多路复用器" tabindex="-1"><a class="header-anchor" href="#_3、selector-多路复用器" aria-hidden="true">#</a> 3、Selector-多路复用器</h2>
+<p>多路复用器（seletor），他是NIO编程的基础，非常重要，多路复用器提供选择已经就绪的任务的能力。</p>
+<p>意思就是Selector会不断地轮询注册在其上的通道（Channel），如果某个通道发生了读写操作，这个通道就处于就绪状态，会被Selector轮询出来，然后通过SelectionKey可以取得就绪的Channel集合，从而进行后续的IO操作。</p>
+<p>总结起来，Selector线程就类似一个管理者（Master）,管理了成千上万个管道，然后轮询哪个管道的数据已经准备好，通知CPU执行IO的读取或写入操作。</p>
+<p>Selector模式：当IO事件注册到选择器以后，selector会分配给每个通道一个key值，相当于标签。selector选择器是以轮询的方式进行查找注册的所有通道</p>
+<p>当我们的IO事件（通道）准备就绪后，selector就会识别，会通过key值来找到相应的管道，进行相关的数据处理操作（从通道里读或写数据，写入我们的数据缓冲区中）。</p>
+<p>一个多路复用器(Selector)可以负责成千上万个Channel，效率比起BIO大大的提高了，由于jdk使用了epoll代替传统的select实现，所以没有最大连接句柄1024/2048的限制，这也意味着我们只要一个线程负责selector的轮询,就可以接入成千上万个客户端，这是JDK，NIO库的巨大进步。</p>
+<p>但是NIO也有着自己的缺点，NIO会等数据准备好后，再交由应用进行处理，数据的读取/写入过程依然在应用线程中完成，只是将等待的时间剥离到单独的线程中去，节省了数据准备时间，因为多路复用机制，channel会得到复用，对于那些读写过程时间长的，NIO就不太适合。</p>
+<p>但是，我们需要注意，虽然说NIO是非阻塞的，但是，sellector中的sellector.select()，是阻塞的，所以，你是不是会有什么有趣的想法呢？例如，把sellector这个线程，也是用线程池来分配。</p>
+<p>好的，别想了，在想那就是Netty了。Netty的底层就是NIO。</p>
+<p>为了解决上述的问题，推出了 NIO 的概念，也就是(Non-blocking I/O)。其中，Selector 机制就是 NIO 的核心。</p>
+<p>当每次客户端请求时，会创建一个 Socket Channel，并将其注册到 Selector 上(多路复用器)。</p>
+<p>然后，Selector 关注服务端 IO 读写事件，此时客户端并不用等待 IO 事件完成，可以继续做接下来的工作。</p>
+<p>一旦，服务端完成了 IO 读写操作，Selector 会接到通知，同时告诉客户端 IO 操作已经完成。</p>
+<p>接到通知的客户端，就可以通过 SocketChannel 获取需要的数据了。</p>
+<p>上面描述的过程有点异步的意思，不过，Selector 实现的并不是真正意义上的异步操作。</p>
+<p>因为 Selector 需要通过线程阻塞的方式监听 IO 事件变更，只是这种方式没有让客户端等待，是 Selector 在等待 IO 返回，并且通知客户端去获取数据。真正“异步 IO”(AIO)这里不展开介绍，有兴趣可以自行查找。</p>
+<p>说好了 NIO 再来谈谈 Netty，Netty 作为 NIO 的实现，它适用于服务器/客户端通讯的场景，以及针对于 TCP 协议下的高并发应用。</p>
+<p>对于开发者来说，它具有以下特点：</p>
+<p>对 NIO 进行封装，开发者不需要关注 NIO 的底层原理，只需要调用 Netty 组件就能够完成工作。</p>
+<p>对网络调用透明，从 Socket 建立 TCP 连接到网络异常的处理都做了包装。</p>
+<p>对数据处理灵活， Netty 支持多种序列化框架，通过“ChannelHandler”机制，可以自定义“编/解码器”。</p>
+<p>对性能调优友好，Netty 提供了线程池模式以及 Buffer 的重用机制(对象池化)，不需要构建复杂的多线程模型和操作队列。</p>
+<h2 id="aio" tabindex="-1"><a class="header-anchor" href="#aio" aria-hidden="true">#</a> AIO</h2>
+<p>AIO编程，在NIO基础之上引入了异步通道的概念。并提供异步文件和异步套接字通道的实现，从而在真正意义上实现了异步非阻塞，之前我们学过的NIO只是非阻塞而非异步。而AIO它不需要通过多路复用器对注册的通道进行轮询操作。也可以称为NIO2.0，这这种模式才是真正的属于异步非阻塞的模型。</p>
+<p>至于上面说的AIO不需要通过多路复用器对注册的通道进行轮询操作即可实现异步读写。什么意思呢？</p>
+<h2 id="三者区别" tabindex="-1"><a class="header-anchor" href="#三者区别" aria-hidden="true">#</a> 三者区别</h2>
+<p>BIO：BIO方式适用于</p>
+</template>

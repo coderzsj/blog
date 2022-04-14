@@ -47,6 +47,7 @@ public void UserRegWithLock(UserRegDto dto) throws Exception {
     }
 }
 ```
+
 :::
 
 ::: code-group-item 不带锁
@@ -76,13 +77,11 @@ public void userRegNoLock(UserRegDto dto) throws Exception {
 
 ::::
 
-
 ### Redisson
 
 #### 典型应用场景之高性能点赞
 
 一般情况下, 一个完整的点赞业务模块包含两大核心操作: 点赞和取消点赞.
-
 
 用户点赞文章
 
@@ -90,9 +89,7 @@ public void userRegNoLock(UserRegDto dto) throws Exception {
 2. 校验通过，查询当前用户-当前文章的点赞记录
 3. 插入当前用户-当前文档的点赞记录 返回相应结果被
 
-
 先查询当前用户是否已经点赞过了, 如果已经点赞过了, 就直接返回点赞成功; 如果没有点赞过, 当用户点赞时系统后端会记录一条该文章的点赞记录至数据库中, 并设置该记录当前的状态为1, 表示当前用户已点赞该文章.
-
 
 :::: code-group
 
@@ -169,7 +166,7 @@ public void addPraise(PraiseDto dto) throws Exception {
 }
 
 ```
+
 :::
 
 ::::
-
