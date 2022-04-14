@@ -1,5 +1,5 @@
 ---
-title: jvm-class-loading-and-bytecode-technology
+title: JVM类加载与字节码技术&内存模型
 category: jvm
 tag:
   - jvm

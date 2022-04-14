@@ -2,7 +2,7 @@ import {defineSidebarConfig} from "vuepress-theme-hope";
 
 export const sidebarConfig = defineSidebarConfig({
     // 应该把更精确的路径放置在前边
-    "/vue/": ["Typescript", "vue-knowledge-points", "frequently-asked-questions.md", "instruction.md", "",],
+    "/vue/": ["","Typescript", "vue-knowledge-points", "frequently-asked-questions.md", "instruction.md", ],
     "/tool/": ["", "docker", "git", "tool"],
     "/about/": [""],
     "/java/": [
@@ -53,7 +53,7 @@ export const sidebarConfig = defineSidebarConfig({
             prefix: "datasource/",
             icon: "datasource",
             collapsable: false,
-            children: ["detailed-explanation-of-b-tree-and-b+-tree", "mysql-tuning", "mysql-tuning", "mysql-transaction", "storage-engine", "explain-execution-plan",],
+            children: ["detailed-explanation-of-b-tree-and-b+-tree", "mysql-tuning", "mysql-transaction", "storage-engine", "explain-execution-plan",],
         },
         {
             text: "分布式",
@@ -61,7 +61,7 @@ export const sidebarConfig = defineSidebarConfig({
             prefix: "soa/",
             icon: "fenbushi",
             collapsable: false,
-            children: ["dubbo", "distributed-transaction", "distributed-id", "Zookeeper"],
+            children: ["dubbo", "distributed-transaction", "distributed-id", "Zookeeper","spring-cloud","take-you-step-by-step-to-understand-the-jwt"],
         },
         {
             text: "虚拟机",
