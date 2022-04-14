@@ -1,3 +1,8 @@
+---
+title: ArrayList
+category: 数据结构
+---
+
 # ArrayList
 
 ## 前言

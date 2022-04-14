@@ -1,6 +1,6 @@
 ---
-title: 3jicache&mvc
-category: spring
+title: Spring MVC 运行及启动流程
+category: SpringMVC
 icon: bxl-spring-boot
 tag:
   - spring

@@ -1,8 +1,6 @@
 ---
-title: 4-reference-types 
-category: concurrent 
-tag:
-  - concurrent
+title: 四种引用类型
+category: JVM 
 ---
 
 # 四种引用类型

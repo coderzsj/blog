@@ -1,9 +1,10 @@
 ---
-title: redis-shuli
-category: redis
+title: redis分布式集群
+category: 缓存
 icon: interview
 tag:
   - redis
+  - 分布式
 ---
   
 ## 为什么说REDIS是单线程的？?

@@ -1,6 +1,6 @@
 ---
-title: how-programmers-do-not-go-astray-in-their-busy-schedules
-category: personal-planning
+title: 程序员如何在忙碌的日程安排中不要误入歧途
+category: 程序人生
 icon: note
 ---
 

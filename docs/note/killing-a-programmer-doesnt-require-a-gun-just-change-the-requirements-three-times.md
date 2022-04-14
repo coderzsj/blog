@@ -1,6 +1,6 @@
 ---
 title: 杀死程序员不需要枪，只需更改要求三遍
-category: note
+category: 程序人生
 ---
 
 # killing-a-programmer-doesnt-require-a-gun-just-change-the-requirements-three-times

@@ -1,5 +1,5 @@
 ---
-title: JWT
+title: 一步步带你了解前后端分离利器之JWT
 author: 徐刘根
 date: 2018-02-01
 tag:

@@ -1,5 +1,5 @@
 ---
-title: liushiquery
+title: MySQL流失查询
 icon: sql
 category: mysql
 date: 2021-08-03

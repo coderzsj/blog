@@ -1,9 +1,6 @@
 ---
-title: AbstractQueuedSynchronizer
-category: concurrent
-tag:
- - concurrent
- - aqs
+title: AQS
+category: 锁机制
 ---
 
 # AQS

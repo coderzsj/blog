@@ -1,8 +1,8 @@
 ---
-title: redis
-category: redis
+title: 缓存调优
+category: 缓存
 tag:
-  - redis
+  - 优化
 ---
 
 # redis

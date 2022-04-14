@@ -1,11 +1,13 @@
 ---
-title: RabbitMQ
-category: message-queue
+title: RabbitMQ知识点总结
+category: 消息中间件
 tag:
-  - mq
+  - RabbitMQ
 ---
 
 # RabbitMQ
+
+[参考](https://blog.csdn.net/m0_48795607/article/details/116064045?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164991493616781685330068%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=164991493616781685330068&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-116064045.142^v7^control,157^v4^control&utm_term=RabbitMQ+%E9%9D%A2%E8%AF%95&spm=1018.2226.3001.4187)
 
 ## 如何避免消息堆积？
 

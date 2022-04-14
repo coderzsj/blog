@@ -1,7 +1,6 @@
 ---
-title: daily report
+title: 日报写作指南
 ---
-
 
 ## 01 多使用序号，每行尽量精简
 

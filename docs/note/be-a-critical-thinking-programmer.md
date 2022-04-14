@@ -1,5 +1,5 @@
 ---
-title: critical thinking
+title: 做一个有批判性思维的程序员
 category: note
 author: SexyCode
 date: 2018-02-04

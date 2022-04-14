@@ -1,7 +1,9 @@
 ---
-title: dubbo interview
+title: dubbo面试18个问题你知道所有这些吗?
 icon: dubbo
-category: soa
+category: 分布式
+tag:
+  - Dubbo
 author: Dean Wang
 ---
 

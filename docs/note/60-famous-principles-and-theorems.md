@@ -1,8 +1,6 @@
 ---
-title: 60-famous-principles-and-theorems
-category: expierence
-tag:
-  - expierence
+title: 60个著名的原理和定理
+category: 摘录
 ---
 
 ## 60条有名的原则与定理

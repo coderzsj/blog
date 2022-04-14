@@ -1,5 +1,5 @@
 ---
-title: redis-lock
+title: redis分布式锁
 category: redis
 icon: redis
 tag:

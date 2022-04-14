@@ -1,7 +1,6 @@
 ---
-title: why-you-must-use-message-middleware
-category: message-queue
-icon: mulu
+title: 为什么一定要用消息中间件？
+category: 消息中间件
 ---
 
 

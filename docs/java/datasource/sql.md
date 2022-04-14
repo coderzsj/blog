@@ -1,5 +1,5 @@
 ---
-title: sql-keyword
+title: 常见的sql语句
 icon: sql
 category: mysql
 tag:
@@ -8,6 +8,8 @@ tag:
 ---
   
 # sql-keyword
+
+[参考](https://mp.weixin.qq.com/s?__biz=MzAxMTMwNTMxMQ==&mid=2649248455&idx=1&sn=57539b783e2f4a0bdc54c7ca63e162a6&chksm=835fdaf7b42853e19fea0c1ecdf2e62dc70591c37129e3fd53193773ca372c7958b5b450f4b7&scene=21#wechat_redirect)
 
 ## SQL CASE 语句
 

@@ -1,18 +1,16 @@
 ---
-title: thread-life-cycle
-category: thread
+title: 线程生命周期 
+category: 线程 
 tag:
-  - concurrent
-  - thread-life-cycle
+ - 线程生命周期
+
 ---
 
-# thread
+# 线程生命周期
+
+本文对线程的生命周期有清楚的认识，并且明白不同状态之间是如何转换的，以及对java线程状态枚举类解读。
 
 ## 线程生命周期，五大状态转换分析
-
-## 前言
-
-本章学习完成，你将会对线程的生命周期有清楚的认识，并且明白不同状态之间是如何转换的，以及对 java 线程状态枚举类解读。
 
 ## 一、线程生命周期
 
@@ -36,80 +34,56 @@ New 阶段就是你 new Thread()创建线程对象时候的阶段。
 
 ### 2. Runnable 阶段
 
-只有调用 Thread.start()方法才能使线程从 new 阶段转换到 Runnable 阶段。
+只有调用`Thread.start()方`法才能使线程从 new 阶段转换到 Runnable 阶段。
 
 当然我们从字面意思也可以知道此时线程是处于可执行转状态而不是真正的执行中状态了，此时的线程只能等 CPU 翻牌子，翻到了他才能真正的跑起来。
 
-Java.lang.Thread.start
+```java
+package Java.lang.Thread.State;
 
-Java.lang.Thread.State
+public enum State {
+    /**
+     * 尚未启动的线程的线程状态。还没有start的线程状态
+     */
+    NEW,
 
-```
-    public enum State {
-        /**
-         * Thread state for a thread which has not yet started.
-         * 还没有start的线程状态
-         */
-        NEW,
+    // 可运行线程的线程状态。处于可运行状态的线程正在 Java 虚拟机中执行，但它可能正在等待来自操作系统的其他资源，例如处理器。
+    RUNNABLE,
 
-        /**
-         * Thread state for a runnable thread.  A thread in the runnable
-         * state is executing in the Java virtual machine but it may
-         * be waiting for other resources from the operating system
-         * such as processor.
-         */
-        RUNNABLE,
+    // 线程阻塞等待监视器锁的线程状态。处于阻塞状态的线程正在等待监视器锁进入同步块方法或调用后重新进入同步块方法
+    BLOCKED,
 
-        /**
-         * Thread state for a thread blocked waiting for a monitor lock.
-         * A thread in the blocked state is waiting for a monitor lock
-         * to enter a synchronized block/method or
-         * reenter a synchronized block/method after calling
-         * {@link Object#wait() Object.wait}.
-         */
-        BLOCKED,
+    /**
+     * 等待线程的线程状态。由于调用以下方法之一，线程处于等待状态：
+     * <ul>
+     *   <li>{@link Object#wait() Object.wait} with no timeout</li>
+     *   <li>{@link #join() Thread.join} with no timeout</li>
+     *   <li>{@link LockSupport#park() LockSupport.park}</li>
+     * </ul>
+     *
+     * <p>处于等待状态的线程形成一个特定的动作。
+     *
+     * 例如，在一个对象上调用了 <tt>Object.wait()<tt> 的线程正在等待另一个线程调用 <tt>Object.notify()<tt> 或 <tt>Object.notifyAll()< tt> 在那个物体上。已调用 <tt>Thread.join()<tt> 的线程正在等待指定线程终止。
+     */
+    WAITING,
 
-        /**
-         * Thread state for a waiting thread.
-         * A thread is in the waiting state due to calling one of the
-         * following methods:
-         * <ul>
-         *   <li>{@link Object#wait() Object.wait} with no timeout</li>
-         *   <li>{@link #join() Thread.join} with no timeout</li>
-         *   <li>{@link LockSupport#park() LockSupport.park}</li>
-         * </ul>
-         *
-         * <p>A thread in the waiting state is waiting for another thread to
-         * perform a particular action.
-         *
-         * For example, a thread that has called <tt>Object.wait()</tt>
-         * on an object is waiting for another thread to call
-         * <tt>Object.notify()</tt> or <tt>Object.notifyAll()</tt> on
-         * that object. A thread that has called <tt>Thread.join()</tt>
-         * is waiting for a specified thread to terminate.
-         */
-        WAITING,
+    /**
+     * 具有指定等待时间的等待线程的线程状态。由于以指定的正等待时间调用以下方法之一，线程处于定时等待状态：
+     * <ul>
+     *   <li>{@link #sleep Thread.sleep}</li>
+     *   <li>{@link Object#wait(long) Object.wait} with timeout</li>
+     *   <li>{@link #join(long) Thread.join} with timeout</li>
+     *   <li>{@link LockSupport#parkNanos LockSupport.parkNanos}</li>
+     *   <li>{@link LockSupport#parkUntil LockSupport.parkUntil}</li>
+     * </ul>
+     */
+    TIMED_WAITING,
 
-        /**
-         * Thread state for a waiting thread with a specified waiting time.
-         * A thread is in the timed waiting state due to calling one of
-         * the following methods with a specified positive waiting time:
-         * <ul>
-         *   <li>{@link #sleep Thread.sleep}</li>
-         *   <li>{@link Object#wait(long) Object.wait} with timeout</li>
-         *   <li>{@link #join(long) Thread.join} with timeout</li>
-         *   <li>{@link LockSupport#parkNanos LockSupport.parkNanos}</li>
-         *   <li>{@link LockSupport#parkUntil LockSupport.parkUntil}</li>
-         * </ul>
-         */
-        TIMED_WAITING,
-
-        /**
-         * Thread state for a terminated thread.
-         * The thread has completed execution.
-         */
-        TERMINATED;
-    }
+    /**
+     * 已终止线程的线程状态。线程已完成执行。
+     */
+    TERMINATED;
+}
 ```
 
 ### 3.Running 阶段

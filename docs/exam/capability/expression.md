@@ -1,3 +1,8 @@
+---
+title: 提升表达能力
+category: 程序人生
+---
+
 # every day 10 min
 
 [每天 10 分钟快速提升表达能力 ‼️ 简单初学版-保姆级别教程](https://www.bilibili.com/video/BV1xb4y1i7FQ?spm_id_from=333.1007.top_right_bar_window_history.content.click)

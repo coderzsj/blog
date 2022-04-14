@@ -1,11 +1,9 @@
 ---
 title: synchronized
-category: concurrent
+category: 锁机制
 date: 2022-01-28 
 tag:
- - concurrent
  - synchronized
-
 ---
 
 ## 可见性

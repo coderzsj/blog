@@ -1,8 +1,6 @@
 ---
-title: redislock
-category: redis
-tag:
-  - redis lock
+title: redis实现分布式锁
+category: 分布式
 ---
 
 ### redis 分布式锁依赖于 redis，如果 redis 宕机则锁失效。如何解决？

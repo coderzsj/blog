@@ -1,14 +1,12 @@
 ---
-title: fubushi id
+title: 分布式 id
 icon: id
-category: fubushi
-tag:
-    - 分布式id
+category: 分布式
 ---
 
 ## 分布式 id
 
-::: info Snowflake**
+::: info Snowflake
 
 Snowflake 是 Twitter 开源的分布式 ID 生成算法，目的是在分布式系统中生成全局唯一且趋势递增的 long(64bit) 的id数值。
 其特性是各节点无需协调、按时间大致有序、且整个集群各节点单不重复。

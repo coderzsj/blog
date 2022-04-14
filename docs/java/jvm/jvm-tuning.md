@@ -1,10 +1,9 @@
 ---
-title: jvm-tuning
+title: jvm调优
 icon: youhuayunhang
-category: jvm
+category: 虚拟机
 tag:
-  - jvm
-  - 优化
+  - 性能优化
 ---
 
 ## jvm调优

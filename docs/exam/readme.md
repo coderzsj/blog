@@ -1,5 +1,5 @@
 ---
-title: exam
+title: 随笔
 icon: note
 category: note
 breadcrumb: false
@@ -7,4 +7,3 @@ breadcrumb: false
 
 ## 生活 随笔
 
-生活

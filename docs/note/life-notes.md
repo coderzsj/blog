@@ -1,6 +1,6 @@
 ---
 title: 2022年在京的第一个元旦
-category: note
+category: 随笔
 ---
 
 2022 年在京的第一个元旦

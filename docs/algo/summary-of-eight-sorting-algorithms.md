@@ -1,7 +1,7 @@
 ---
-title: 8sort-algo 
+title: 八种排序算法汇总 
 icon: sort 
-category: algo 
+category: 算法 
 tag:
   - algo
   - sort

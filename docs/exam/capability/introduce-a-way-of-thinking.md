@@ -1,8 +1,9 @@
+---
+title: 思维方式训练
+category: expression
+---
 
-## 引出问题
-
-[【硬核干货】介绍一个吊炸天的思维方式！不用谢！
-](https://www.bilibili.com/video/BV1cZ4y1M7t8/?spm_id_from=333.788.recommend_more_video.0)
+[思维方式](https://www.bilibili.com/video/BV1cZ4y1M7t8/?spm_id_from=333.788.recommend_more_video.0)
 
 多刷知乎，回答问题，
 

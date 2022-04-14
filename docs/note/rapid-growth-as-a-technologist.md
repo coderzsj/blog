@@ -1,6 +1,6 @@
 ---
-title: rapid-growth-as-a-technologist
-category: note
+title: 作为技术人员的快速成长
+category: 随笔
 date: 2017-09-16
 ---
 

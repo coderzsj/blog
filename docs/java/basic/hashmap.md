@@ -1,11 +1,19 @@
 ---
-title: hashmap
+title: 记录HashMap的七个问题
 icon: hashmap
-category: java
+category: java基础
 tag:
   - 集合
   - java
 ---
+
+## 当key为null时，这次put操作，数据将被放入哪个桶位?为什么?
+
+[参考](https://liuyanzhao.com/1393610030363840513.html)
+
+0号桶位，这是因为HashMap计算桶位是根据你传入key的hashcode进行一个扰动函数或者说二次hash之后，然后根据路由寻址公式：
+
+`（table.length-1）&node.hash  或 node.hash % table.length` 来确定桶位的
 
 ## HASHMAP的内部结构（线程不安全、基于JDK7）
 

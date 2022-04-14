@@ -1,11 +1,9 @@
 ---
-title: common-concurrency-classes-under-java8-concurrent-packages
-category: concurrent
-tag:
-  - concurrent
+title: JDK8并发包下的通用并发类
+category: 锁机制
 ---
 
-Java 8并发包下常见的并发类
+# Java 8并发包下常见的并发类
 
 ## 阻塞队列
 

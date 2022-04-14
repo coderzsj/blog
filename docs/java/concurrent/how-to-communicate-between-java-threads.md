@@ -1,9 +1,6 @@
 ---
-title: the-way-the-thread-communicates
-category: concurrent
-tag:
-  - concurrent
-  - thread
+title: 线程通信的方式
+category: 进程与线程
 ---
 
 ## Java 线程的通信方式

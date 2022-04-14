@@ -1,15 +1,16 @@
 ---
-title: exception
+title: java异常
 icon: exception
-category: java
+category: java基础
 tag:
-  - java
+  - 异常
 ---
-
+  
+# java异常
 
 图中红色部分为受检查异常。它们必须被捕获，或者在函数中声明为抛出该异常。
   
-![Java异常类的层次结构  ](./assets/20220413/java的异常-1649857259697.png)
+![Java异常类的层次结构](./assets/20220413/java的异常-1649857259697.png)
 
 ## 检查型异常(CheckedException)
 

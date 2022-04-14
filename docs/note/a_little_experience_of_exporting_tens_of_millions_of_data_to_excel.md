@@ -1,8 +1,6 @@
 ---
-title: be-a-critical-thinking-programmer
-category: note
-tag:
-  - note
+title: 做一个批判性思维的程序员
+category: 随笔
 ---
   
 # 千万级的数据用 EXCEL 导出

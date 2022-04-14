@@ -1,9 +1,6 @@
 ---
-title: med business
-category: business
-password: 1
-tag:
-  - 医保业务
+title: 医保业务
+category: 其他
 ---
 
 # med

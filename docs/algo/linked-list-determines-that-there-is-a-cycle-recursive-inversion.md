@@ -1,7 +1,7 @@
 ---
-title: linked-list-algorithm
+title: 链表算法
 icon: algo
-category: algo
+category: 算法
 tag:
   - algo
 ---

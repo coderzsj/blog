@@ -1,6 +1,6 @@
 ---
-title: git-use
-category: tool
+title: Git的核心概念及命令清单
+category: 工具
 icon: git
 tag:
   - git

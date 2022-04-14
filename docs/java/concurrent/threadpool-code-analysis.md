@@ -1,8 +1,8 @@
 ---
-title: threadpool
-category: thread
+title: 线程池分析
+category: 进程和线程
 tag:
-  - threadpool
+  - 线程池
 ---
 
 # threadpool

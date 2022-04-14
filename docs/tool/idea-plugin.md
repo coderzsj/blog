@@ -1,6 +1,6 @@
 ---
-title: easy-to-use-idea-plugins-and-configurations
-category: tool
+title: 易于使用的IDEA插件和配置
+category: 工具
 ---
 
 

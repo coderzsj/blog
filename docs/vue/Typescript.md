@@ -1,12 +1,14 @@
 ---
-title: Typescript
+title: Typescript知识点总结
 icon: typescript
-category: js
+category: 前端
 tag:
   - Typescript
 ---
 
 ## TypeScript
+
+[参考](https://zhuanlan.zhihu.com/p/362916796)
 
 ::: tip 介绍
 

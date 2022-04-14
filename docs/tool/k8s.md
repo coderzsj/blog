@@ -1,6 +1,6 @@
 ---
 title: kubernetes
-category: tool
+category: 工具
 icon: kubernetes
 tag:
   - kubernetes

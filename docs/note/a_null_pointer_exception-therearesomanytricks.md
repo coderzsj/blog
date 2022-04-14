@@ -1,5 +1,5 @@
 ---
-title: a_null_pointer_exception,therearesomanytricks!
+title: 空指针异常，诡计多端！
 category: note
 author: Felix zyf
 date: 2018-02-04

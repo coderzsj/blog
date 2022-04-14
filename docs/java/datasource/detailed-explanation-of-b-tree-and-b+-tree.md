@@ -1,9 +1,7 @@
 ---
-title: detailed-explanation-of-b-tree-and-b+-tree
+title: b-tree和b+tree的详细解释
 icon: tree
-category: mysql
-tag:
-  - 集合
+category: 数据结构
   - mysql
 ---
 

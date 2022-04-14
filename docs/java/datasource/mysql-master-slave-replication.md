@@ -1,8 +1,9 @@
 ---
-title: mysql-master-slave-replication
-category: mysql
+title: 说说分库与分表设计
+category: 数据库
 tag:
-- 主从复制
+ - 主从复制
+ - 数据库
 ---
 
 ## mysql主从复制

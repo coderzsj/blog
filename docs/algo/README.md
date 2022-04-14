@@ -1,9 +1,6 @@
 ---
-title: algorithm-content
+title: 算法目录
 icon: algo
-category: algo
-tag:
-  - algo
 ---
 
 ## 算法目录

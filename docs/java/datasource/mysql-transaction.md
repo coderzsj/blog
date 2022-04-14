@@ -1,8 +1,7 @@
 ---
-title: mysql shiwu
+title: MySQL事务
 icon: shiwu
 category: mysql
-password: 1
 date: 2022-02-28
 tag:
   - mysql

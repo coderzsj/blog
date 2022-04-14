@@ -1,11 +1,6 @@
 ---
-title: yanyu
-category: expierence
-tag:
-  - expierence
+title: 言语理解
 ---
-
-## yanyulijie
 
 ## 言语理解与表达方法
 

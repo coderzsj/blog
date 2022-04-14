@@ -1,8 +1,7 @@
 ---
-title: kafka
+title: kafka概念，使用，架构
 category: 消息队列
-tag:
-  - mq
+  - kafka
 ---
 
 ## kafka

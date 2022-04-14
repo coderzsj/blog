@@ -1,6 +1,6 @@
 ---
 title: code note
-category: tool
+category: 工具
 icon: note
 tag:
   - 注释

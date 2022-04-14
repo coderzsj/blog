@@ -1,5 +1,5 @@
 ---
-title: jvm-architecture
+title: JVM内存结构
 category: jvm 
 tag:
   - jvm

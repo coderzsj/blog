@@ -1,8 +1,6 @@
 ---
-title: brief-analysis-of-queue-synchronizer-aqs-and-reentrantlock-lock-principles
-category: concurrent
-tag:
-- concurrent
+title: 队列同步器AQS和可重入锁锁原理的简要分析
+category: 锁机制
 ---
 
 ## Java多线程编程-（14）-Java 中的队列同步器AQS和ReentrantLock锁原理简要分析

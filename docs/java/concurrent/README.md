@@ -1,9 +1,6 @@
 ---
 title: concurrent-content
 icon: mulu
-category: 目录
-tag:
-  - 目录
 ---
 
 

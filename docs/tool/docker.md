@@ -1,6 +1,6 @@
 ---
-title: docker
-category: tool
+title: Docker容器
+category: 工具
 icon: Docker
 tag:
   - docker
@@ -164,4 +164,3 @@ cd /root/mysql/data
 ```
 
 6、使用navicat工具连接测试
-  

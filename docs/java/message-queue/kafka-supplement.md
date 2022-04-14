@@ -1,5 +1,5 @@
 ---
-title: kafka
+title: 分布式消息中间件
 category: 消息队列
 tag:
   - kafka

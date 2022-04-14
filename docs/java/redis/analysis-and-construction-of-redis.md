@@ -1,5 +1,5 @@
 ---
-title: redis high availability
+title: redis高可用实现
 icon: redis
 author: HorstXu
 category: redis

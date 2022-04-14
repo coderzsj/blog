@@ -1,5 +1,5 @@
 ---
-title: MySQL index
+title: 数据库索引
 icon: index
 category: mysql
 date: 2022-03-18

@@ -1,11 +1,11 @@
 ---
-title: transaction
+title: spring事务
 icon: guanli
 category: spring
 date: 2021-10-20
 tag:
   - spring
-  - transaction
+  - 事务
 ---
 
 ## spring 事务

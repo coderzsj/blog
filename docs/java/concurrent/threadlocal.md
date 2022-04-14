@@ -1,9 +1,9 @@
 ---
-title: ThreadLocal
-category: thread
+title: 本地线程 
+category: 锁机制 
 tag:
-  - concurrent
-  - ThreadLocal
+ - ThreadLocal
+
 ---
 
 ## ThreadLocal
@@ -15,7 +15,7 @@ tag:
 首先，它是一个数据结构，有点像 HashMap，可以保存"key : value"键值对，但是一个 ThreadLocal 只能保存一个，并且各个线程的数据互不干扰。
 
 ```java
-ThreadLocal<String> localName = new ThreadLocal(); localName.set("zs"); String name = localName.get();
+ThreadLocal<String> localName=new ThreadLocal();localName.set("zs");String name=localName.get();
 ```
 
 在线程 1 中初始化了一个 ThreadLocal 对象 localName，并通过 set 方法，保存了一个值 zs，同时在线程 1 中通过 localName.get()可以拿到之前设置的值，但是如果在线程 2 中，拿到的将是一个 null。
@@ -25,32 +25,33 @@ ThreadLocal<String> localName = new ThreadLocal(); localName.set("zs"); String n
 看看 set(T value)和 get()方法的源码
 
 ```java
-public class T{
- public void set(T value) {
-    Thread t = Thread.currentThread();
-    ThreadLocalMap map = getMap(t);
-    if (map != null)
-        map.set(this, value);
-    else
-        createMap(t, value);
-}
-
-public T get() {
-    Thread t = Thread.currentThread();
-    ThreadLocalMap map = getMap(t);
-    if (map != null) {
-        ThreadLocalMap.Entry e = map.getEntry(this);
-        if (e != null) {
-            @SuppressWarnings("unchecked")
-            T result = (T)e.value;
-            return result;
-        }
+public class T {
+    public void set(T value) {
+        Thread t = Thread.currentThread();
+        ThreadLocalMap map = getMap(t);
+        if (map != null)
+            map.set(this, value);
+        else
+            createMap(t, value);
     }
-    return setInitialValue();
-}
-ThreadLocalMap getMap(Thread t) {
-    return t.threadLocals;
-}
+
+    public T get() {
+        Thread t = Thread.currentThread();
+        ThreadLocalMap map = getMap(t);
+        if (map != null) {
+            ThreadLocalMap.Entry e = map.getEntry(this);
+            if (e != null) {
+                @SuppressWarnings("unchecked")
+                T result = (T) e.value;
+                return result;
+            }
+        }
+        return setInitialValue();
+    }
+
+    ThreadLocalMap getMap(Thread t) {
+        return t.threadLocals;
+    }
 }
 
 ```
@@ -61,7 +62,6 @@ Thread 线程类中存在 ThreadLoalMap 的对象，它也是一个类似 HashMa
 
 ### Entry 是继承 WeakReference
 
-ThreadLoalMap 的 Entry 是继承 WeakReference
-这里需要注意的是，
+ThreadLoalMap 的 Entry 是继承 WeakReference 这里需要注意的是，
 
 ThreadLoalMap 的 Entry 是继承 WeakReference，和 HashMap 很大的区别是，Entry 中没有 next 字段，所以就不存在链表的情况了。

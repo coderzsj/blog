@@ -1,7 +1,7 @@
 ---
-title: vue directives
+title: vue指令
 icon: Vue
-category: js
+category: 前端
 tag:
   - vue
 ---

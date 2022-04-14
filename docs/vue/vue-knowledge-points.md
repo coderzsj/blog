@@ -1,7 +1,7 @@
 ---
-title: es6
+title: es6语法
 icon: Vue
-category: js
+category: 前端
 date: 2021-09-20
 tag:
   - es6

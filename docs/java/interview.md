@@ -1,6 +1,7 @@
 ---
 title: 面试技巧
 date: 2022-01-01
+category: 面经
 tag:
   - interview
 ---

@@ -1,7 +1,6 @@
 ---
-title: dubbo
+title: dubbo知识点总结
 icon: dubbo
-category: soa
 ---
 
 ## Dubbo
