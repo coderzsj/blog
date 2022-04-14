@@ -68,10 +68,14 @@ export default defineThemeConfig({
             autoExcerpt: true,
         },
         mdEnhance: {
-            enableAll: false,
-            presentation: {
-                plugins: ["highlight", "math", "search", "notes", "zoom"],
-            },
+            align: true,
+            demo: true,
+            flowchart: true,
+            footnote: true,
+            presentation: true,
+            sub: true,
+            sup: true,
+            tex: true,
         },
     }
 });

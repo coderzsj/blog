@@ -20,7 +20,7 @@ export const navbarConfig = defineNavbarConfig([
     {
         text: "其他", icon: "guide",
         children: [
-            {text: "随笔", link: "/"},
+            {text: "随笔", link: "/note"},
             {text: "前端", link: "/vue"},
             {text: "工具", link: "/tool"},
             {text: "算法", link: "/algo"},

@@ -15,7 +15,18 @@ export const sidebarConfig = defineSidebarConfig({
             children: [
                 "",
                 "java-exception",
-                "hashmap"
+                "hashmap",
+                "still-using-simple-date-format"
+            ],
+        },
+        {
+            text: "设计模式",
+            prefix: "design-patterns/",
+            collapsable: false,
+            children: [
+                "let-me-tell-you-what-design-patterns-are-used-in-spring",
+                "singleton-design",
+                "six-principles-of-design-patterns"
             ],
         },
         {
@@ -93,6 +104,6 @@ export const sidebarConfig = defineSidebarConfig({
             children: ["expression"],
         },
     ],
-    "/note/": ["60-famous-principles-and-theorems","a_little_experience_of_exporting_tens_of_millions_of_data_to_excel","a_null_pointer_exception-therearesomanytricks","be-a-critical-thinking-programmer","change-your-nickname-and-talk-nonsense","how-can-programmers-not-take-a-fork","how-to-write-daily-report","humorous-jokes","in-your-spare-time-please-don-not-take-personal-work-but-improve-yourself","killing-a-programmer-doesnt-require-a-gun-just-change-the-requirements-three-times","life-notes","rapid-growth-as-a-technologist","still-using-simple-date-format"],
+    "/note/": ["60-famous-principles-and-theorems","a_little_experience_of_exporting_tens_of_millions_of_data_to_excel","a_null_pointer_exception-therearesomanytricks","be-a-critical-thinking-programmer","how-can-programmers-not-take-a-fork","how-to-write-daily-report","humorous-jokes","in-your-spare-time-please-don-not-take-personal-work-but-improve-yourself","killing-a-programmer-doesnt-require-a-gun-just-change-the-requirements-three-times","life-notes","rapid-growth-as-a-technologist"],
     "/algo/":["algorithm-eight-queens","dynamic-programming-idea","linked-list-determines-that-there-is-a-cycle-recursive-inversion","maximum-depth-of-a-binary-tree"],
 })

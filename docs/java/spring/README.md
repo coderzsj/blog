@@ -10,5 +10,5 @@ tag:
 ## java目录
 
 - [三级缓存](spring)
-- [自动装配](springboot startup process)
-- [事务](spring transaction)
+- [自动装配](springboot-startup-process)
+- [事务](spring-transaction)
