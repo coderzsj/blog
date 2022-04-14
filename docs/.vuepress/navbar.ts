@@ -24,9 +24,8 @@ export const navbarConfig = defineNavbarConfig([
             {text: "前端", link: "/vue"},
             {text: "工具", link: "/tool"},
             {text: "算法", link: "/algo"},
-            {text: "关于作者", link: "/about"},
         ]
     },
-    {text: "Guide", icon: "guide", link: "/about/"},
     {text: "博客", icon: "blog", link: "https://blog.csdn.net/qq_43183527"},
+    {text: "关于作者",icon: "guide",link: "/about"},
 ]);

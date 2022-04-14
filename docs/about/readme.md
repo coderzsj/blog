@@ -1,11 +1,8 @@
 ---
 title: intro
-layout: Slide
+sidebar: false
 icon: people
-tag:
-  - 个人介绍
 article: false
-breadcrumb: false
 ---
 
 ::: info

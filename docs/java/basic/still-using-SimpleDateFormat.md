@@ -1,5 +1,5 @@
 ---
-title: 仍在使用simple-date-format？
+title: 仍在使用SimpleDateFormat？
 category: note
 author: Felix zyf
 date: 2018-02-04

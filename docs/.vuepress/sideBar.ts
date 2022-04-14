@@ -13,10 +13,9 @@ export const sidebarConfig = defineSidebarConfig({
             icon: "basic",
             collapsable: false,
             children: [
-                "",
                 "java-exception",
                 "hashmap",
-                "still-using-simple-date-format"
+                "still-using-SimpleDateFormat"
             ],
         },
         {
