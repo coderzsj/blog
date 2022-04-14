@@ -9,11 +9,9 @@ tag:
 
 复制这段内容后打开百度网盘 App，操作更方便哦。  链接:
 
-<https://pan.baidu.com/s/159Do64viCzgijwIkt_5KwA>
+[链接]https://pan.baidu.com/s/159Do64viCzgijwIkt_5KwA)
 
-提取码:
-
-Oqdc
+提取码: Oqdc
 
 --来自百度网盘超级会员 V2 的分享
 

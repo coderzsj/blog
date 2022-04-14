@@ -15,7 +15,7 @@ idea
 
 标签，标签如下所示
 
-然后再在component 标签里加一行 <property name="dynamic.classpath" value="true" />，就是变成下面这样
+然后再在component 标签里加一行 `<property name="dynamic.classpath" value="true"/>`，就是变成下面这样
 
 C:\WINDOWS\system32\drivers\etc
 

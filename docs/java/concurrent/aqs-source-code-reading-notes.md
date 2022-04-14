@@ -115,17 +115,19 @@ public final void acquire(int arg) {
 
 尝试去获取锁，获取成功返回 true，否则返回 false。该方法由继承 AQS 的子类自己实现。采用了模板方法设计模式。
 
-如：ReentrantLock 的 Sync 内部类，Sync 的子类：NonfairSync 和 FairSync
+如：ReentrantLock的Sync内部类，Sync的子类：`NonfairSync`和`FairSync`
 
-```
-protected boolean tryAcquire(int arg) {
-     throw new UnsupportedOperationException();
- }
+```java
+class Sync{
+    protected boolean tryAcquire(int arg) {
+        throw new UnsupportedOperationException();
+    }
+}
 ```
 
 ### addWaiter
 
-```
+```java
 private Node addWaiter(Node mode) {
        // 新建Node节点
        Node node = new Node(Thread.currentThread(), mode);
@@ -147,7 +149,7 @@ private Node addWaiter(Node mode) {
 
 ### enq
 
-```
+```java
     private Node enq(final Node node) {
         // 一直for循环，直到插入Node成功为止
         for (;;) {
@@ -170,7 +172,7 @@ private Node addWaiter(Node mode) {
 
 ### acquireQueued
 
-```
+```java
  final boolean acquireQueued(final Node node, int arg) {
         // 操作是否成功标志
         boolean failed = true;
@@ -246,10 +248,7 @@ private final boolean parkAndCheckInterrupt() {
 }
 ```
 
-Sun.misc.Unsafe
-
-甲 不动，乙类 可改
-医师服务费 其他
+`Sun.misc.Unsafe`
 
 参考文献：
 [2 万月薪必会知识：AQS](https://mp.weixin.qq.com/s/PdB_1-C2FGl91vN3SM5ZVg)

@@ -243,12 +243,12 @@ Redis 的内存淘汰策略，是指内存达到 maxmemory 极限时，使用某
 
 Redis 的内存淘汰机制包括：
 
-- noeviction: 当内存不足以容纳新写入数据时，新写入操作会报错。
-- allkeys-lru：当内存不足以容纳新写入数据时，在键空间（`server.db[i].dict`）中，移除最近最少使用的 key(这个是最常用的)。
-- allkeys-random：当内存不足以容纳新写入数据时，在键空间（`server.db[i].dict`）中，随机移除某个 key。
-- volatile-lru：当内存不足以容纳新写入数据时，在设置了过期时间的键空间（`server.db[i].expires`）中，移除最近最少使用的 key。
-- volatile-random：当内存不足以容纳新写入数据时，在设置了过期时间的键空间（`server.db[i].expires`）中，随机移除某个 key。
-- volatile -ttl：当内存不足以容纳新写入数据时，在设置了过期时间的键空间（`server.db[i].expires`）中，有更早过期时间的 key 优先移除。
+- noeviction:当内存不足以容纳新写入数据时，新写入操作会报错。
+- allkeys-lru：当内存不足以容纳新写入数据时，在键空间（`server.db[i].dict`）中，移除最近最少使用的key(这个是最常用的)。
+- allkeys-random：当内存不足以容纳新写入数据时，在键空间（`server.db[i].dict`）中，随机移除某个key。
+- volatile-lru：当内存不足以容纳新写入数据时，在设置了过期时间的键空间（`server.db[i].expires`）中，移除最近最少使用的key。
+- volatile-random：当内存不足以容纳新写入数据时，在设置了过期时间的键空间（`server.db[i].expires`）中，随机移除某个key。
+- volatile-ttl：当内存不足以容纳新写入数据时，在设置了过期时间的键空间（`server.db[i].expires`）中，有更早过期时间的key优先移除。
 
   4.0 新增 lfu
 
@@ -393,12 +393,13 @@ String 数据结构是简单的 key-value 类型，value 其实不仅是 String�
 
 如果此时将此用户信息的 name 改为“xiaoli”，再存到 Redis 中，Redis 是不需要重新分配空间的。而且我们在读取和存储数据的时候只需要对做 Json 序列化与反序列化，比较方便。
 
-Hash
-Hash 在很多编程语言中都有着很广泛的应用，而在 Redis 中也是如此。在 Redis 中，Hash 常常用来缓存一些对象信息，如用户信息、商品信息、配置信息等，因此也被称为字典（dictionary），Redis 的字典使用 Hash table 作为底层实现， 一个 Hash table 里面可以有多个哈希表节点，而每个哈希表节点保存了字典中的一个键值对。实际上，Redis 数据库底层也是采用 Hash table 来存储键值对的。
+## Hash
 
-Redis 的 Hash 相当于 Java 的 HashMap，内部结构实现与 HashMap 一致，即数组+链表结构。只是 reHash 方式不一样。
+Hash在很多编程语言中都有着很广泛的应用，而在Redis中也是如此。在Redis中，Hash常常用来缓存一些对象信息，如用户信息、商品信息、配置信息等，因此也被称为字典（dictionary），Redis的字典使用Hashtable作为底层实现，一个Hashtable里面可以有多个哈希表节点，而每个哈希表节点保存了字典中的一个键值对。实际上，Redis数据库底层也是采用Hashtable来存储键值对的。
 
-前面说到 String 适合存储用户信息，而 Hash 结构也可以存储用户信息，不过是对每个字段单独存储，因此可以在查询时获取部分字段的信息，节省网络流量。不过 Redis 的 Hash 的值只能是字符串，存储上面的那个例子还好，如果存储的用户信息变为：
+Redis的Hash相当于Java的HashMap，内部结构实现与HashMap一致，即数组+链表结构。只是reHash方式不一样。
+
+前面说到String适合存储用户信息，而Hash结构也可以存储用户信息，不过是对每个字段单独存储，因此可以在查询时获取部分字段的信息，节省网络流量。不过Redis的Hash的值只能是字符串，存储上面的那个例子还好，如果存储的用户信息变为：
 
 ```json
 {
@@ -413,7 +414,7 @@ Redis 的 Hash 相当于 Java 的 HashMap，内部结构实现与 HashMap 一致
 
 那么该如何存储"clothes"属性又变成了该用 String 还是 Hash 的问题。
 
-适合用 String 存储的情况：
+## 适合用 String 存储的情况：
 
 - 每次需要访问大量的字段
 - 存储的结构具有多层嵌套的时候

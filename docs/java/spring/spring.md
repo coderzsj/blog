@@ -68,7 +68,7 @@ Spring启动过程大致如下：
 
 这个bean工厂不仅可以暴露早期bean还可以暴露代理bean，如果存在aop代理，则依赖的应该是代理对象，而不是原始的bean。而暴露原始bean是在单例bean初始化的第2步，填充属性第3步，生成代理对象第4步，这就矛盾了，A依赖到B并去解决B依赖时，要去初始化B，然后B又回来依赖A，而此时A还没有执行代理的过程，所以，需要在填充属性前就生成A的代理并暴露出去，第2步时机就刚刚好。
 
-三级缓存的bean工厂getObject方式，实际执行的是getEarlyBeanReference，如果对象需要被代理(存在beanPostProcessors -> SmartInstantiationAwareBeanPostProcessor)，则提前生成代理对象。
+三级缓存的bean工厂getObject方式，实际执行的是`getEarlyBeanReference`，如果对象需要被代理(存在beanPostProcessors->SmartInstantiationAwareBeanPostProcessor)，则提前生成代理对象。
 
 ### 二级缓存
 
@@ -114,17 +114,13 @@ Spring启动过程大致如下：
 
 **@EnableAutoConfiguration**
 
-进入注解，发现@Import({AutoConfigurationImportSelector.class}) 导入了 AutoConfigurationImportSelector 这个类的bean定义，
+进入注解，发现@Import({AutoConfigurationImportSelector.class}) 导入了`AutoConfigurationImportSelector`这个类的bean定义，
 
 返回的是要加载的Config配置文件的全包名
 
-META-INF/spring.factories
+`META-INF/spring.factories`
 
-spring boot自动装配的依赖jar包：
-
-注解默认加载124个配置类
-
-帮我们加载了各种已经写好的Config类文件，实现了这些JavaConfig配置文件的重复利用和组件化
+spring boot自动装配的依赖jar包： 注解默认加载124个配置类，帮我们加载了各种已经写好的Config类文件，实现了这些JavaConfig配置文件的重复利用和组件化
 
 ::: info 总结
 

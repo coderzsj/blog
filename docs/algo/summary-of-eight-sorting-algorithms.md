@@ -1,10 +1,11 @@
 ---
-title: 8sort-algo
-icon: sort
-category: algo
+title: 8sort-algo 
+icon: sort 
+category: algo 
 tag:
   - algo
   - sort
+
 ---
 
 ## 8sort-algo
@@ -16,71 +17,71 @@ tag:
 
 ## 堆排序(不稳定,原地)
 
-#### 思路
+### 思路
 
-1）数组构建成二叉堆。(小到大排序,则构建最大堆)；
-2）循环删除堆顶元素,替换到二叉堆的末尾,调整堆产生新的堆顶。
+1）数组构建成二叉堆。(小到大排序,则构建最大堆)； 2）循环删除堆顶元素,替换到二叉堆的末尾,调整堆产生新的堆顶。
 
-#### 代码
+### 代码
 
 ```java
-class T{
-/**
- * 下沉调整
- * @param arr 待调整的堆
- * @param parent 要下沉的父节点
- */
-public static void downAdjust(int[] arr, int parent,int length) {
-    //temp保存父节点值,用于最后的赋值
-    int temp = arr[parent];
-    int child= 2 * parent+1;
-    while (child< length) {
-        //如果有右孩子,且右孩子大于左孩子的值,则定位到右孩子
-        if (child+ 1 < length && arr[child+ 1] > arr[child]) {
-            childIndex++;
+class T {
+    /**
+     * 下沉调整
+     * @param arr 待调整的堆
+     * @param parent 要下沉的父节点
+     */
+    public static void downAdjust(int[] arr, int parent, int length) {
+        //temp保存父节点值,用于最后的赋值
+        int temp = arr[parent];
+        int child = 2 * parent + 1;
+        while (child < length) {
+            //如果有右孩子,且右孩子大于左孩子的值,则定位到右孩子
+            if (child + 1 < length && arr[child + 1] > arr[child]) {
+                childIndex++;
+            }
+            //如果父节点小于任何一个孩子的值,则直接跳出
+            if (temp >= arr[child]) {
+                break;
+            }
+            //无须真正交换,单向赋值即可
+            arr[parent] = array[child];
+            parent = child;
+            child = 2 * parent + 1;
         }
-        //如果父节点小于任何一个孩子的值,则直接跳出
-        if (temp >= arr[child]) {
-            break;
+        arr[parent] = temp;
+
+    }
+
+    /**
+     * 堆排序（升序）
+     * @param arr待调整的堆
+     */
+    public static void heapSort(int[] arr) {
+        //1. 把无序数组构建成最大堆
+        for (int i = (arr.length - 2) / 2; i >= 0; i--) {
+            downAdjust(arr, i, arr.length);
         }
-        //无须真正交换,单向赋值即可
-        arr[parent] = array[child];
-        parent= child;
-        child= 2 * parent+ 1;
+        System.out.println(Arrays.toString(arr));
+        //2. 循环删除堆顶元素,移到集合尾部,调整堆产生新的堆顶
+        for (int i = arr.length; i > 0; i--) {
+            //最后1个元素和第一个元素进行交换
+            swap(arr, 0, i);
+            //“下沉”调整最大堆
+            downAdjust(arr, 0, i);
+        }
     }
-    arr[parent] = temp;
 
-}
-/**
- * 堆排序（升序）
- * @param arr待调整的堆
- */
-public static void heapSort(int[] arr) {
-    //1. 把无序数组构建成最大堆
-    for (int i = (arr.length -2)/ 2; i >= 0; i--) {
-        downAdjust(arr,i,arr.length);
+    public static void swap(int[] a, int i, int j) {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
     }
-    System.out.println(Arrays.toString(arr));
-    //2. 循环删除堆顶元素,移到集合尾部,调整堆产生新的堆顶
-    for (int i = arr.length; i > 0; i--) {
-        //最后1个元素和第一个元素进行交换
-  swap(arr,0,i);
-        //“下沉”调整最大堆
-        downAdjust(arr, 0, i);
+
+    public static void main(String[] args) {
+        int[] arr = new int[]{1, 3, 2, 6, 5, 7, 8, 9, 10, 0};
+        heapSort(arr);
+        System.out.println(Arrays.toString(arr));
     }
-}
-
-public static void swap(int[] a,int i,int j) {
- int temp = a[i];
- a[i] = a[j];
- a[j] = temp;
-}
-
-public static void main(String[] args) {
-    int[] arr = new int[] {1,3,2,6,5,7,8,9,10,0};
-    heapSort(arr);
-    System.out.println(Arrays.toString(arr));
-}
 }
 
 ```
@@ -89,7 +90,7 @@ public static void main(String[] args) {
 
 快速排序是一种原地排序,只需要一个很小的栈作为辅助空间,空间复杂度为 O(log2n),所以适合在数据集比较大的时候使用。
 
-#### 思路 (双边循环法)
+### 思路 (双边循环法)
 
 使用递归方法
 
@@ -97,21 +98,21 @@ public static void main(String[] args) {
 2. 每一轮挑选一个基准元素,比基准元素大的元素移动到数列一边,小的元素移动到数列的另一边；
 3. 然后分别对得到的子数组第二步的操作,直到符合基线条件。
 
-#### 代码 (双边循环法)
+### 代码 (双边循环法)
 
 ```java
-class T{
-public static void quickSort(int[] arr, int startIndex,int endIndex) {
-    // 递归结束条件：startIndex大于或等于endIndex时
-    if (startIndex >= endIndex) {
-        return;
+class T {
+    public static void quickSort(int[] arr, int startIndex, int endIndex) {
+        // 递归结束条件：startIndex大于或等于endIndex时
+        if (startIndex >= endIndex) {
+            return;
+        }
+        // 得到基准元素位置
+        int pivotIndex = partition(arr, startIndex, endIndex);
+        //根据基准元素,分成两部分进行递归排序
+        quickSort(arr, startIndex, pivotIndex - 1);
+        quickSort(arr, pivotIndex + 1, endIndex);
     }
-    // 得到基准元素位置
-    int pivotIndex = partition(arr,startIndex, endIndex);
-    //根据基准元素,分成两部分进行递归排序
-    quickSort(arr, startIndex, pivotIndex - 1);
-    quickSort(arr, pivotIndex + 1, endIndex);
-}
 
     /**
      * 分治（双边循环法）
@@ -120,23 +121,23 @@ public static void quickSort(int[] arr, int startIndex,int endIndex) {
      * @param startIndex  起始下标
      * @param endIndex    结束下标
      */
-    private static int partition(int[] arr,int startIndex,int endIndex){
+    private static int partition(int[] arr, int startIndex, int endIndex) {
         // 取第一个位置（也可以选择随机位置）的元素作为基准元素
         int pivot = arr[startIndex];
         int left = startIndex;
         int right = endIndex;
 
-        while (left != right){
+        while (left != right) {
             //控制right指针比较并左移
-            while(left < right && arr[right] >= pivot){
+            while (left < right && arr[right] >= pivot) {
                 right--;
             }
             //控制left指针比较并右移
-            while (left < right && arr[left] <= pivot){
+            while (left < right && arr[left] <= pivot) {
                 left++;
             }
             //交换left 和 right指针所指向的元素
-            if(left<right){
+            if (left < right) {
                 int tmp = arr[left];
                 arr[left] = arr[right];
                 arr[right] = tmp;
@@ -151,16 +152,17 @@ public static void quickSort(int[] arr, int startIndex,int endIndex) {
     }
 
     public static void main(String[] args) {
-        int[] arr = int[] {4,4,6,5,3,2,8,1};
-        quickSort(arr,0,arr.length-1);
+        int[] arr;
+        arr = new int[]{4, 4, 6, 5, 3, 2, 8, 1};
+        quickSort(arr, 0, arr.length - 1);
         System.out.println(Arrays.toString(arr));
     }
 }
 ```
 
-**单边循环法**
+## 单边循环法
 
-#### 思路 (单边循环法)
+### 思路 (单边循环法)
 
 1）设置一个 mark 指针指向数列起始位置,这个 mark 指针代表小于基准元素的**区域边界**。
 
@@ -173,18 +175,18 @@ public static void quickSort(int[] arr, int startIndex,int endIndex) {
 - mark 指针右移一位,小于 pivot 的区域边界增大；
 - 让最新遍历到的元素和 mark 指针所在的元素交互位置。
 
-#### 代码 (单边循环法)
+### 代码 (单边循环法)
 
 ```java
-class T{
-    private static int partitionV2(int[] arr, int startIndex, int endIndex){
+class T {
+    private static int partitionV2(int[] arr, int startIndex, int endIndex) {
         int pivot = arr[startIndex];
         int mark = startIndex;
 
         //从基准元素的下一个位置开始遍历数组
-        for(int i=startIndex+1; i<=endIndex; i++){
+        for (int i = endIndex; i > startIndex; i--) {
             //遍历到的元素小于基准元素
-            if(arr[i]<pivot){
+            if (arr[i] < pivot) {
                 //mark指针右移1位,小于pivot的区域边界增大了1;
                 mark++;
                 //让最新遍历到的元素和mark指针所在位置的元素交换位置
@@ -204,78 +206,81 @@ class T{
 
 ## 冒泡排序
 
-#### 思路
+### 思路
 
 1. 比较相邻的两个数据,前一个元素比后一个元素大就交换位置
 2. 从前往后,两两比较,得到最大数
 3. 重复操作,直到最后一个值结束,得到的新数组就是有序的了
 
-#### 代码
+### 代码
 
 ```java
 public class BubbleSort {
- public static void sort(int [] arr){
-      for(int i=0; i<arr.length-1; i++){//表示趟数,一共arr.length-1次。
-          for(int j=arr.length-1; j > i  ; j--){
-           if ( arr[j-1]>arr[j]) {
-            swap(arr, j, j-1);
+    public static void sort(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {//表示趟数,一共arr.length-1次。
+            for (int j = arr.length - 1; j > i; j--) {
+                if (arr[j - 1] > arr[j]) {
+                    swap(arr, j, j - 1);
+                }
+            }
+        }
     }
-          }
-      }
-  }
- //优化后版本
- public static void sortV2(int [] arr){
-      for(int i=0; i < arr.length-1; i++){//趟数
-       boolean isSorted = true;
-          for(int j=0; j < arr.length - i - 1  ; j++){
-           if (arr[j] < arr[j+1]) {
-            swap(arr, j, j-1);
-            isSorted = false;
+
+    //优化后版本
+    public static void sortV2(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {//趟数
+            boolean isSorted = true;
+            for (int j = 0; j < arr.length - i - 1; j++) {
+                if (arr[j] < arr[j + 1]) {
+                    swap(arr, j, j - 1);
+                    isSorted = false;
+                }
+            }
+            if (isSorted) break;
+        }
     }
-          }
-          if(isSorted) break;
-      }
-  }
- public static void swap(int[] a,int i,int j) {
-  int temp = a[i];
-  a[i] = a[j];
-  a[j] = temp;
- }
+
+    public static void swap(int[] a, int i, int j) {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
 }
 ```
 
 ## 选择排序
 
-#### 思路
+### 思路
 
 假设**最开始的值为最小值**
 遍历数组,与最开始的元素一一比较,得到最小元素的位置然后交换元素。
 
-#### 代码
+### 代码
 
 ```java
 package sort;
+
 /*
  * created by sj 2019年8月16日
  */
 public class SelectSort {
- public static void sort(int[] a) {
-  int minIndex = 0;
-  for (int i = 0; i <  a.length - 1; i++) {
-   minIndex = i; //最小元素下标初始值设为最开始的元素
-   for (int j = i+1; j <  a.length; j++) {//寻到最小的数,保存下标
-    if(a[j]<a[minIndex])
-     minIndex = j;
-   }
-   swap(a, minIndex, i);//交换
-  }
- }
+    public static void sort(int[] a) {
+        int minIndex = 0;
+        for (int i = 0; i < a.length - 1; i++) {
+            minIndex = i; //最小元素下标初始值设为最开始的元素
+            for (int j = i + 1; j < a.length; j++) {//寻到最小的数,保存下标
+                if (a[j] < a[minIndex])
+                    minIndex = j;
+            }
+            swap(a, minIndex, i);//交换
+        }
+    }
 
- public static void swap(int[] a,int i,int j) {
-  int temp = a[i];
-  a[i] = a[j];
-  a[j] = temp;
- }
+    public static void swap(int[] a, int i, int j) {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
 }
 ```
 
@@ -283,7 +288,7 @@ public class SelectSort {
 
 在要排序的一组数中，假设前面（N-1）[N>=2]个数已经是排好顺序的，现在要把第N个树杈到前面的有序书中，使得这N个数也是排好顺序的。如此反复循环，直到全部排好顺序。
 
-#### 代码
+### 代码
 
 ```java
 package sort;
@@ -294,25 +299,25 @@ import java.util.Arrays;
  * created by sj 2019年8月16日
  */
 public class InsertSort {
- public static void  sort(int a[] ){
-     for(int i=0;i < a.length-1;i++){
-         for(int j = i + 1; j > 0 && a[j-1] > a[j]  ; j--){
-           swap(a, j - 1, j);
-         }
-     }
-  }
+    public static void sort(int a[]) {
+        for (int i = 0; i < a.length - 1; i++) {
+            for (int j = i + 1; j > 0 && a[j - 1] > a[j]; j--) {
+                swap(a, j - 1, j);
+            }
+        }
+    }
 
- public static void swap(int[] a,int i,int j) {
-  int temp = a[i];
-  a[i] = a[j];
-  a[j] = temp;
- }
+    public static void swap(int[] a, int i, int j) {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
 
- public static void main(String[] args) {
-  int[] a = {3,5,7,1,8,6};
-  sort(a);
-  System.out.println(Arrays.toString(a));
- }
+    public static void main(String[] args) {
+        int[] a = {3, 5, 7, 1, 8, 6};
+        sort(a);
+        System.out.println(Arrays.toString(a));
+    }
 }
 ```
 
@@ -333,43 +338,43 @@ public class InsertSort {
 ### 核心代码
 
 ```java
-class T{
-public static void bucketSort(int[] arr){
+class T {
+    public static void bucketSort(int[] arr) {
 
-    // 计算最大值与最小值
-    int max = Integer.MIN_VALUE;
-    int min = Integer.MAX_VALUE;
-    for(int i = 0; i < arr.length; i++){
-        max = Math.max(max, arr[i]);
-        min = Math.min(min, arr[i]);
+        // 计算最大值与最小值
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < arr.length; i++) {
+            max = Math.max(max, arr[i]);
+            min = Math.min(min, arr[i]);
+        }
+
+        // 计算桶的数量
+        int bucketNum = (max - min) / arr.length + 1;
+        ArrayList<ArrayList<Integer>> bucketArr = new ArrayList<>(bucketNum);
+        for (int i = 0; i < bucketNum; i++) {
+            bucketArr.add(new ArrayList<Integer>());
+        }
+
+        // 将每个元素放入桶
+        for (int i = 0; i < arr.length; i++) {
+            int num = (arr[i] - min) / (arr.length);
+            bucketArr.get(num).add(arr[i]);
+        }
+
+        // 对每个桶进行排序
+        for (int i = 0; i < bucketArr.size(); i++) {
+            Collections.sort(bucketArr.get(i));
+        }
+
+        // 将桶中的元素赋值到原序列
+        int index = 0;
+        for (int i = 0; i < bucketArr.size(); i++) {
+            for (int j = 0; j < bucketArr.get(i).size(); j++) {
+                arr[index++] = bucketArr.get(i).get(j);
+            }
+        }
     }
-
-    // 计算桶的数量
-    int bucketNum = (max - min) / arr.length + 1;
-    ArrayList<ArrayList<Integer>> bucketArr = new ArrayList<>(bucketNum);
-    for(int i = 0; i < bucketNum; i++){
-        bucketArr.add(new ArrayList<Integer>());
-    }
-
-    // 将每个元素放入桶
-    for(int i = 0; i < arr.length; i++){
-        int num = (arr[i] - min) / (arr.length);
-        bucketArr.get(num).add(arr[i]);
-    }
-
-    // 对每个桶进行排序
-    for(int i = 0; i < bucketArr.size(); i++){
-        Collections.sort(bucketArr.get(i));
-    }
-
-    // 将桶中的元素赋值到原序列
- int index = 0;
- for(int i = 0; i < bucketArr.size(); i++){
-  for(int j = 0; j < bucketArr.get(i).size(); j++){
-   arr[index++] = bucketArr.get(i).get(j);
-  }
- }
-}
 }
 ```
 
@@ -383,7 +388,7 @@ public static void bucketSort(int[] arr){
 
 每一个桶代表一个区间范围,里面可以承载一个或多个元素。
 
-#### 思路
+### 思路
 
 算出数列最大值和最小值,并算出差值,初始化桶,桶个数有多种方式,`区间跨度= 差值 / （桶的数量-1）` 最后一个桶只包含数列最大值,其余桶区间跨度按照比例分配。
 
@@ -391,7 +396,7 @@ public static void bucketSort(int[] arr){
 
 时间复杂度：n+m 空间复杂度：m
 
-#### 代码
+### 代码
 
 ```java
 public class T {
@@ -441,7 +446,7 @@ public class T {
     }
 
     public static void main(String[] args) {
-        double[] array = new double[] { 4.12, 6.421, 0.0023, 3.0, 2.123, 8.122, 4.12, 10.09 };
+        double[] array = new double[]{4.12, 6.421, 0.0023, 3.0, 2.123, 8.122, 4.12, 10.09};
         double[] sortedArray = bucketSort(array);
         System.out.println(Arrays.toString(sortedArray));
     }
@@ -457,10 +462,10 @@ public class T {
 ## 原地、稳定
 
 | 排序方式 | 是否原地 | 是否稳定 |
-| -------- | -------- | -------- |
-| 冒泡     | √        | √        |
-| 插入     | √        | √        |
-| 选择     | √        | √        |
-| 归并     | ×        | √        |
-| 堆       | √        | ×        |
-| 桶       | ×        | ×        |
+|------|------|------|
+| 冒泡   | √    | √    |
+| 插入   | √    | √    |
+| 选择   | √    | √    |
+| 归并   | ×    | √    |
+| 堆    | √    | ×    |
+| 桶    | ×    | ×    |

@@ -5,7 +5,7 @@ tag:
   - note
 ---
   
-## 千万级的数据用 EXCEL 导出
+# 千万级的数据用 EXCEL 导出
 
 最近做了个项目,使用 MYSQL 数据库,要求做到千万级的数据用 EXCEL 导出,试了良久,找出了几个方法.
 
@@ -26,23 +26,20 @@ JAVA 实现大数据量导出操作时，如果采用 POI 直接导出，会出�
 但是这样得话老大非找我麻烦不可.不过百万左右的数据用这个,速度是真快 3.使用两者结合,在 mybatis 里开启流式读取,并且启用分批读取
 这样数据量大的时候分批读取也不会太慢,读取一批数据,处理一批数据并清空,然后读取下一段,这样耗时 10 分钟左右,256M 内存也正常运行,配合 easyexcel
 
-##
-
 ```java
-class T{
-
- @RequestMapping(value = "/exportExcelFile", produces = { "text/plain;charset=UTF-8" })
+class T {
+    @RequestMapping(value = "/exportExcelFile", produces = {"text/plain;charset=UTF-8"})
     public void excelDownLoad(Map params, HttpServletResponse response) throws Exception {
         QueryParam queryParam = new QueryParam();
-        Long allRowNumbers = 0l;
-        Long rowMaxCount = 60000l;
+        Long allRowNumbers = 0L;
+        Long rowMaxCount = 60000L;
         // 查询记录数
         allRowNumbers = ossFileListBiz.totalRecord(queryParam.getSqlMap());
 
         // 是否大数据量（超过6W）
         if (allRowNumbers > rowMaxCount) {
             List list = new ArrayList();
-            List downlist = new ArrayList();
+            List downList = new ArrayList();
             // 1.设置相应头
             String filename = "导出TEST.zip";
             filename = new String(filename.getBytes("GBK"), "iso-8859-1");
@@ -99,7 +96,7 @@ class T{
                     fos.close();
                     // 手动清除list
                     list.clear();
-                    downlist.clear();
+                    downList.clear();
                 }
             }
             // 4.导出zip压缩文件
@@ -130,9 +127,9 @@ class T{
         byte[] byt = new byte[1024];
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zip));
         // out.setEncoding("UTF-8");
-        for (int i = 0; i < srcFile.length; i++) {
-            FileInputStream in = new FileInputStream(srcFile[i]);
-            out.putNextEntry(new ZipEntry(srcFile[i].getName()));
+        for (File file : srcFile) {
+            FileInputStream in = new FileInputStream(file);
+            out.putNextEntry(new ZipEntry(file.getName()));
             int length;
             while ((length = in.read(byt)) > 0) {
                 out.write(byt, 0, length);
@@ -143,8 +140,7 @@ class T{
         out.close();
 
         // 2.删除服务器上的临时文件(excel)
-        for (int i = 0; i < srcFile.length; i++) {
-            File temFile = srcFile[i];
+        for (File temFile : srcFile) {
             if (temFile.exists() && temFile.isFile()) {
                 temFile.delete();
             }
@@ -176,8 +172,8 @@ class T{
      * @throws Exception
      */
     private static SXSSFWorkbook exportDataToExcelXLSX(SXSSFWorkbook wb, List<Object> listMap) throws Exception {
-        String[] assetHeadTemp = { "ID", "路径"};
-        String[] assetNameTemp = { "id", "path"};
+        String[] assetHeadTemp = {"ID", "路径"};
+        String[] assetNameTemp = {"id", "path"};
         Sheet sheet = null;
         CellStyle columnHeadStyle = wb.createCellStyle();
         columnHeadStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);// 下边框
@@ -218,19 +214,19 @@ class T{
     }
 
     public static Map<String, Object> objectToMap(Object obj) throws Exception {
-        if(obj == null)
-        return null;
+        if (obj == null)
+            return null;
         Map<String, Object> map = new HashMap<String, Object>();
         BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
         PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
         for (PropertyDescriptor property : propertyDescriptors) {
-        String key = property.getName();
-        if (key.compareToIgnoreCase("class") == 0) {
-        continue;
-        }
-        Method getter = property.getReadMethod();
-        Object value = getter!=null ? getter.invoke(obj) : null;
-        map.put(key, value);
+            String key = property.getName();
+            if (key.compareToIgnoreCase("class") == 0) {
+                continue;
+            }
+            Method getter = property.getReadMethod();
+            Object value = getter != null ? getter.invoke(obj) : null;
+            map.put(key, value);
         }
         return map;
     }

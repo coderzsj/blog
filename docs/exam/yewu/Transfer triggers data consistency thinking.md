@@ -1,5 +1,5 @@
 ---
-title: zhuanzhang
+title: 转账引发的一致性思考
 icon: fubuhi
 category: fubuhi
 date: 2021-11-21

@@ -20,7 +20,7 @@ Buffer是一个对象，它包含一些要写入或者要读取的数据。在NI
 
 Buffer类型：我们常用的是ByteBuffer，实际上每一种Java基本类型都对应了一种缓冲区（除了Boolean类型）。
 
-ByteBuffer CharBuffer ShortBuffer IntBuffer LongBuffer FloatBuffer DoubleBuffer BooleanBuffer ByteOrder
+`ByteBuffer CharBuffer ShortBuffer IntBuffer LongBuffer FloatBuffer DoubleBuffer BooleanBuffer ByteOrder`
 
 ## 2、Channel-通道
 

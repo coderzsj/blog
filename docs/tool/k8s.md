@@ -8,9 +8,9 @@ tag:
 
 ::: info 介绍
 
-Docker 提供容器的生命周期管理，Docker 镜像构建运行时容器。
+Docker提供容器的生命周期管理，Docker镜像构建运行时容器。
 
-但是，由于这些单独的容器必须通信，因此使用 Kubernetes。因此，我们说 Docker 构建容器，这些容器通过 Kubernetes 相互通信。因此，可以使用 Kubernetes 手动关联和编排在多个主机上运行的容器。
+但是，由于这些单独的容器必须通信，因此使用Kubernetes。因此，我们说Docker构建容器，这些容器通过Kubernetes相互通信。因此，可以使用Kubernetes手动关联和编排在多个主机上运行的容器。
 
 :::
 

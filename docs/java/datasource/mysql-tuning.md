@@ -14,68 +14,45 @@ tag:
 
 ## 二、SQL优化一般步骤
 
-**1、通过慢查日志等定位那些执行效率较低的SQL语句**
-
-**2、explain 分析SQL的执行计划**
-
-需要重点关注 type、rows、filtered 、extra。
-
+1、通过慢查日志等定位那些执行效率较低的SQL语句
+2、explain 分析SQL的执行计划需要重点关注 type、rows、filtered 、extra。
 type由上至下，效率越来越高。
-
-ALL 全表扫描；
-
-index 索引全扫描；
-
-range 索引范围扫描，常用语<,<=,>=,between,in等操作；
-
-ref 使用非唯一索引扫描或唯一索引前缀扫描，返回单条记录，常出现在关联查询中；
-
-eq_ref 类似ref，区别在于使用的是唯一索引，使用主键的关联查询；
-
-const/system 单条记录，系统会把匹配行中的其他列作为常数处理，如主键或唯一索引查询；
-
-null MySQL不访问任何表或索引，直接返回结果；
-
+- ALL 全表扫描；
+- index 索引全扫描；
+- range 索引范围扫描，常用语<,<=,>=,between,in等操作；
+- ref 使用非唯一索引扫描或唯一索引前缀扫描，返回单条记录，常出现在关联查询中；
+- eq_ref 类似ref，区别在于使用的是唯一索引，使用主键的关联查询；
+- const/system 单条记录，系统会把匹配行中的其他列作为常数处理，如主键或唯一索引查询；
+- null MySQL不访问任何表或索引，直接返回结果；
 虽然上至下，效率越来越高，但是根据cost模型，假设有两个索引idx1(a, b, c),idx2(a, c)，SQL为
-
-```sql
-`select * from t where a = 1 and b in (1, 2) order by c`;
-```
-
-如果走idx1，那么是type为 `range` ，如果走idx2，那么type是`ref`；当需要扫描的行数，使用idx2大约是idx1的5倍以上时，会用idx1，否则会用idx2。
-
-**Extra**
-
+Extra
 - Using filesort：MySQL 需要额外的一次传递，以找出如何按排序顺序检索行。通过根据联接类型浏览所有行并为所有匹配WHERE子句的行保存排序关键字和行的指针来完成排序。然后关键字被排序，并按排序顺序检索行；
-
 - Using temporary ：使用了临时表保存中间结果，性能特别差，需要重点优化；
-
 - Using index：表示相应的 select 操作中使用了覆盖索引（Coveing Index）,避免访问了表的数据行，效率不错！如果同时出现 using where，意味着无法直接通过索引查找来查询到符合条件的数据；
-
 - Using index condition ：MySQL5.6之后新增的ICP，using index condtion就是使用了ICP（索引下推），在存储引擎层进行数据过滤，而不是在服务层过滤，利用索引现有的数据减少回表的数据。
 
-**3、show profile 分析**
+3、show profile分析
 
 了解SQL执行的线程的状态及消耗的时间。
 
 默认是关闭的，开启语句“set profiling = 1;”
 
-```sql
+```
 SHOW PROFILES ;
 SHOW PROFILE FOR QUERY  #{id};
 ```
 
-**4、trace**
+4、trace
 
 trace分析优化器如何选择执行计划，通过trace文件能够进一步了解为什么优惠券选择A执行计划而不选择B执行计划。
 
-```sql
+```
 set optimizer_trace="enabled=on";
 set optimizer_trace_max_mem_size=1000000;
 select * from information_schema.optimizer_trace;
 ```
 
-**5、确定问题并采用相应的措施**
+5、确定问题并采用相应的措施
 
 优化索引；
 
@@ -89,11 +66,11 @@ select * from information_schema.optimizer_trace;
 
 ### 1、最左匹配
 
-**1）索引**
+1）索引
 
 KEY `idx_shopid_orderno` (`shop_id`,`order_no`)
 
-**2）SQL语句**
+2）SQL语句
 
 select * from _t where orderno=''
 
@@ -101,7 +78,7 @@ select * from _t where orderno=''
 
 ### 2、隐式转换
 
-**1）索引**
+1）索引
 
 ```sql
 KEY `idx_mobile` (`mobile`)
@@ -223,13 +200,13 @@ select * from _t where a=1 order by b desc, c asc
 
 ## tiaoyou
 
-MyCat 分库分表
+MyCat分库分表
 
-对于一个千万级别的结算，订单表，我们可以用人员编号作为分库分表键，分散 8 个库，根据最后一位的值或者不同的分库分表健的策略定位到具体的表。
+对于一个千万级别的结算，订单表，我们可以用人员编号作为分库分表键，分散8个库，根据最后一位的值或者不同的分库分表健的策略定位到具体的表。
 
-排查所有的 SQL 语句，把用到表关联的 SQL 语句，多表关联和 group by 的语句修改，或者添加冗余字段，或者分组，关联的逻辑在 java 业务写，或者优化将复杂的操作或者计算操作、一些分组计算写入缓存
+排查所有的SQL语句，把用到表关联的SQL语句，多表关联和groupby的语句修改，或者添加冗余字段，或者分组，关联的逻辑在java业务写，或者优化将复杂的操作或者计算操作、一些分组计算写入缓存
 
-Mycat 只能支持一些简单的 join，如果你的表都在同一个实例的话 join 是不影响的，跟 mysql 本身 join 一样，如果不在一个实例的表进行 join 貌似只支持两张表 join，并且还不能做太大数据量的 join
+Mycat只能支持一些简单的join，如果你的表都在同一个实例的话join是不影响的，跟mysql本身join一样，如果不在一个实例的表进行join貌似只支持两张表join，并且还不能做太大数据量的join
 
 数据库调优方面解决过的问题，比如索引对应的字段重复率太高，所以索引没用到，解决方法是建复合索引，或 redis 缓存信息没设超时时间，导致内存爆掉，解决方法是设下限。
 
@@ -241,7 +218,7 @@ Mycat 只能支持一些简单的 join，如果你的表都在同一个实例的
 
 数据库集群对外的统一访问入口
 
-**核心文件：**
+核心文件：
 
 - schem.xml 配置参数：逻辑库，逻辑表，数据节点。节点主机
 - rule.xml：分片规则

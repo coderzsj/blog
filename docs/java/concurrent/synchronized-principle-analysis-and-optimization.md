@@ -1,10 +1,11 @@
 ---
-title: synchronized 
-category: concurrent 
+title: synchronized
+category: concurrent
 date: 2022-01-28 
 tag:
-  - concurrent
-  - synchronized
+ - concurrent
+ - synchronized
+
 ---
 
 ## 可见性
@@ -207,7 +208,7 @@ Java 内存模型是一套规范，描述了 Java 程序中各种变量(线程�
 - 主内存 主内存是所有线程都共享的，都能访问的。所有的共享变量都存储于主内存。
 - 工作内存 每一个线程有自己的工作内存，工作内存只存储该线程对共享变量的副本。线程对变量的所有的操 作(读，取)都必须在工作内存中完成，而不能直接读写主内存中的变量，不同线程之间也不能直接 访问对方工作内存中的变量。
 
-![](./img/2-2-1.png)
+![内存模型](./img/2-2-1.png)
 
 Java内存模型是一套在多线程读写共享数据时，对共享数据的可见性、有序性、和原子性的规则和保障。
 
@@ -221,9 +222,9 @@ Synchronized,volatile
 
 对于硬件内存来说只有寄存器、缓存内存、主内存的概念，并没有工作内存和主内存之分，也就是说Java内存模型对内存的划分对硬件内存并没有任何影响，因为JMM只是一种抽象的概念，是一组规则，不管是工作内存的数据还是主内存的数据，对于计算机硬件来说都会存储在计算机主内存中，当然也有可能存储到CPU缓存或者寄存器中，因此总体上来说，Java内存模型和计算机硬件内存架构是一个相互交叉的关系，是一种抽象概念划分与真实物理硬件的交叉。
 
-JMM 内存模型与 CPU 硬件内存架构的关系：
+JMM内存模型与CPU硬件内存架构的关系：
 
-![](./img/2-2-2.png)
+![JMM内存模型与CPU硬件内存架构的关系](./img/2-2-2.png)
 
 ::: tip 总结
 
@@ -235,13 +236,13 @@ Java 内存模型是一套规范，描述了 Java 程序中各种变量(线程�
 
 - [ ] 了解主内存与工作内存之间的数据交互过程
 
-![](./img/2-3-1.png)
+![主内存与工作内存之间的数据交互](./img/2-3-1.png)
 
-Java 内存模型中定义了以下 8 种操作来完成，主内存与工作内存之间具体的交互协议，即一个变量如何 从主内存拷贝到工作内存、如何从工作内存同步回主内存之类的实现细节，虚拟机实现时必须保证下面 提及的每一种操作都是原子的、不可再分的。
+Java内存模型中定义了以下 8 种操作来完成，主内存与工作内存之间具体的交互协议，即一个变量如何 从主内存拷贝到工作内存、如何从工作内存同步回主内存之类的实现细节，虚拟机实现时必须保证下面 提及的每一种操作都是原子的、不可再分的。
 
 对应如下的流程图：
 
-![](./img/2-3-2.png)
+![流程图](./img/2-3-2.png)
 
 注意:
 
@@ -342,7 +343,7 @@ public class Test01Visibility {
 }
 ```
 
-![](./img/3-2-1.png)
+![synchronize可见性](./assets/20220414/synchronized-principle-analysis-and-optimization-1649899273782.png)
 
 ::: tip 总结
 
@@ -369,6 +370,7 @@ As-if-serial语义的意思是：不管编译器和CPU如何重排序，必须�
 `int a = 1; int b = 2; int c = a + b;`
 
 ```java
+
 @JCStressTest
 @Outcome(id = {"1"，"4"}，expect = Expect.ACCEPTABLE，desc = "ok")
 @Outcome(id = "0"，expect = Expect.ACCEPTABLE_INTERESTING，desc = "danger")
@@ -376,6 +378,7 @@ As-if-serial语义的意思是：不管编译器和CPU如何重排序，必须�
 public class Test03Ordering {
     int num = 0;
     boolean ready = false;
+
     // 线程一执行的代码
     @Actor
     public void actor1(I_Result r) {
@@ -385,6 +388,7 @@ public class Test03Ordering {
             r.r1 = 1;
         }
     }
+
     // 线程2执行的代码
     @Actor
     public void actor2(I_Result r) {
@@ -432,14 +436,9 @@ public class T {
 }
 ```
 
-**可重入的好处**
+可重入的好处：一、可以避免死锁；二、可以让我们更好的来封装代码。
 
-1. 可以避免死锁
-2. 可以让我们更好的来封装代码
-
-**可重入原理**
-
-Synchronized的锁对象中有一个计数器(`recursions变量`)会记录线程获得几次锁.
+可重入原理：Synchronized的锁对象中有一个计数器(`recursions变量`)会记录线程获得几次锁.
 
 ::: tip 总结
 
@@ -714,9 +713,9 @@ Mercurial --> jdk8 --> hotspot --> zip
 我们的 Java 代码里不会显示地去创造这么一个 monitor 对象，我们也无需创建，事实上可以这么理解： monitor 并不是随着对象创建而创建的。我们是通过 synchronized 修饰符告诉 JVM 需要为我们的某个对 象创建关联的 monitor 对象。每个线程都存在两个 ObjectMonitor 对象列表，分别为 free 和 used 列表。 同时 JVM 中也维护着 global locklist。当线程需要 ObjectMonitor 对象时，首先从线程自身的 free 表中申
 请，若存在则使用，若不存在则从 global list 中申请。
 
-ObjectMonitor 的数据结构中包含：\_owner、\_WaitSet 和\_EntryList，它们之间的关系转换可以用下图表示：
+ObjectMonitor 的数据结构中包含：`\_owner`、`\_WaitSet`和`\_EntryList`，它们之间的关系转换可以用下图表示：
 
-![](./img/5-2-1.png)
+![ObjectMonitor](./img/5-2-1.png)
 
 ### monitor 竞争
 
@@ -759,7 +758,7 @@ ObjectMonitor 的数据结构中包含：\_owner、\_WaitSet 和\_EntryList，�
 
 用户态和和内核态是什么东西呢？要想了解用户态和内核态还需要先了解一下 Linux 系统的体系架构：
 
-![](./img/5-2-2.png)
+![用户态和内核态](./assets/20220414/synchronized-principle-analysis-and-optimization-1649899349761.png)
 
 从上图可以看出，Linux操作系统的体系架构分为：用户空间(应用程序的活动空间)和内核。内核：本质上可以理解为一种软件，控制计算机的硬件资源，并提供上层应用程序运行的环境。
 
@@ -777,7 +776,7 @@ ObjectMonitor 的数据结构中包含：\_owner、\_WaitSet 和\_EntryList，�
 
 由此可见用户态切换至内核态需要传递许多变量，同时内核还需要保护好用户态在切换时的一些寄存器值、变量等，以备内核态切换回用户态。这种切换就带来了大量的系统资源消耗，这就是在 `synchronized`未优化之前，效率低的原因。
 
-# 六、JDK6 synchronized优化
+## 六、JDK6 synchronized优化
 
 CAS的全成是：CompareAndSwap(比较相同再交换)。是现代CPU广泛支持的一种对内存中的共享数据进行操作的一种特殊指令。
 
@@ -819,11 +818,11 @@ public class T {
 
 Unsafe 类使`Java`拥有了像C语言的指针一样操作内存空间的能力，同时也带来了指针的问题。过度的使用`Unsafe`类会使得出错的几率变大，因此Java官方并不建议使用的，官方文档也几乎没有。Unsafe 对象不能直接调用，只能通过反射获得。
 
-![](./img/6-1-1.png)
+![Unsafe](./img/6-1-1.png)
 
 #### Unsafe实现CAS
 
-![](./img/6-1-2.png)
+![Unsafe实现CAS](./assets/20220414/synchronized-principle-analysis-and-optimization-1649899407190.png)
 
 #### 乐观锁和悲观锁
 
@@ -854,11 +853,11 @@ heavyweightLock=>operation: 重量级锁
 noLock(right)->biasLock(right)->lightweightLock(right)->heavyweightLock
 ```
 
-## Java 对象的布局
+## Java对象的布局
 
 在 JVM 中，对象在内存中的布局分为三块区域：对象头、实例数据和对齐填充。如下图所示：
 
-![](./img/6-3-1.png)
+![对象的布局](./img/6-3-1.png)
 
 ### 对象头
 
@@ -868,7 +867,7 @@ HotSpot采用`instanceOopDesc`和`arrayOopDesc`来描述对象头，`arrayOopDes
 
 从`instanceOopDesc`代码中可以看到`instanceOopDesc`继承自`oopDesc`，`oopDesc`的定义载`Hotspot`源码中的`oop.hpp`文件中。
 
-![](./img/6-3-2.png)
+![Java对象的布局](./img/6-3-2.png)
 
 `_mark`表示对象标记、属于`markOop`类型，也就是接下来要讲解的`Mark World`，它记录了对象和锁有关的信息
 
@@ -884,15 +883,15 @@ HotSpot采用`instanceOopDesc`和`arrayOopDesc`来描述对象头，`arrayOopDes
 
 `Mark Word`用于存储对象自身的运行时数据，如哈希码(`HashCode`)、GC 分代年龄、锁状态标志、 线程持有的锁、偏向线程 ID、偏向时间戳等等，占用内存大小与虚拟机位长一致。Mark Word 对应的类型是`markOop`。源码位于`markOop.hpp`中。
 
-![](./img/6-3-3.png)
+![64位虚拟机下Mark Word](./img/6-3-3.png)
 
 在64位虚拟机下，`Mark Word`是`64bit`大小的，其存储结构如下：
 
-![](./img/6-3-4.png)
+![Mark Word](./img/6-3-4.png)
 
-在 32 位虚拟机下，`Mark Word`是`32bit`大小的，其存储结构如下：
+在 32位虚拟机下，`Mark Word`是`32bit`大小的，其存储结构如下：
 
-![](./img/6-3-5.png)
+![32位虚拟机Mark Word](./img/6-3-5.png)
 
 ### klass pointer
 
@@ -935,7 +934,7 @@ Java对象由3部分组成：对象头，实例数据，对齐数据。对象头
 
 偏向锁的“偏”，就是偏心的“偏”、偏袒的“偏”，它的意思是这个锁会偏向于第一个获得它的线程，会在对象头存储锁偏向的线程ID，以后该线程进入和退出同步块时只需要检查是否为偏向锁、锁标志位以及ThreadID即可。
 
-![](./img/6-4-1.png)
+![偏向锁](./img/6-4-1.png)
 
 不过一旦出现多个线程竞争时必须撤销偏向锁，所以撤销偏向锁消耗的性能必须小于之前节省下来的`CAS`原子操作的性能消耗，不然就得不偿失了。
 
@@ -990,9 +989,9 @@ Java对象由3部分组成：对象头，实例数据，对齐数据。对象头
 2. JVM利用CAS操作尝试将对象的`Mark Word`更新为指向`Lock Record`的指针，如果成功表示竞争到锁，则将锁标志位变成`00`，执行同步操作。
 3. 如果失败则判断当前对象的`Mark Word`是否指向当前线程的栈帧，如果是则表示当前线程已经持有当前对象的锁，则直接执行同步代码块；否则只能说明该锁对象已经被其他线程抢占了，这时轻 量级锁需要膨胀为重量级锁，锁标志位变成10，后面等待的线程将会进入阻塞状态。
 
-![](./img/6-5-1.png)
+![偏向锁](./img/6-5-1.png)
 
-![](./img/6-5-2.png)
+![偏向锁](./img/6-5-2.png)
 
 ### 轻量级锁的释放
 
@@ -1014,9 +1013,9 @@ Java对象由3部分组成：对象头，实例数据，对齐数据。对象头
 
 同时，虚拟机的开发团队也注意到在许多应用上，共享数据的锁定状态只会持续很短的一段时间，为了这段时间阻塞和唤醒线程并不值得。如果物理机器有一个以上的处理器，能让两个或以上的线程同时并行执行，我们就可以让后面请求锁的那个线程“稍等一下”，但不放弃处理器的执行时间，看看持有锁的线程是否很快就会释放锁。
 
-为了让线程等待，这个线程会在原地循环等待，这项技术就是所谓的自旋锁。自旋锁在 `JDK 1.4.2`中就已经引入，只不过默认是关闭的，可以使用`-XX:+UseSpinning`参数来开启，在`JDK 6`中就已经改为默认开启了。
+为了让线程等待，这个线程会在原地循环等待，这项技术就是所谓的自旋锁。自旋锁在`JDK1.4.2`中就已经引入，只不过默认是关闭的，可以使用`-XX:+UseSpinning`参数来开启，在`JDK6`中就已经改为默认开启了。
 
-自旋等待不能代替阻塞，且先不说对处理器数量的要求，自旋等待本身虽然避免了线程切换的开销，但它是要占用处理器时间的，因此，如果锁被占用的时间很短，自旋等 待的效果就会非常好，反之，如果锁被占用的时间很长。
+自旋等待不能代替阻塞，且先不说对处理器数量的要求，自旋等待本身虽然避免了线程切换的开销，但它是要占用处理器时间的，因此，如果锁被占用的时间很短，自旋等待的效果就会非常好，反之，如果锁被占用的时间很长。
 
 那么自旋的线程只会白白消耗处理器资源，而不会做任何有用的工作，反而会带来性能上的浪费。因此，自旋等待的时间必须要有一定的限度，如果自旋超过了限定的次数仍然没有成功获得锁，就应当使用传统的方式去挂起线程了。
 
@@ -1080,10 +1079,13 @@ public class T {
 降低synchronized锁的粒度：将一个锁拆分为多个锁提高并发度；
 
 ```java
-Hashtable hs=new Hashtable();
-        hs.put("aa","bb");
-        hs.put("xx","yy");
-
+class T {
+    void m() {
+        Hashtable hs = new Hashtable();
+        hs.put("aa", "bb");
+        hs.put("xx", "yy");
+    }
+}
 ```
 
 ![元素上锁](./img/6-9-1.png)

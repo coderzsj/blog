@@ -1,4 +1,4 @@
-## Change your nickname and talk nonsense
+# Change your nickname and talk nonsense
 
 看到猪头改昵称了，我忽然想起，几个月前就要改昵称，现在却还没有实施。
 

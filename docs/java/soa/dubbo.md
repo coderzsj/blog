@@ -8,19 +8,19 @@ category: soa
 
 ## 协议
 
-Dubbo: 单一长连接和 NIO 异步通讯，适合大并发小数据量的服务调用， 以及消费者远大于提供者。传输协议 `TCP`，异步，`Hessian` 序列化;
+Dubbo:单一长连接和NIO异步通讯，适合大并发小数据量的服务调用，以及消费者远大于提供者。传输协议`TCP`，异步，`Hessian`序列化;
 
-Rmi: 采用 JDK 标准的 rmi 协议实现，传输参数和返回参数对象需要实现 Serializable 接口，使用 java 标准序列化机制，使用阻塞式短连接，传输数 据包大小混合，消费者和提供者个数差不多，可传文件，传输协议 TCP。 多个短连接，TCP 协议传输，同步传输，适用常规的远程服务调用和 rmi 互 操作。在依赖低版本的 Common-Collections 包，java 序列化存在安全漏 洞;
+Rmi:采用JDK标准的rmi协议实现，传输参数和返回参数对象需要实现Serializable接口，使用java标准序列化机制，使用阻塞式短连接，传输数据包大小混合，消费者和提供者个数差不多，可传文件，传输协议TCP。多个短连接，TCP协议传输，同步传输，适用常规的远程服务调用和rmi互操作。在依赖低版本的Common-Collections包，java序列化存在安全漏洞;
 
-Webservice: 基于 WebService 的远程调用协议，集成 CXF 实现，提供和 原生 WebService 的互操作。多个短连接，基于 HTTP 传输，同步传输，适 用系统集成和跨语言调用;
+Webservice:基于WebService的远程调用协议，集成CXF实现，提供和原生WebService的互操作。多个短连接，基于HTTP传输，同步传输，适用系统集成和跨语言调用;
 
-Http: 基于 Http 表单提交的远程调用协议，使用 Spring 的 HttpInvoke 实 现。多个短连接，传输协议 HTTP，传入参数大小混合，提供者个数多于消 费者，需要给应用程序和浏览器 JS 调用;
+Http:基于Http表单提交的远程调用协议，使用Spring的HttpInvoke实现。多个短连接，传输协议HTTP，传入参数大小混合，提供者个数多于消费者，需要给应用程序和浏览器JS调用;
 
-Hessian:集成 Hessian 服务，基于 HTTP 通讯，采用 Servlet 暴露服务， Dubbo 内嵌 Jetty 作为服务器时默认实现，提供与 Hession 服务互操作。多 个短连接，同步 HTTP 传输，Hessian 序列化，传入参数较大，提供者大于 消费者，提供者压力较大，可传文件;
+Hessian:集成Hessian服务，基于HTTP通讯，采用Servlet暴露服务，Dubbo内嵌Jetty作为服务器时默认实现，提供与Hession服务互操作。多个短连接，同步HTTP传输，Hessian序列化，传入参数较大，提供者大于消费者，提供者压力较大，可传文件;
 
-Memcache: 基于 memcached 实现的 RPC 协议
+Memcache:基于memcached实现的RPC协议
 
-Redis: 基于 redis 实现的 RPC 协议
+Redis:基于redis实现的RPC协议
 
 ## Dubbo 超时时间
 

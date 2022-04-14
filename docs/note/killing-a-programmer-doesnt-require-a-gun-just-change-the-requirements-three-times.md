@@ -1,3 +1,9 @@
+---
+title: 杀死程序员不需要枪，只需更改要求三遍
+category: note
+---
+
+# killing-a-programmer-doesnt-require-a-gun-just-change-the-requirements-three-times
 
 在很多软件公司，特别是一些创业型的团队中，对于这样的情景可能大家都很熟悉：项目经理或者产品经理（产品狗）口头或者简单记录一下软件产品的大致要做的功能，直接就让研发团队的兄弟（程序猿）去狂撸代码。然后他就去喝茶撩妹或者回家陪老婆了...
 

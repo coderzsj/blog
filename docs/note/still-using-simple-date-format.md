@@ -137,9 +137,10 @@ public class SimpleDateFormatTest {
 
 如上代码，仅在需要用到的地方创建一个新的实例，就没有线程安全问题，不过也加重了创建对象的负担，会频繁地创建和销毁对象，效率较低。
 
-**synchronized大法好**
+synchronized大法好
 
 ```java
+class T{
     public static String formatDate(Date date) {
         synchronized (sdf) {
             return sdf.format(date);
@@ -150,12 +151,13 @@ public class SimpleDateFormatTest {
         synchronized (sdf) {
             return sdf.parse(strDate);
         }
-    }
+    }  
+}
 ```
 
 简单粗暴，synchronized往上一套也可以解决线程安全问题，缺点自然就是并发量大的时候会对性能有影响，线程阻塞。
 
-**ThreadLocal**
+ThreadLocal方法
 
 ```java
 public class SimpleDateFormatTLTest {
@@ -179,7 +181,7 @@ public class SimpleDateFormatTLTest {
 
 ThreadLocal可以确保每个线程都可以得到单独的一个SimpleDateFormat的对象，那么自然也就不存在竞争问题了。
 
-**基于JDK1.8的DateTimeFormatter**
+基于JDK1.8的DateTimeFormatter
 
 也是《阿里巴巴开发手册》给我们的解决方案，对之前的代码进行改造：
 

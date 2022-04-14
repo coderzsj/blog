@@ -49,11 +49,6 @@ export default defineThemeConfig({
         ],
     ],
     docsBranch: "dev",
-
-    algolia: {
-        apiKey: "",
-        indexName: "",
-    },
     search: {
         // https://v2.vuepress.vuejs.org/zh/reference/plugin/search.html
         // 排除首页

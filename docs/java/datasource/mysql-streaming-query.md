@@ -78,8 +78,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, ArticleEntity> i
 }
 ```
 
->⚠️注意这里的@Transactional ，没有这个的话会抛异常 java.lang.IllegalStateException: A Cursor is already closed.
->这是因为我们前面说了在取数据的过程中需要保持数据库连接，而 Mapper 方法通常在执行完后连接就关闭了，因此 Cusor 也一并关闭了。
+>⚠注意这里的@Transactional ，没有这个的话会抛异常`java.lang.IllegalStateException`: A Cursor is already closed.
+>这是因为我们前面说了在取数据的过程中需要保持数据库连接，而`Mapper`方法通常在执行完后连接就关闭了，因此 Cusor 也一并关闭了。
 
 所以，解决这个问题的思路不复杂，保持数据库连接打开即可。我们至少有三种方案可选。这里我们用的是方案三；
 

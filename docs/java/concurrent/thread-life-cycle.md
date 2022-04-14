@@ -8,7 +8,7 @@ tag:
 
 # thread
 
-# 线程生命周期，五大状态转换分析
+## 线程生命周期，五大状态转换分析
 
 ## 前言
 
@@ -18,7 +18,7 @@ tag:
 
 一个完整的线程生命周期，要经过 新建(new)、就绪(Runnable)、运行(Running)、阻塞(Blocked)和死亡(Dead)5 种状态。
 
-![](./image/1-1.png)
+![线程生命周期](./image/1-1.png)
 
 ### 1.new 阶段
 
@@ -118,11 +118,11 @@ Java.lang.Thread.State
 
 在该阶段中，线程可以向前或者向后发生转换：
 
-- 由于 CPU 的调度器轮询导致该线程放弃执行，就会进入 Runnable 阶段。
-- 线程主动调用 yield，放弃 CPU 执行权，就会进入 Runnable 阶段(这种方式并不是百分百生效的，在 CPU 资源不紧张的时候不会生效)。
-- 调用 sleep、wait 方法，进入 Blocked 阶段(这里讲的 Blocked 阶段和线程的 Blocked 状态需要区分开，这边讲的是一个比较广义的 Blocked 的阶段)
-- 进行某个阻塞的 IO 操作而进入 Blocked 阶段
-- 为了获取某个锁资源而加入到该锁到阻塞队列中而进入 Blocked 阶段
-- 线程执行完成或者调用 stop 方法或者判断某个逻辑标识，直接进入 Terminated 阶段
+- 由于CPU的调度器轮询导致该线程放弃执行，就会进入Runnable阶段。
+- 线程主动调用yield，放弃CPU执行权，就会进入Runnable阶段(这种方式并不是百分百生效的，在CPU资源不紧张的时候不会生效)。
+- 调用sleep、wait方法，进入Blocked阶段(这里讲的Blocked阶段和线程的Blocked状态需要区分开，这边讲的是一个比较广义的Blocked的阶段)
+- 进行某个阻塞的IO操作而进入Blocked阶段
+- 为了获取某个锁资源而加入到该锁到阻塞队列中而进入Blocked阶段
+- 线程执行完成或者调用stop方法或者判断某个逻辑标识，直接进入Terminated阶段
 
 ### wait

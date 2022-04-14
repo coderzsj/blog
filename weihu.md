@@ -1,6 +1,6 @@
-D:\git-code\myblog\blog
+# docker command
 
-## docker 命令
+D:\git-code\myblog\blog
 
 1、启动Docker 守护进程
 
@@ -72,13 +72,13 @@ Service nginx restart
 
 ## Dockfile
 
-是一个用于编写docker镜像生成过程的文件，其有特定的语法。在一个文件夹中，如果有一个名字为Dockfile的文件，其内容满足语法要求，在这个文件夹路径下执行命令:docker build --tag name:tag .，就可以按照描述构建一个镜像了。name是镜像的名称，tag是镜像的版本或者是标签号，不写就是lastest。注意后面有一个空格和点。
+是一个用于编写docker镜像生成过程的文件，其有特定的语法。在一个文件夹中，如果有一个名字为Dockfile的文件，其内容满足语法要求，在这个文件夹路径下执行命令:`docker build --tag name:tag`，就可以按照描述构建一个镜像了。name是镜像的名称，tag是镜像的版本或者是标签号，不写就是lastest。注意后面有一个空格和点。
 
 ## docker-compose
 
-假如，你有一个java镜像，一个mysql镜像，一个nginx镜像。如果没有docker-compose，那么每次启动的时候，你需要敲各个容器的启动参数，环境变量，容器命名，指定不同容器的链接参数等等一系列的操作，相当繁琐。而用了docker-composer之后，你就可以把这些命令一次性写在docker-composer.yml文件中，以后每次启动这一整个环境（含3个容器）的时候，你只要敲一个docker-composer up命令就ok了。
+假如，你有一个java镜像，一个mysql镜像，一个nginx镜像。如果没有docker-compose，那么每次启动的时候，你需要敲各个容器的启动参数，环境变量，容器命名，指定不同容器的链接参数等等一系列的操作，相当繁琐。而用了docker-composer之后，你就可以把这些命令一次性写在docker-composer.yml文件中，以后每次启动这一整个环境（含3个容器）的时候，你只要敲一个`docker-composer up`命令就ok了。
 
-构建yml(需进入包含docker-compose.yml的文件夹) docker-compose build
+构建yml(需进入包含`docker-compose.yml`的文件夹) docker-compose build
 
 部署并后台启动(需进入包含docker-compose.yml的文件夹) docker-compose up -d
 
@@ -93,9 +93,3 @@ Service nginx restart
 进入指定镜像的命令行 `docker exec -it [ID或者名字] bash`
 
 注意如果报错，可尝试使用sh而不是bash
-
-bj_ownpay_patn_mdtrt_d 的rchk_flag的 现在标志都是1，1是未初审状态，应该是图片圈起来的状态都有才是
-
-bj_ownpay_patn_mdtrt_d 表的数据，医疗类别都只有 21，是没有其他医疗类别的数据吗；
-
-还有bj_ownpay_patn_mdtrt_d , bj_ownpay_patn_fee_list_d 可以通过 FIXMEDINS_MDTRT_ID（医院就诊id ） 或 mdtrt_id（就诊id ）关联，现在这两个字段都关联不上

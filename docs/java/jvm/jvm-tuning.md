@@ -1,5 +1,5 @@
 ---
-title: jvm-tiaoyou
+title: jvm-tuning
 icon: youhuayunhang
 category: jvm
 tag:
@@ -13,7 +13,7 @@ tag:
 
 第一步，发现系统很卡，或者日志里频繁出现 OOM 异常。
 
-第二步，用 dump 文件看 OOM 时的内存镜像，看的工具可以是 JMAT。这两个步骤是通用的。
+第二步，用 dump 文件看 OOM 时的内存镜像，看的工具可以是`JMAT`。这两个步骤是通用的。
 
 生成dump文件 `jmap -dump:live,format=b,file=xxxx.bin 进程ID`
 

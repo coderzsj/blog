@@ -30,13 +30,13 @@ Redis Sentinel可以理解为一个监控Redis Server服务是否正常的进程
 
 方案1：单机版Redis Server，无Sentinel
 
-![](./img/单机版redis-server，无Sentinel.png)
+![单机版redis-server，无Sentinel](./img/单机版redis-server，无Sentinel.png)
 
 一般情况下，我们搭的个人网站，或者平时做开发时，会起一个单实例的Redis Server。调用方直接连接Redis服务即可，甚至Client和Redis本身就处于同一台服务器上。这种搭配仅适合个人学习娱乐，毕竟这种配置总会有单点故障的问题无法解决。一旦Redis服务进程挂了，或者服务器1停机了，那么服务就不可用了。并且如果没有配置Redis数据持久化的话，Redis内部已经存储的数据也会丢失。
 
 方案2：主从同步Redis Server，单实例Sentinel
 
-![](./img/主从同步redis-server，单实例Sentinel.png)
+![主从同步redis-server，单实例Sentinel](./img/主从同步redis-server，单实例Sentinel.png)
 
 为了实现高可用，解决方案1中所述的单点故障问题，我们必须增加一个备份服务，即在两台服务器上分别各启动一个Redis Server进程，一般情况下由master提供服务，slave只负责同步和备份。与此同时，在额外启动一个Sentinel进程，监控两个Redis Server实例的可用性，以便在master挂掉的时候，及时把slave提升到master的角色继续提供服务，这样就实现了Redis Server的高可用。这基于一个高可用服务设计的依据，即单点故障本身就是个小概率事件，而多个单点同时故障（即master和slave同时挂掉），可以认为是（基本）不可能发生的事件。
 
@@ -46,7 +46,7 @@ Redis Sentinel可以理解为一个监控Redis Server服务是否正常的进程
 
 方案3：主从同步Redis Server，双实例Sentinel
 
-![](./img/主从同步redis-server，双实例Sentinel.png)
+![主从同步redis-server，双实例Sentinel](./img/主从同步redis-server，双实例Sentinel.png)
 
 为了解决方案2的问题，我们把Redis Sentinel进程也额外启动一份，两个Sentinel进程同时为客户端提供服务发现的功能。对于客户端来说，它可以连接任何一个Redis Sentinel服务，来获取当前Redis Server实例的基本信息。通常情况下，我们会在Client端配置多个Redis Sentinel的链接地址，Client一旦发现某个地址连接不上，会去试图连接其他的Sentinel实例，这当然也不需要我们手动实现，各个开发语言中比较热门的redis连接库都帮我们实现了这个功能。我们预期是：即使其中一个Redis Sentinel挂掉了，还有另外一个Sentinel可以提供服务。
 
@@ -54,13 +54,13 @@ Redis Sentinel可以理解为一个监控Redis Server服务是否正常的进程
 
 你可能会问，为什么Redis要有这个50%的设定？假设我们允许小于等于50%的Sentinel连通的场景下也可以进行主从切换。试想一下【异常3】，即服务器1和服务器2之间的网络中断，但是服务器本身是可以运行的。如下图所示：
 
-![](./img/主从同步redis-server，双实例Sentinel（2）.png)
+![主从同步redis-server，双实例Sentinel（2）](./img/主从同步redis-server，双实例Sentinel（2）.png)
 
 实际上对于服务器2来说，服务器1直接down掉和服务器1网络连不通是一样的效果，反正都是突然就无法进行任何通信了。假设网络中断时我们允许服务器2的Sentinel把slave切换为master，结果就是你现在拥有了两个可以对外提供服务的Redis Server。Client做任何的增删改操作，有可能落在服务器1的Redis上，也有可能落在服务器2的Redis上（取决于Client到底连通的是哪个Sentinel），造成数据混乱。即使后面服务器1和服务器2之间的网络又恢复了，那我们也无法把数据统一了（两份不一样的数据，到底该信任谁呢？），数据一致性完全被破坏。
 
 ## 方案4：主从同步Redis Server，三实例Sentinel
 
-![](./img/主从同步redis-server，三实例Sentinel.png)
+![主从同步redis-server，三实例Sentinel](./img/主从同步redis-server，三实例Sentinel.png)
 
 鉴于方案3并没有办法做到高可用，我们最终的版本就是上图所示的方案4了。实际上这就是我们最终搭建的架构。我们引入了服务器3，并且在3上面又搭建起一个Redis Sentinel进程，现在由三个Sentinel进程来管理两个Redis Server实例。这种场景下，不管是单一进程故障、还是单个机器故障、还是某两个机器网络通信故障，都可以继续对外提供Redis服务。
 

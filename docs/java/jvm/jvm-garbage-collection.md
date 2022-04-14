@@ -4,7 +4,7 @@ category: jvm
 date: 2021-02-01
 tag:
   - jvm
-  - 优化
+  - optimization
 ---
 
 ::: 关于Java垃圾回收的简介

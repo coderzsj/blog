@@ -1,11 +1,13 @@
 ---
-title: sql keyword
+title: sql-keyword
 icon: sql
 category: mysql
 tag:
   - mysql
   - sql
 ---
+  
+# sql-keyword
 
 ## SQL CASE 语句
 

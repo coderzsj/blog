@@ -502,11 +502,10 @@ public class T {
 -XX:+DisableExplicitGC  // 静止显示的 GC
 ```
 
-意思就是禁止我们手动的 GC，比如手动 System.gc() 无效，它是一种 full gc，会回收新生代、老年代，会造成程序执行的时间比较长。所以我们就通过 unsafe 对象调用 freeMemory 的方式释放内存。
+意思就是禁止我们手动的GC，比如手动`System.gc()`无效，它是一种`full gc`，会回收新生代、老年代，会造成程序执行的时间比较长。所以我们就通过unsafe对象调用`free Memory`的方式释放内存。
 
-[csdn](https://blog.csdn.net/weixin_50280576/article/details/113742011)
-
-[bilibili](https://www.bilibili.com/video/BV1yE411Z7AP?from=search&seid=14402867104835325411&spm_id_from=333.337.0.0)
+- [csdn](https://blog.csdn.net/weixin_50280576/article/details/113742011)
+- [bilibili](https://www.bilibili.com/video/BV1yE411Z7AP?from=search&seid=14402867104835325411&spm_id_from=333.337.0.0)
 
 ## JVM堆内存详解
 
@@ -562,7 +561,7 @@ JDK1.8之后，取消perm永久代，转而用元空间代替
 
 ### 空间分配担保
 
-在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看`HandlePromotionFailure`设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试着进行一次Minor GC，尽管这次Minor GC是有风险的，如果担保失败则会进行一次Full GC；如果小于，或者`HandlePromotionFailure`
-设置不允许冒险，那这时也要改为进行一次Full GC。
+在发生`Minor GC`之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看`HandlePromotionFailure`设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试着进行一次Minor GC，尽管这次`Minor GC`是有风险的，如果担保失败则会进行一次Full GC；如果小于，或者`HandlePromotionFailure`
+设置不允许冒险，那这时也要改为进行一次`Full GC`。
 
 HotSpot默认是开启空间分配担保的。

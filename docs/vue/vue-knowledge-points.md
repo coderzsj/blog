@@ -40,12 +40,11 @@ Then 中的回调函数可以有一个参数，也可以不带参数。如果 th
 });
 ```
 
-代码臃肿。
-可读性差。
-耦合度过高，可维护性差。
-代码复用性差。
-容易滋生 bug。
-只能在回调里处理异常。
+- 代码臃肿。
+- 可读性差。
+- 耦合度过高，可维护性差。
+- 代码复用性差。
+- 只能在回调里处理异常。
 
 比传统的异步解决方案【回调函数】和【事件】更合理、更强大。
 
@@ -62,9 +61,11 @@ new Promise(请求1)
 
 ### Promise.resolve(value)
 
-类方法，该方法返回一个以 value 值解析后的 Promise 对象 1、如果这个值是个 thenable(即带有 then 方法)，返回的 Promise 对象会“跟随”这个 thenable 的对象，采用它的最终状态(指 resolved/rejected/pending/settled)
-2、如果传入的 value 本身就是 Promise 对象，则该对象作为 Promise.resolve 方法的返回值返回。
-3、其他情况以该值为成功状态返回一个 Promise 对象。
+类方法，该方法返回一个以value值解析后的Promise对象
+
+1. 如果这个值是个thenable(即带有then方法)，返回的Promise对象会“跟随”这个thenable的对象，采用它的最终状态(指resolved/rejected/pending/settled)
+2. 如果传入的value本身就是Promise对象，则该对象作为Promise.resolve方法的返回值返回。
+3. 其他情况以该值为成功状态返回一个Promise对象。
 
 上面是 resolve 方法的解释，传入不同类型的 value 值，返回结果也有区别。这个 API 比较重要，建议大家通过练习一些小例子，并且配合上面的解释来熟悉它。如下几个小例子：
 
@@ -83,7 +84,7 @@ console.log(p0 === p1);
 
 ### Promise.prototype.then
 
-实例方法，为 Promise 注册回调函数，函数形式：fn(vlaue){}，value 是上一个任务的返回结果，then 中的函数一定要 return 一个结果或者一个新的 Promise 对象，才可以让之后的 then 回调接收
+实例方法，为Promise注册回调函数，函数形式：`fn(vlaue){}`，value是上一个任务的返回结果，`then`中的函数一定要`return`一个结果或者一个新的`Promise`对象，才可以让之后的then回调接收
 
 ### Promise.prototype.catch
 
