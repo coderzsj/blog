@@ -1,5 +1,5 @@
 ---
-title: sql tiaoyou
+title: sql优化
 icon: youhuayunhang
 category: mysql
 author: 狼爷、zsj
