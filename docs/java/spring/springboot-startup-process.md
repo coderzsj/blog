@@ -1,10 +1,10 @@
 ---
-title: autowire
+title: springboot自动装配原理
 icon: zidong-02
 category: spring
 date: 2021-10-21
 tag:
-  - spring
+  - springboot
   - transaction
 ---
 

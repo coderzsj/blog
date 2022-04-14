@@ -1,5 +1,5 @@
 ---
-title: fubuhi transaction
+title: 分布式事务
 icon: fubuhi
 category: 分布式
 date: 2021-10-21

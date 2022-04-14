@@ -5,7 +5,6 @@ icon: home
 title: 主页
 heroImage: /logo.svg
 heroText: shijing
-heroFullScreen: true
 tagline: keep reading,keep coding
 projects:
   - name: java

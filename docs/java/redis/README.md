@@ -1,5 +1,5 @@
 ---
-title: redis-content
+title: 缓存目录
 category: 目录
 icon: mulu
 star: 4

@@ -1,6 +1,6 @@
 ---
 title: 分布式目录
-categories: 分布式
+category: 分布式
 icon: mulu
 tag:
   - 目录

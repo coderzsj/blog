@@ -1,5 +1,5 @@
 ---
-title: jvm content
+title: java虚拟机目录
 category: 目录
 icon: mulu
 star: 4
