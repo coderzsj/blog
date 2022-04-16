@@ -22,6 +22,13 @@ export default defineThemeConfig({
             zhihu: "https://blog.csdn.net/qq_43183527",
         },
     },
+    encrypt: {
+        config: {
+          // 这会加密整个 guide 目录，并且两个密码都是可用的
+          "/java/interview": ["1", "5678"],
+          // 这只会加密 config/page.html
+        },
+    },
     footer:
         '<a href="https://beian.miit.gov.cn/" target="_blank">晋ICP备2021007439号</a>',
     displayFooter: true,

@@ -1,5 +1,5 @@
 ---
-title: redis分布式集群
+title: Redis知识点汇总
 category: 缓存
 icon: interview
 tag:

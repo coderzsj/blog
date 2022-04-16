@@ -1,15 +1,9 @@
 ---
-title: 缓存调优
+title: Redis调优
 category: 缓存
 tag:
   - 优化
 ---
-
-# redis
-
-## tiaoyou
-
-比如业务请求里，会经常用公司 ID 向风控模块看风险情况，那么就可以用 ID 做键，风控字段做值，另外再把 null 放到键里，以放缓存击穿。
 
 ## 跳表
 

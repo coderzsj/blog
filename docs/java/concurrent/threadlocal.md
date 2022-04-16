@@ -5,7 +5,7 @@ tag:
  - ThreadLocal
 ---
 
-## ThreadLocal简介
+## 1、ThreadLocal简介
 
 我们已经知道了变量值的共享可以使用public static变量的形式，所有的线程都使用同一个被public static修饰的变量。
 
@@ -15,7 +15,7 @@ tag:
 
 首先，它是一个数据结构，有点像 HashMap，可以保存"key : value"键值对，但是一个 ThreadLocal 只能保存一个，并且各个线程的数据互不干扰。
 
-## 先举个栗子
+## 2、ThreadLocal实例
 
 ```java
 class T{
@@ -33,13 +33,7 @@ class T{
 
 当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本。
 
-## ThreadLocal与synchronized同步机制的比较
-
-在同步机制中，通过对象的锁机制保证同一时间只有一个线程访问变量。这时该变量是多个线程共享的，使用同步机制要求程序缜密地分析什么时候对变量进行读写，什么时候需要锁定某个对象，什么时候释放对象锁等繁杂的问题，程序设计和编写难度相对较大。
-
-ThreadLocal是线程局部变量，是一种多线程间并发访问变量的解决方案。和synchronized等加锁的方式不同，ThreadLocal完全不提供锁，而使用以空间换时间的方式，为每个线程提供变量的独立副本，以保证线程的安全。
-
-## 看看set(T value)和get()方法的源码
+## 3、ThreadLocal源码中set(T value)和get()等方法的实现
 
 ```java
 public class T {
@@ -72,10 +66,16 @@ public class T {
 }
 ```
 
+## 4、ThreadLocal与synchronized同步机制的比较
+
+在同步机制中，通过对象的锁机制保证同一时间只有一个线程访问变量。这时该变量是多个线程共享的，使用同步机制要求程序缜密地分析什么时候对变量进行读写，什么时候需要锁定某个对象，什么时候释放对象锁等繁杂的问题，程序设计和编写难度相对较大。
+
+ThreadLocal是线程局部变量，是一种多线程间并发访问变量的解决方案。和synchronized等加锁的方式不同，ThreadLocal完全不提供锁，而使用以空间换时间的方式，为每个线程提供变量的独立副本，以保证线程的安全。
+
 Thread线程类中存在ThreadLoalMap的对象，它也是一个类似HashMap的数据结构，但是在ThreadLocal中，并没实现Map接口。
 
 在ThreadLoalMap中，也是初始化一个大小16的Entry数组，Entry对象用来保存每一个key-value键值对，只不过这里的key永远都是ThreadLocal对象，通过ThreadLocal对象的set方法，结果把ThreadLocal对象自己当做key，放进了ThreadLoalMap中。
 
-## Entry 是继承 WeakReference
+## 5、Entry 是继承 WeakReference
 
 这里需要注意的是，ThreadLoalMap的Entry是继承`WeakReference`，和HashMap很大的区别是，Entry中没有next字段，所以就不存在链表的情况了。
