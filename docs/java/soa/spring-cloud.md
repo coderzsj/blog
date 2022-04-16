@@ -1,10 +1,12 @@
 ---
-title: spring cloud
+title: spring cloud笔记
 icon: cloud
 category: soa
 tag:
   - soa
 ---
+
+# spring cloud笔记
 
 ## 什么是微服务？spring cloud
 
@@ -18,7 +20,7 @@ spring cloud是一系列框架的有序集合，它利用了spring boot的开发
 
 但是，微服务架构是一个趋势，而SpringCloud是为服务解决方案的佼佼者。
 
-## 　微服务优缺点
+## 微服务优缺点
 
 - 单一职责原则；
 - 每个服务足够内聚，足够小，代码容易理解，这样能聚焦一个指定的业务功能或业务需求；
@@ -39,8 +41,9 @@ spring cloud是一系列框架的有序集合，它利用了spring boot的开发
 
 缺点：
 
-1. 项目结构复杂，每一个组件或者每一个微服务都需要创建一个项目。
-2. 部署门槛高，项目部署需要配合DOCKER等容器技术进行集群部署，而是想要深入了解DOCKER，学习成本高。
+1. 项目结构复杂，每一个组件或者每一个微服务都需要创建一个项目。我们还需要考虑对各个微服务进行管理、监控等，这样我们才能及时的寻找和排查问题。因此为服务往往需要的是一整套解决方案，包括服务注册和发现、容灾处理、负载均衡、配置管理等。
+2. 它不像单体架构那种方便维护，由于部署在多个服务器，部署门槛高，项目部署通常需要配合DOCKER等容器技术进行集群部署，而是想要深入了解DOCKER，学习成本高，在管理难度上肯定是高于传统单体应用的。
+3. 在分布式的环境下，单体应用的某些功能会变的比较麻烦，比如分布式事务、分布式ID。
 
 ## SpringCloud项目搭建
 
@@ -85,31 +88,28 @@ spring cloud是一系列框架的有序集合，它利用了spring boot的开发
 
 ## 微服务之间是如何独立通讯的？
 
-同步（REST HTTP协议，RPC TCP 协议）
-
-同步（REST HTTP协议，RPC TCP 协议）
-
-异步（消息中间件，例如 Kafka、ActiveMQ、RabbitMQ、RocketMQ）
+- 同步（REST HTTP协议，RPC TCP 协议）
+- 同步（REST HTTP协议，RPC TCP 协议）
+- 异步（消息中间件，例如 Kafka、ActiveMQ、RabbitMQ、RocketMQ）
 
 REST HTTP 协议（编写restful风格接口，调用接口）（springcloud使用REST通信）
 
-RPC TCP 协议（客户端代理序列化方法和参数传入服务器，服务器代理解码方法和参数并执行方法，将结果再序列化传回去，客户端代理再解码结果得到结果）
+RPC TCP 协议（**客户端代理序列化方法和参数传入服务器**，服务器代理解码方法和参数并执行方法，将结果再序列化传回去，客户端代理再解码结果得到结果）
 
 springboot 可以springCloud
 
 ## SpringCloud 常见组件
 
-•注册中心组件：Eureka、Nacos 等
+- 注册中心组件：Eureka、`Nacos` 等
+- 负载均衡组件：Ribbon
+- 远程调用组件：OpenFeign
+- 网关组件：Zuul、Gateway
+- 服务保护组件：Hystrix、Sentinel
+- 服务配置管理组件：SpringCloudConfig、Nacos
 
-•负载均衡组件：Ribbon
+## 注册中心
 
-•远程调用组件：OpenFeign
-
-•网关组件：Zuul、Gateway
-
-•服务保护组件：Hystrix、Sentinel
-
-•服务配置管理组件：SpringCloudConfig、Nacos
+官方文档
 
 ## Nacos 的 服务注册表结构是怎样的？
 
@@ -117,23 +117,32 @@ springboot 可以springCloud
 
 Nacos 采用了数据的分级存储模型，最外层是 Namespace，用来隔离环境。然后是 Group，用来对服务分组。接下来就是服务(Service)了，一个服务包含多个实例，但是可能处于不同机房，因此 Service 下有多个集群(Cluster)，Cluster 下是不同的实例(Instance)。
 
-对应到 Java 代码中，Nacos 采用了一个多层的 Map 来表示。结构为 Map<String, Map<String, Service>>，其中最外层 Map 的 key 就是 namespaceId，值是一个 Map。内层 Map 的 key 是 group 拼接 serviceName，值是 Service 对象。Service 对象内部又是一个 Map，key 是集群名称，值是 Cluster 对象。而 Cluster 对象内部维护了 Instance 的集合。
+对应到Java代码中，`Nacos`采用了一个多层的Map来表示。结构为`Map<String,Map<String,Service>>`，其中最外层Map的key就是namespaceId，值是一个Map。内层Map的key是group拼接serviceName，值是Service对象。Service对象内部又是一个Map，key是集群名称，值是Cluster对象。而Cluster对象内部维护了Instance的集合。
 
 如图：
 
 ![image-20210925215305446](./assets/image-20210925215305446.png)
 
+|
+## Nacos 的服务注册表结构
+
+问题: 考察对 Nacos 数据分级结构的了解，以及 Nacos 源码的掌握情况
+
+Nacos 采用了数据的分级存储模型，最外层是 Namespace，用来隔离环境。然后是 Group，用来对服务分组。接下来就是服务(Service)了，一个服务包含多个实例，但是可能处于不同机房，因此 Service 下有多个集群(Cluster)，Cluster 下是不同的实例(Instance)。
+
+对应到Java代码中，`Nacos`采用了一个多层的Map来表示。结构为`Map<String,Map<String,Service>>`，其中最外层Map的key就是namespaceId，值是一个Map。内层Map的key是group拼接serviceName，值是Service对象。Service
+
 ## Nacos 如何支撑阿里内部数十万服务注册压力？
 
-Nacos 内部接收到注册的请求时，不会立即写数据，而是将服务注册的任务放入一个阻塞队列就立即响应给客户端。
+`Nacos`内部接收到注册的请求时，不会立即写数据，而是将服务注册的任务放入一个阻塞队列就立即响应给客户端。
 
 然后利用线程池读取阻塞队列中的任务，异步来完成实例更新，从而提高并发写能力。
 
 ## Nacos 如何避免并发读写冲突问题？
 
-问题: 考察对 Nacos 源码的掌握情况
+问题: 考察对Nacos源码的掌握情况
 
-Nacos 在更新实例列表时，会采用 CopyOnWrite 技术，首先将旧的实例列表拷贝一份，然后更新拷贝的实例列表，再用更新后的实例列表来覆盖旧的实例列表。
+Nacos在更新实例列表时，会采用CopyOnWrite技术，首先将旧的实例列表拷贝一份，然后更新拷贝的实例列表，再用更新后的实例列表来覆盖旧的实例列表。
 
 这样在更新的过程中，就不会对读实例列表的请求产生影响，也不会出现脏读问题了。
 
@@ -141,10 +150,10 @@ Nacos 在更新实例列表时，会采用 CopyOnWrite 技术，首先将旧的�
 
 Nacos 与 Eureka 有相同点，也有不同之处，可以从以下几点来描述：
 
-- **接口方式**：Nacos 与 Eureka 都对外暴露了 Rest 风格的 API 接口，用来实现服务注册、发现等功能
-- **实例类型**：Nacos 的实例有永久和临时实例之分；而 Eureka 只支持临时实例
-- **健康检测**：Nacos 对临时实例采用心跳模式检测，对永久实例采用主动请求来检测；Eureka 只支持心跳模式
-- **服务发现**：Nacos 支持定时拉取和订阅推送两种模式；Eureka 只支持定时拉取模式
+- 接口方式：Nacos与Eureka都对外暴露了Rest风格的API接口，用来实现服务注册、发现等功能
+- 实例类型：Nacos的实例有永久和临时实例之分；而Eureka只支持临时实例
+- 健康检测：Nacos对临时实例采用心跳模式检测，对永久实例采用主动请求来检测；Eureka只支持心跳模式
+- 服务发现：Nacos支持定时拉取和订阅推送两种模式；Eureka只支持定时拉取模式
 
 ## Sentinel 的限流与 Gateway 的限流有什么差别？
 
@@ -164,15 +173,25 @@ Gateway 则采用了基于 Redis 实现的令牌桶算法。
 
 线程隔离方案的掌握
 
-Hystix 默认是基于线程池实现的线程隔离，每一个被隔离的业务都要创建一个独立的线程池，线程过多会带来额外的 CPU 开销，性能一般，但是隔离性更强。
+`Hystix`默认是基于线程池实现的线程隔离，每一个被隔离的业务都要创建一个独立的线程池，线程过多会带来额外的CPU开销，性能一般，但是隔离性更强。
 
-Sentinel 是基于 信号量 实现的线程隔离，不用创建线程池，性能较好，但是隔离性一般。
+Sentinel是基于信号量实现的线程隔离，不用创建线程池，性能较好，但是隔离性一般。
 
 ## 服务熔断，服务降级
 
 服务熔断（提供者）
 
 Hystrix解决服务雪崩的方案（服务熔断）：
+
+```flow
+serviceA =>operation: 服务A
+serviceB =>operation: 服务B
+serviceC =>operation: 服务C
+serviceD =>operation: 服务D
+serviceE =>operation: 服务E
+
+serviceA(right)->serviceB(right)->serviceC(right)->serviceD(right)->serviceE
+```
 
 在不可用的服务中服务端给调用方返回备用响应，就可以继续运行调用之后的服务，就可以避免长时间的等待或抛出无法解决的异常，无法释放调用线程，导致服务雪崩
 

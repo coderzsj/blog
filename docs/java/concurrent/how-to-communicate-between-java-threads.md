@@ -7,6 +7,34 @@ category: 进程与线程
 
 通信的目的是为了更好的协作，线程无论是`交替`式执行，还是`接力`式执行，都需要进行通信告知。
 
+代码二相对于代码一的效率问题，其实是为了解决1%几率的问题，而使用了一个100%出现的防护盾。那有一个优化的思路，就是把100%出现的防护盾，也改为1%的几率出现，使之只出现在可能会导致多个实例出现的地方。
+
+代码如下：
+
+```java
+class Singleton {
+    private volatile Singleton singleton;
+    
+    private Singleton(){}
+
+    public Singleton getSingleton() {
+        if (singleton = null){
+            synchronized (singleton.class){
+                if (singleton = null){
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+}
+```
+
+这段代码看起来有点复杂，注意其中有两次if(instance==null)的判断，这个叫做『双重检查 Double-Check』。
+
+- 第一个 if(instance==null)，其实是为了解决代码二中的效率问题，只有instance为null的时候，才进入synchronized的代码段大大减少了几率。
+- 第二个if(instance==null)，则是跟代码二一样，是为了防止可能出现多个实例的情况。
+
 ## 使用 volatile 保证可见性 synchronized
 
 Volatile 有两大特性，一是可见性(让线程之间进行通信)，二是有序性，禁止指令重排序

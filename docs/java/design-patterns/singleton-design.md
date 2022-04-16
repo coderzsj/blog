@@ -6,7 +6,7 @@ tag: 单例模式
 
 在介绍单例模式之前，我们先了解一下，什么是设计模式？
 
-## 设计模式（Design Pattern）：
+## 一、设计模式（Design Pattern）
 
 是一套被反复使用，多数人知晓的，经过分类编目的，代码设计经验的总结。
 
@@ -14,13 +14,10 @@ tag: 单例模式
 
 本文将会用到的关键词：
 
-单例：Singleton
-
-实例：instance
-
-同步：synchronized
-
-类装载器：ClassLoader
+- 单例：Singleton
+- 实例：instance
+- 同步：synchronized
+- 类装载器：ClassLoader
 
 ## 单例模式：
 
@@ -68,26 +65,58 @@ public class Singleton {
 
 ## 懒汉模式：
 
-懒汉模式的代码如下
+懒汉模式的代码如下：
 
-每次获取instance之前先进行判断，如果instance为空就new一个出来，否则就直接返回已存在的instance。
+```java
+public class LazySingleton{
+    private static LazySingleton singleton;
+    
+    public static String VARIABLE = "hello world"; 
+    
+    private LazySingleton(){
+        System.out.println("LazySingleton is created");
+    }
+    
+    public static LazySingleton getInstance(){
+        if(singleton == null){
+            singleton = new LazySingleton();
+        }
+        return singleton;
+    }
+    
+    public static void main(String[] args){
+        for (int i = 0; i < 10; i++) {
+            System.out.printf(LazySingleton.VARIABLE);
+        }
+    }
+}
+```
 
-这种写法在单线程的时候是没问题的。但是，当有多个线程一起工作的时候，如果有两个线程同时运行到 if (instance == null)，都判断为null（第一个线程判断为空之后，并没有继续向下执行，当第二个线程判断的时候instance依然为空），最终两个线程就各自会创建一个实例出来。这样就破环了单例模式 实例的唯一性
-
-加上synchronized关键字之后，getInstance方法就会锁上了。如果有两个线程（T1、T2）同时执行到这个方法时，会有其中一个线程T1获得同步锁，得以继续执行，而另一个线程T2则需要等待，当第T1执行完毕getInstance之后（完成了null判断、对象创建、获得返回值之后），T2线程才会执行执行。
-
-所以这段代码也就避免了代码一中，可能出现因为多线程导致多个实例的情况。但是，这种写法也有一个问题：给getInstance方法加锁，虽然避免了可能会出现的多个实例问题，但是会强制除T1之外的所有线程等待，实际上会对程序的执行效率造成负面影响。
+可以看出，只要我们不调用getInstance()方法，就不会常见instance，就可以很好的保证了第一次调用的时候创建对象。
 
 ## 双重检查（Double-Check）
 
-代码二相对于代码一的效率问题，其实是为了解决1%几率的问题，而使用了一个100%出现的防护盾。那有一个优化的思路，就是把100%出现的防护盾，也改为1%的几率出现，使之只出现在可能会导致多个实例出现的地方。
+```java
+class Singleton {
+    private volatile Singleton singleton;
+    
+    private Singleton(){}
 
-代码如下：
+    public Singleton getSingleton() {
+        if (singleton = null){
+            synchronized (singleton.class){
+                if (singleton = null){
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+}
+```
 
-这段代码看起来有点复杂，注意其中有两次if(instance==null)的判断，这个叫做『双重检查 Double-Check』。
+怎么说哪？代码量确实比较多，并且难以理解，为什么使用`volatile` ，以及为什么是两次判空，这些都很难理解，并且在一些低版本的JDK还不能够保证执行的正确性，所以代码中也不推荐大家用，但作为一种思想还是有必要研究一下！
 
-- 第一个 if(instance==null)，其实是为了解决代码二中的效率问题，只有instance为null的时候，才进入synchronized的代码段大大减少了几率。
-- 第二个if(instance==null)，则是跟代码二一样，是为了防止可能出现多个实例的情况。
 
 这段代码看起来已经完美无瑕了。当然，只是『看起来』，还是有小概率出现问题的。想要充分理解需要先弄清楚以下几个概念：原子操作、指令重排。
 

@@ -8,11 +8,13 @@ tag:
 
 ---
 
+## 八种排序算法汇总
+
 ## 8sort-algo
 
 ![排序算法架构](./assets/20220415/summary-of-eight-sorting-algorithms-1650035855056.png)
 
-##  
+##  堆排序
 1）数组构建成二叉堆。(小到大排序,则构建最大堆)； 2）循环删除堆顶元素,替换到二叉堆的末尾,调整堆产生新的堆顶。
 
 ```java
@@ -46,7 +48,7 @@ class T {
 
     /**
      * 堆排序（升序）
-     * @param arr待调整的堆
+     * @param arr 待调整的堆
      */
     public static void heapSort(int[] arr) {
         //1. 把无序数组构建成最大堆
@@ -441,3 +443,8 @@ public class T {
 | 归并   | ×    | √    |
 | 堆    | √    | ×    |
 | 桶    | ×    | ×    |
+
+
+
+
+

@@ -3,7 +3,7 @@ import {defineSidebarConfig} from "vuepress-theme-hope";
 export const sidebarConfig = defineSidebarConfig({
     // 应该把更精确的路径放置在前边
     "/vue/": ["","Typescript", "vue-knowledge-points", "frequently-asked-questions.md", "instruction.md", ],
-    "/tool/": ["", "docker", "git", "tool"],
+    "/tool/": ["", "docker", "git", "tool","vscode-plugins-and-configuration","idea-plugin"],
     "/about/": [""],
     "/java/": [
         "",

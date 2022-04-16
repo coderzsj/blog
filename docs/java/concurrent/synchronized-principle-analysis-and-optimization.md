@@ -10,49 +10,15 @@ tag:
 
 可见性是指一个线程对共享变量进行修改，另一个线程先立即获取到修改后的最新值。
 
-代码：
-
-一个线程根据`boolean`类型的标记flag，while循环，另一个线程改变这个flag变量的值，另一个线程并不会停止循环。
-
-多个线程都会访问的数据，我们称为线程的共享数据
-
-```java
-/**
- 演示:
- 一个线程对共享变量的修改,另一个线程不能立即得到最新值
- */
-public class Test01Visibility {
-
-    // 共享数据
-    private static boolean run = true;
-
-    public static void main(String[] args) throws InterruptedException {
-        Thread t1 = new Thread(() -> {
-            while (run) {
-            }
-        });
-        t1.start();
-        Thread.sleep(1000);
-        Thread t2 = new Thread(() -> {
-            run = false;
-            System.out.println("时间到，线程2设置为false");
-        });
-        t2.start();
-    }
-}
-```
-
-::: tip 总结
-
-并发编程时，会出现可见性问题，当一个线程对共享变量进行了修改，另外的线程并没有立即看到修改 后的最新值。Synchronized volatile 可解决
-
-:::
+并发编程时，会出现可见性问题，当一个线程对共享变量进行了修改，另外的线程并没有立即看到修改 后的最新值。Synchronized和volatile可解决
 
 ## 原子性
 
 在一次或多次操作中，要么所有的操作都执行并且不会受其他因素干扰而中断，要么所有的操作都不执行。
 
-演示：
+并发编程时，会出现原子性问题，当一个线程对共享变量操作到一半时，另外的线程也有可能来操作共享变量，干扰了前一个线程的操作。
+
+代码演示：
 
 ```java
 /**
@@ -83,21 +49,19 @@ public class Test02Atomicity {
 
 使用 javap 反汇编 class 文件，得到下面的字节码指令：
 
-![](./img/1-2-1.png)
+其中，对于 number++ 而言(`number`为静态变量)，实际会产生如下的JVM字节码指令：由此可见 number++是由多条语句组成，以上多条指令在一个线程的情况下是不会出问题的，但是在多 线程情况下就可能会出现问题。比如一个线程在执行 13: iadd 时，另一个线程又执行 9: getstatic。会导 致两次 number++，实际上只加了 1。
 
-其中，对于 number++ 而言(number 为静态变量)，实际会产生如下的 JVM 字节码指令：由此可见 number++是由多条语句组成，以上多条指令在一个线程的情况下是不会出问题的，但是在多 线程情况下就可能会出现问题。比如一个线程在执行 13: iadd 时，另一个线程又执行 9: getstatic。会导 致两次 number++，实际上只加了 1。
-
-::: tip 总结
-
-并发编程时，会出现原子性问题，当一个线程对共享变量操作到一半时，另外的线程也有可能来操作共享变量，干扰了前一个线程的操作。
-
-:::
+![字节码指令](./img/1-2-1.png)
 
 ## 有序性
 
-有序性(Ordering)：是指程序中代码的执行顺序，Java在编译时和运行时会对代码进行优化，会导致程序最终的执行顺序不一定就是我们编写代码时的顺序。
+有序性：是指程序中代码的执行顺序，Java在编译时和运行时会对代码进行优化，会导致程序最终的执行顺序不一定就是我们编写代码时的顺序。
 
-Jcstress是java并发压测工具。<https://wiki.openjdk.java.net/display/CodeTools/jcstress>修改pom文件，添加依赖：
+程序代码在执行过程中的先后顺序，由于 Java 在编译期以及运行期的优化，导致了代码的执行顺序未必就是开发者编写代码时的顺序。
+
+[Jcstress](https://wiki.openjdk.java.net/display/CodeTools/jcstress)是java并发压测工具。修改pom文件，添加依赖：
+
+导入依赖
 
 ```xml
 
@@ -108,18 +72,19 @@ Jcstress是java并发压测工具。<https://wiki.openjdk.java.net/display/CodeT
 </dependency>
 ```
 
+代码演示
+
 ```java
 import org.openjdk.jcstress.annotations.*;
 import org.openjdk.jcstress.infra.results.I_Result;
 
 @JCStressTest
-@Outcome(id = {"1", "4"}， expect = Expect.ACCEPTABLE， desc = "ok")
-@Outcome(id = "0"， expect = Expect.ACCEPTABLE_INTERESTING， desc = "danger")
+@Outcome(id = {"1", "4"}, expect = Expect.ACCEPTABLE, desc = "ok")
+@Outcome(id = "0", expect = Expect.ACCEPTABLE_INTERESTING, desc = "danger")
 @State
 public class Test03Orderliness {
     int num = 0;
     boolean ready = false;
-
     // 线程一执行的代码
     @Actor
     public void actor1(I_Result r) {
@@ -129,7 +94,6 @@ public class Test03Orderliness {
             r.r1 = 1;
         }
     }
-
     // 线程2执行的代码
     @Actor
     public void actor2(I_Result r) {
@@ -141,76 +105,27 @@ public class Test03Orderliness {
 
 I_Result 是一个对象，有一个属性r1用来保存结果，在多线程情况下可能出现几种结果？
 
-情况 1：线程1先执行 actor1，这时 ready = false，所以进入 else 分支结果为 1。
+- 情况 1：线程1先执行 actor1，这时 ready = false，所以进入 else 分支结果为 1。
+- 情况 2：线程2执行到actor2，执行了 num = 2;和 ready = true，线程 1 执行，这回进入 if 分支，结果为 4。
+- 情况 3：线程2先执行actor2，只执行num=2；但没来得及执行 ready = true，线程 1 执行，还是进入Else分支，结果为1。
+- 还有一种结果 0。
 
-情况 2：线程2执行到actor2，执行了 num = 2;和 ready = true，线程 1 执行，这回进入 if 分支，结果为 4。
-
-情况 3：线程2先执行actor2，只执行num=2；但没来得及执行 ready = true，线程 1 执行，还是进入Else分支，结果为1。
-
-还有一种结果 0。
-
-::: tip 总结
-
-程序代码在执行过程中的先后顺序，由于 Java 在编译期以及运行期的优化，导致了代码的执行顺序未必就是开发者编写代码时的顺序。
-
-:::
 
 ## 二、Java 内存模型(JMM)
 
-### 计算机由五大组成部分
-
-输入设备，输出设备存储器，控制器，运算器。
-
-![](./img/2-1-1.png)
-
-CPU 中央处理器，是计算机的控制和运的核心，我们的程序最终都会变成指令让CPU去执行，处理程序中的数据。
-
-内存：我们的程序都是在内存中运行的，内存会保存程序运行时的数据，供 CPU 处理。
-
-缓存：CPU的运算速度和内存的访问速度相差比较大。这就导致CPU每次操作内存都要耗费很多等待时间。内存的读写速度成为了计算机运行的瓶颈。于是就有了在CPU和主内存之间增加缓存的设计。最靠近CPU的缓存称为L1，然后依次是L2，L3和主内存，CPU缓存模型如图下图所示。
-
-![](./img/2-1-4.png)
-
-CPU Cache分成了三个级别:L1，L2，L3。级别越小越接近CPU，速度也更快，同时也代表着容量越小。
-
-1. `L1`是最接近CPU的，它容量最小，例如32K，速度最快，每个核上都有一个L1Cache。
-2. `L2Cache`更大一些，例如256K，速度要慢一些，一般情况下每个核上都有一个独立的L2Cache。
-3. `L3Cache`是三级缓存中最大的一级，例如12MB，同时也是缓存中最慢的一级，在同一个CPU插槽之间的核共享一个L3Cach e。
-
-![](./img/2-1-5.png)
-
-Cache的出现是为了解决CPU直接访问内存效率低下问题的，
-
-程序在运行的过程中，CPU接收到指令后，它会最先向CPU中的一级缓存(L1Cache)去寻找相关的数据，如果命中缓存，CPU进行计算时就可以直接对CPUCache中的数据进行读取和写人，
-
-当运算结束之后，再将CPUCache中的最新数据刷新到主内存当中，CPU通过直接访问Cache的方式替代直接访问主存的方式极大地提高了CPU的吞吐能力。
-
-但是由于一级缓存(L1Cache)容量较小，所以不可能每次都命中。
-
-这时CPU会继续向下一级的二级缓存(L2Cache)寻找，同样的道理，当所需要的数据在二级缓存中也没有的话，会继续转向L3Cache、内存(主存)和硬盘。
-
-::: tip 总结
-
-计算机的主要组成CPU，内存，输入设备，输出设备。
-
-:::
-
-### Java 内存模型
-
 关于“Java 内存模型”的权威解释，请[参考](https://download.oracle.com/otn-pub/jcp/memory_model1.0-pfd-spec-oth-JSpec/memory_model-1_0-pfd-spec.PDF)；
 
-Java 内存模型，是 Java 虚拟机规范中所定义的一种内存模型，Java 内存模型是标准化的，屏蔽掉了底层 不同计算机的区别。
+![内存模型](./img/2-2-1.png)
 
-Java 内存模型是一套规范，描述了 Java 程序中各种变量(线程共享变量)的访问规则，以及在 JVM 中将变量 存储到内存和从内存中读取变量这样的底层细节，具体如下。
+Java内存模型，是Java虚拟机规范中所定义的一种内存模型，Java内存模型是标准化的，屏蔽掉了底层不同计算机的区别。
+
+Java 内存模型是一套规范，描述了Java程序中各种变量(线程共享变量)的访问规则，以及在JVM中将变量存储到内存和从内存中读取变量这样的底层细节，具体如下。
 
 - 主内存 主内存是所有线程都共享的，都能访问的。所有的共享变量都存储于主内存。
 - 工作内存 每一个线程有自己的工作内存，工作内存只存储该线程对共享变量的副本。线程对变量的所有的操 作(读，取)都必须在工作内存中完成，而不能直接读写主内存中的变量，不同线程之间也不能直接 访问对方工作内存中的变量。
 
-![内存模型](./img/2-2-1.png)
+Java内存模型是一套在多线程读写共享数据时，对共享数据的可见性、有序性、和原子性的规则和保障。Synchronized,volatile
 
-Java内存模型是一套在多线程读写共享数据时，对共享数据的可见性、有序性、和原子性的规则和保障。
-
-Synchronized,volatile
 
 ### CPU 缓存，内存与 JMM的关系
 
@@ -232,8 +147,6 @@ Java 内存模型是一套规范，描述了 Java 程序中各种变量(线程�
 
 ### 主内存与工作内存之间的交互
 
-- [ ] 了解主内存与工作内存之间的数据交互过程
-
 ![主内存与工作内存之间的数据交互](./img/2-3-1.png)
 
 Java内存模型中定义了以下 8 种操作来完成，主内存与工作内存之间具体的交互协议，即一个变量如何 从主内存拷贝到工作内存、如何从工作内存同步回主内存之类的实现细节，虚拟机实现时必须保证下面 提及的每一种操作都是原子的、不可再分的。
@@ -242,16 +155,8 @@ Java内存模型中定义了以下 8 种操作来完成，主内存与工作内�
 
 ![流程图](./img/2-3-2.png)
 
-注意:
-
 1. 如果对一个变量执行 lock 操作，将会清空工作内存中此变量的值
 2. 对一个变量执行 unlock 操作之前，必须先把此变量同步到主内存中
-
-::: tip 总结
-
-主内存与工作内存之间的数据交互过程
-
-:::
 
 ```text
 lock -> read -> load -> use -> assign -> store -> write -> unlock
@@ -259,19 +164,11 @@ lock -> read -> load -> use -> assign -> store -> write -> unlock
 
 ## 三、synchronized 保证三大特性
 
-Synchronized 能够保证在同一时刻最多只有一个线程执行该段代码，以达到保证并发安全的效果。
+Synchronized能够保证在同一时刻最多只有一个线程执行synchronize修饰的代码，以达到保证并发安全的效果。
 
-```java
-class T {
-    synchronized void m() {
-        // 受保护资源;
-    }
-}
-```
+### synchronized与原子性
 
-### synchronized 与原子性
-
-案例演示:5个线程各执行1000次i++;
+案例演示: 5个线程各执行1000次i++;
 
 ```java
 public class Test01Atomicity {
@@ -304,19 +201,17 @@ public class Test01Atomicity {
 
 ### 保证原子性的原理
 
-对 number++;增加同步代码块后，保证同一时间只有一个线程操作 number++;。就不会出现安全问题。
-
-::: tip 总结
+对`number++;`增加同步代码块后，保证同一时间只有一个线程操作 number++;。就不会出现安全问题。
 
 Synchronized 保证原子性的原理，synchronized 保证只有一个线程拿到锁，能够进入同步代码块。
 
-:::
-
 ## synchronized 与可见性
 
-代码：
+一个线程根据boolean类型的标记flag，while循环，另一个线程改变这个flag变量的值，另一个线程并不会停止循环。
 
-一个线程根据 boolean 类型的标记 flag， while 循环，另一个线程改变这个 flag 变量的值，另 一个线程并不会停止循环。
+Synchronized保证可见性的原理，执行synchronized时，会对应lock原子操作会刷新工作内存中共享变量的值
+
+代码：
 
 ```java
 public class Test01Visibility {
@@ -343,11 +238,6 @@ public class Test01Visibility {
 
 ![synchronize可见性](./assets/20220414/synchronized-principle-analysis-and-optimization-1649899273782.png)
 
-::: tip 总结
-
-Synchronized 保证可见性的原理，执行 synchronized 时，会对应 lock 原子操作会刷新工作内存中共享变 量的值
-
-:::
 
 ## synchronized 与有序性
 
@@ -357,21 +247,18 @@ As-if-serial语义的意思是：不管编译器和CPU如何重排序，必须�
 
 以下数据有依赖关系，不能重排序。
 
-写后读：`int a = 1; int b = a;`
-
-写后写：`int a = 1; int a = 2;`
-
-读后写：`int a = 1; int b = a; int a = 2;`
+- 写后读：`int a = 1; int b = a;`
+- 写后写：`int a = 1; int a = 2;`
+- 读后写：`int a = 1; int b = a; int a = 2;`
 
 编译器和处理器不会对存在数据依赖关系的操作做重排序，因为这种重排序会改变执行结果。但是，如 果操作之间不存在数据依赖关系，这些操作就可能被编译器和处理器重排序。
 
 `int a = 1; int b = 2; int c = a + b;`
 
 ```java
-
 @JCStressTest
-@Outcome(id = {"1"，"4"}，expect = Expect.ACCEPTABLE，desc = "ok")
-@Outcome(id = "0"，expect = Expect.ACCEPTABLE_INTERESTING，desc = "danger")
+@Outcome(id = {"1","4"},expect = Expect.ACCEPTABLE,desc = "ok")
+@Outcome(id = "0",expect = Expect.ACCEPTABLE_INTERESTING,desc = "danger")
 @State
 public class Test03Ordering {
     int num = 0;
@@ -450,28 +337,15 @@ Synchronized是可重入锁，内部锁对象中会有一个计数器记录线�
 
 Synchronized是不可中断，处于阻塞状态的线程会一直等待锁。
 
-:::: code-group
-
-::: code-group-item synchronized
-
 ```java
-/*
-2.在Runnable定义同步代码块
-3.先开启一个线程来执行同步代码块,保证不退出同步代码块
-4.后开启一个线程来执行同步代码块(阻塞状态)
-5.停止第二个线程
-*/
 public class Demo02_Uninterruptible {
-    private static Object obj = new Object();
+    private static Object lock = new Object();
 
     public static void main(String[] args) throws InterruptedException {
-// 1.定义一个Runnable
         Runnable run = () -> {
-// 2.在Runnable定义同步代码块
-            synchronized (obj) {
+            synchronized (lock) {
                 String name = Thread.currentThread().getName();
                 System.out.println(name + "进入同步代码块");
-// 保证不退出同步代码块
                 try {
                     Thread.sleep(888888);
                 } catch (InterruptedException e) {
@@ -479,42 +353,9 @@ public class Demo02_Uninterruptible {
                 }
             }
         };
-// 3.先开启一个线程来执行同步代码块
-        Thread t1 = new Thread(run);
-        t1.start();
-        Thread.sleep(1000);
-// 4.后开启一个线程来执行同步代码块(阻塞状态)
-        Thread t2 = new Thread(run);
-        t2.start();
-// 5.停止第二个线程
-        System.out.println("停止线程前");
-        t2.interrupt();
-        System.out.println("停止线程后");
-        System.out.println(t1.getState());
-        System.out.println(t2.getState());
-    }
-}
-```
 
-:::
-
-::: code-group-item ReentrantLock
-
-```java
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-public class Demo03_Interruptible {
-    private static Lock lock = new ReentrantLock();
-
-    public static void main(String[] args) throws InterruptedException {
-        test01();
-        test02();
-    }
-
-    // 演示Lock可中断
-    public static void test02() throws InterruptedException {
+        private static Lock lock = new ReentrantLock();
+        
         Runnable run = () -> {
             String name = Thread.currentThread().getName();
             boolean b = false;
@@ -535,67 +376,27 @@ public class Demo03_Interruptible {
                 }
             }
         };
+
+
+        // 开启一个线程来执行同步代码块
         Thread t1 = new Thread(run);
         t1.start();
         Thread.sleep(1000);
         Thread t2 = new Thread(run);
         t2.start();
-        System.out.println("停止t2线程前");
+        System.out.println("停止线程前");
         t2.interrupt();
-        System.out.println("停止t2线程后");
-
-        Thread.sleep(1000);
+        System.out.println("停止线程后");
         System.out.println(t1.getState());
         System.out.println(t2.getState());
     }
 }
 ```
-
-```java
-class T {
-    // 演示Lock不可中断
-    public static void test01() throws InterruptedException {
-        Runnable run = () -> {
-            String name = Thread.currentThread().getName();
-            try {
-                lock.lock();
-                System.out.println(name + "获得锁,进入锁执行");
-                Thread.sleep(88888);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                lock.unlock();
-                System.out.println(name + "释放锁");
-            }
-        };
-        Thread t1 = new Thread(run);
-        t1.start();
-        Thread.sleep(1000);
-        Thread t2 = new Thread(run);
-        t2.start();
-        System.out.println("停止t2线程前");
-        t2.interrupt();
-        System.out.println("停止t2线程后");
-        Thread.sleep(1000);
-        System.out.println(t1.getState());
-        System.out.println(t2.getState());
-    }
-}
-```
-
-:::
-
-::::
-
-::: tip 总结
 
 不可中断是指，当一个线程获得锁后，另一个线程一直处于阻塞或等待状态，前一个线程不释放锁，后一个线程会一直阻塞或等待，不可被中断。
 
-- Synchronized 属于不可被中断
-- Lock 的 lock 方法是不可中断的
-- Lock 的 tryLock 方法是可中断的
-
-:::
+- Synchronized属于不可被中断
+- Lock 的 lock 方法是不可中断的,tryLock方法是可中断的
 
 # 五、synchronized原理
 
@@ -625,7 +426,7 @@ JDK自带的一个工具：javap，对字节码进行反汇编，查看字节码
 
 反汇编后的效果如下：`Javap -p -v -c`
 
-![](./img/5-1-1.png)
+![反汇编后的效果](./img/5-1-1.png)
 
 ### monitorenter
 
@@ -677,21 +478,17 @@ Monitorexit插入在方法结束处和异常处，JVM保证每个monitorenter必
 
 ### 问题：synchronized 与 Lock 的区别
 
-1. synchronized 是关键字，而 Lock 是一个接口。
-2. synchronized 会自动释放锁，而 Lock 必须手动释放锁。
-3. synchronized 是不可中断的，Lock 可以中断也可以不中断。
-4. 通过 Lock 可以知道线程有没有拿到锁，而 synchronized 不能。
-5. synchronized 能锁住方法和代码块，而 Lock 只能锁住代码块。
-6. Lock 可以使用读锁提高多线程读效率。
-7. synchronized 是非公平锁，`ReentrantLock`可以控制是否是公平锁。
+1. synchronized是关键字，而Lock是一个接口。
+2. synchronized会自动释放锁，而Lock必须手动释放锁。
+3. synchronized是不可中断的，Lock可以中断也可以不中断。
+4. 通过Lock可以知道线程有没有拿到锁，而synchronized不能。
+5. synchronized能锁住方法和代码块，而Lock只能锁住代码块。
+6. Lock可以使用读锁提高多线程读效率。
+7. synchronized是非公平锁，`ReentrantLock`可以控制是否是公平锁。
 
-## 深入 JVM 源码
+## 深入JVM源码分析`synchronized`的原理
 
-通过JVM源码分析`synchronized`的原理
-
-### JVM 源码下载
-
-[地址](http://openjdk.java.net)
+[JVM 源码下载](http://openjdk.java.net)
 
 Mercurial --> jdk8 --> hotspot --> zip
 
@@ -699,19 +496,20 @@ Mercurial --> jdk8 --> hotspot --> zip
 
 可以看出无论是`synchronized`代码块还是`synchronized`方法，其线程安全的语义实现最终依赖一个叫`monitor`的东西，那么这个神秘的东西是什么呢？下面让我们来详细介绍一下。
 
-在 HotSpot 虚拟机中，monitor 是由 ObjectMonitor 实现的。其源码是用 c++来实现的，位于 HotSpot 虚 拟机源码O`bjectMonitor.hpp`文件中(`src/share/vm/runtime/objectMonitor.hpp`)。ObjectMonitor 主 要数据结构如下：
+在 HotSpot 虚拟机中，monitor 是由 ObjectMonitor 实现的。其源码是用 c++来实现的，`src/share/vm/runtime/objectMonitor.hpp`
 
-1. \_owner：初始时为 NULL。当有线程占有该 monitor 时，owner 标记为该线程的唯一标识。当线程释放 monitor 时，owner 又恢复为 NULL。owner 是一个临界资源，JVM 是通过 CAS 操作来保证其线程安全的。
-2. \_cxq：竞争队列，所有请求锁的线程首先会被放在这个队列中(单向链接)。\_cxq 是一个临界资源，JVM通过CAS原子指令来修改`\_cxq`队列。修改前`\_cxq` 的旧值填入了 `Node.js` 的 `next` 字段，`\_cxq`指向新值(新线程)。因此\_cxq 是一个后进先出的 stack(栈)。
-3. \_EntryList：\_cxq 队列中有资格成为候选资源的线程会被移动到该队列中。
-4. \_WaitSet：因为调用 wait 方法而被阻塞的线程会被放在该队列中。
+ObjectMonitor主要数据结构如下：
+
+1. _owner：初始时为 NULL。当有线程占有该 monitor 时，owner 标记为该线程的唯一标识。当线程释放 monitor 时，owner 又恢复为 NULL。owner 是一个临界资源，JVM 是通过 CAS 操作来保证其线程安全的。
+2. _cxq：竞争队列，所有请求锁的线程首先会被放在这个队列中(单向链接)。cxq是一个临界资源，JVM通过CAS原子指令来修改`cxq`队列。修改前`cxq` 的旧值填入了 `Node.js` 的 `next` 字段，`_cxq`指向新值(新线程)。因此cxq 是一个后进先出的 stack(栈)。
+3. _EntryList：_cxq 队列中有资格成为候选资源的线程会被移动到该队列中。
+4. _WaitSet：因为调用wait方法而被阻塞的线程会被放在该队列中。
 
 每一个 Java 对象都可以与一个监视器 monitor 关联，我们可以把它理解成为一把锁，当一个线程想要执行一段被synchronized圈起来的同步方法或者代码块时，该线程得先获取到 synchronized 修饰的对象 对应的 monitor。
 
-我们的 Java 代码里不会显示地去创造这么一个 monitor 对象，我们也无需创建，事实上可以这么理解： monitor 并不是随着对象创建而创建的。我们是通过 synchronized 修饰符告诉 JVM 需要为我们的某个对 象创建关联的 monitor 对象。每个线程都存在两个 ObjectMonitor 对象列表，分别为 free 和 used 列表。 同时 JVM 中也维护着 global locklist。当线程需要 ObjectMonitor 对象时，首先从线程自身的 free 表中申
-请，若存在则使用，若不存在则从 global list 中申请。
+我们的Java代码里不会显示地去创造这么一个monitor对象，我们也无需创建，事实上可以这么理解：monitor并不是随着对象创建而创建的。我们是通过synchronized修饰符告诉JVM需要为我们的某个对象创建关联的monitor对象。每个线程都存在两个ObjectMonitor对象列表，分别为free和used列表。同时JVM中也维护着global locklist。当线程需要ObjectMonitor对象时，首先从线程自身的free表中申请，若存在则使用，若不存在则从`global list`中申请。
 
-ObjectMonitor 的数据结构中包含：`\_owner`、`\_WaitSet`和`\_EntryList`，它们之间的关系转换可以用下图表示：
+`ObjectMonitor`的数据结构中包含：`owner`、`WaitSet`和`EntryList`，它们之间的关系转换可以用下图表示：
 
 ![ObjectMonitor](./img/5-2-1.png)
 
@@ -725,7 +523,7 @@ ObjectMonitor 的数据结构中包含：`\_owner`、`\_WaitSet`和`\_EntryList`
 
 1. 通过 CAS 尝试把 monitor 的 owner 字段设置为当前线程。
 2. 如果设置之前的 owner 指向当前线程，说明当前线程再次进入 monitor，即重入锁，执行recursions ++ ，记录重入的次数。
-3. 如果当前线程是第一次进入该 monitor，设置 recursions 为 1，\_owner 为当前线程，该线程成功获得锁并返回。
+3. 如果当前线程是第一次进入该 monitor，设置 recursions 为 1，owner 为当前线程，该线程成功获得锁并返回。
 4. 如果获取锁失败，则等待锁的释放。
 
 ### monitor 等待
@@ -735,15 +533,15 @@ ObjectMonitor 的数据结构中包含：`\_owner`、`\_WaitSet`和`\_EntryList`
 当该线程被唤醒时，会从挂起的点继续执行，通过 ObjectMonitor::TryLock 尝试获取锁，`TryLock`方法实现如下：
 
 1. 当前线程被封装成`ObjectWaiter`对象`node`，状态设置成`ObjectWaiter::TS_CXQ`。
-2. 在 for 循环中，通过 CAS 把 Node.js 节点 push 到\_cxq 列表中，同一时刻可能有多个线程把自己的`node`节点 push 到\_cxq 列表中。
-3. Node.js节点`push`到`\_cxq`列表之后，通过自旋尝试获取锁，如果还是没有获取到锁，则通过 park 将当前线程挂起，等待被唤醒。
+2. 在 for 循环中，通过 CAS 把 Node.js 节点 push 到cxq 列表中，同一时刻可能有多个线程把自己的`node`节点 push 到cxq 列表中。
+3. Node.js节点`push`到`cxq`列表之后，通过自旋尝试获取锁，如果还是没有获取到锁，则通过 park 将当前线程挂起，等待被唤醒。
 4. 当该线程被唤醒时，会从挂起的点继续执行，通过`ObjectMonitor::TryLock`尝试获取锁。
 
 ### monitor 释放
 
 当某个持有锁的线程执行完同步代码块时，会进行锁的释放，给其它线程机会执行同步代码，在HotSpot中，通过退出`monitor`的方式实现锁的释放，并通知被阻塞的线程，具体实现位于`ObjectMonitor`的`exit`方法中。(位于：`src/share/vm/runtime/objectMonitor.cpp`)，源码如下所示：
 
-1. 退出同步代码块时会让`\_recursions`减1，当`\_recursions`的值减为0时，说明线程释放了锁。
+1. 退出同步代码块时会让`recursions`减1，当`recursions`的值减为0时，说明线程释放了锁。
 2. 根据不同的策略(由`QMode`指定)，从`cxq`或 `EntryList` 中获取头节点，通过`ObjectMonitor::ExitEpilog`方法唤醒该节点封装的线程，唤醒操作最终由`unpark`完成，实现如下： 被唤醒的线程，会回到`void ATTR ObjectMonitor::EnterI (TRAPS)`的第600行，继续执行`monitor`的竞争。
 
 ### monitor是重量级锁
@@ -1099,3 +897,6 @@ class T {
 ### 读写分离
 
 读取时不加锁，写入和删除时加锁：`ConcurrentHashMap`，`CopyOnWriteArrayList` 和 `ConyOnWriteSet`
+
+
+workbench.action.openEditorAtIndex4

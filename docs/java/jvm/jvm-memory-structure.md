@@ -5,13 +5,15 @@ tag:
   - jvm
 ---
 
-## JVM内存结构
+## 一、JVM内存结构
 
 ::: info
 
 Java Virtual Machine ，Java 程序的运行环境(Java 二进制字节码的运行环境)。
 
 :::
+
+
 
 - 一次编译，处处执行
 - 自动的内存管理，垃圾回收机制
@@ -23,33 +25,19 @@ JVM、JRE、JDK 的关系如下图所示
 
 操作系统(Windows+Linux)
 
-```flow
-st=>start: 开始
+- jre(jvm+基本类库)
+- Jvm
+- jdk(jvm+基本类库+编译工具)
+- 开发 javaSE 程序(JDK+IDE 工具)
+- 开发 JavaEE 程序(JDK+应用服务器+IDE 工具)
 
-
-```
-
-Jvm
-
-~jre(jvm+基本类库)
-
-~jdk(jvm+基本类库+编译工具)
-
-~开发 javaSE 程序(JDK+IDE 工具)
-
-~开发 JavaEE 程序(JDK+应用服务器+IDE 工具)
-
-2、学习 JVM 有什么用？
-
-面试必备
-
-中高级程序员必备
-
-想走的长远，就需要懂原理，比如：自动装箱、自动拆箱是怎么实现的，反射是怎么实现的，垃圾回收机制是怎么回事等待，JVM 是必须掌握的。
-
-3、常见的 JVM
+下图是JVM：
 
 [](./img/1-1.png)
+
+## 2、学习 JVM 有什么用？
+
+想走的长远，就需要懂原理，比如：自动装箱、自动拆箱是怎么实现的，反射是怎么实现的，垃圾回收机制是怎么回事等待，JVM 是必须掌握的。
 
 4、学习路线
 
@@ -83,7 +71,7 @@ Program Counter Register 程序计数器(寄存器)
 
 2）作用
 
-```text
+```java
 0: getstatic #20 // PrintStream out = System.out;
 3: astore_1 // --
 4: aload_1 // out.println(1);
@@ -110,39 +98,33 @@ Program Counter Register 程序计数器(寄存器)
 
 ### 2、虚拟机栈
 
-1）定义
-
 每个线程运行需要的内存空间，称为虚拟机栈 每个栈由多个栈帧(Frame)组成，对应着每次调用方法时所占用的内存 每个线程只能有一个活动栈帧，对应着当前正在执行的方法
 
-问题辨析：
+Q&A
 
 1、垃圾回收是否涉及栈内存？
 
-不会。栈内存是方法调用产生的，方法调用结束后会弹出栈。
+不会。栈内存是方法调用产生的，方法调用结束后会出栈。
 
 2、栈内存分配越大越好吗？
 
 不是。因为物理内存是一定的，栈内存越大，可以支持更多的递归调用，但是可执行的线程数就会越少。
 
-3、方法内的局部变量是否线程安全
+3、方法内的局部变量是否线程安全？
 
-如果方法内部的变量没有逃离方法的作用访问，它是线程安全的
+如果方法内部的变量没有逃离方法的作用访问，它是线程安全的；如果是局部变量引用了对象，并逃离了方法的访问，那就要考虑线程安全问题。
 
-如果是局部变量引用了对象，并逃离了方法的访问，那就要考虑线程安全问题。
+4、栈内存溢出？
 
-2）栈内存溢出
+栈帧过大、过多、或者第三方类库操作，都有可能造成栈内存溢出 `java.lang.stackOverflowError` ，使用 `-Xss256k` 指定栈内存大小！
 
-栈帧过大、过多、或者第三方类库操作，都有可能造成栈内存溢出 java.lang.stackOverflowError ，使用 -Xss256k 指定栈内存大小！
-
-3）线程运行诊断
-
-案例一：cpu 占用过多
+5、cpu 占用过多？
 
 解决方法：Linux 环境下运行某些程序的时候，可能导致 CPU 的占用过高，这时需要定位占用 CPU 过高的线程
 
 Top 命令，查看是哪个进程占用 CPU 过高
 
-`ps H -eo pid, tid（线程id）`, %cpu | grep
+`ps H `-eo` pid, tid（线程id）`, %cpu | grep
 
 刚才通过 top 查到的进程号 通过 ps 命令进一步查看是哪个线程占用 CPU 过高
 
@@ -166,27 +148,18 @@ Top 命令，查看是哪个进程占用 CPU 过高
 
 2）堆内存溢出
 
-Java.lang.OutofMemoryError ：java heap space. 堆内存溢出 可以使用 -Xmx8m 来指定堆内存大小。
+Java.`lang.OutofMemory`Error ：java heap space. 堆内存溢出 可以使用 -Xmx8m 来指定堆内存大小。
 
 3）堆内存诊断
 
-Jps 工具
-
-查看当前系统中有哪些 java 进程
-
-Jmap 工具
-
-查看堆内存占用情况 `jmap -heap` 进程 ID
-
-Jconsole 工具
-
-图形界面的，多功能的监测工具，可以连续监测
-
-Jvisualvm 工具
+- Jps 工具：查看当前系统中有哪些 java 进程
+- Jmap 工具：查看堆内存占用情况 `jmap -heap` 进程 ID
+- Jconsole 工具：图形界面的，多功能的监测工具，可以连续监测
+- Jvisualvm 工具：可视化工具，可以监测堆内存占用情况
 
 ### 5、方法区
 
-#### 1）定义
+1）定义
 
 Java 虚拟机有一个在所有 Java 虚拟机线程之间共享的方法区域。方法区域类似于用于传统语言的编译代码的存储区域，或者类似于操作系统进程中的“文本”段。
 
@@ -198,7 +171,7 @@ Java 虚拟机有一个在所有 Java 虚拟机线程之间共享的方法区域
 
 方法区域可以具有固定的大小，或者可以根据计算的需要进行扩展，并且如果不需要更大的方法区域，则可以收缩。方法区域的内存不需要是连续的！
 
-#### 2）组成
+2）组成
 
 Hotspot 虚拟机 jdk1.6 1.7 1.8 内存结构图
 
@@ -206,7 +179,7 @@ Hotspot 虚拟机 jdk1.6 1.7 1.8 内存结构图
 
 ![](./img/1-4.png)
 
-#### 3）方法区内存溢出
+3）方法区内存溢出
 
 1.8 之前会导致永久代内存溢出
 
@@ -216,7 +189,7 @@ Hotspot 虚拟机 jdk1.6 1.7 1.8 内存结构图
 
 使用 -XX:MaxMetaspaceSize=8m 指定元空间大小
 
-#### 4）运行时常量池
+4）运行时常量池
 
 二进制字节码包含(类的基本信息，常量池，类方法定义，包含了虚拟机的指令)
 
@@ -246,22 +219,20 @@ public class T {
 
 5）`StringTable`
 
-常量池中的字符串仅是符号，只有在被用到时才会转化为对象
+常量池中的字符串仅是符号，只有在被用到时才会转化为对象,Jdk1.6 StringTable 位置是在永久代中，1.8 StringTable 位置是在堆中。
 
-利用串池的机制，来避免重复创建字符串对象
+```bash
+-Xmx10m 指定堆内存大小
+-XX:+PrintStringTableStatistics 打印字符串常量池信息
+-XX:+PrintGCDetails
+-verbose:gc 打印 gc 的次数，耗费时间等信息
+```
 
-字符串变量拼接的原理是 StringBuilder
+利用串池的机制，来避免重复创建字符串对象，字符串变量拼接的原理是 StringBuilder
 
-字符串常量拼接的原理是编译器优化
+字符串常量拼接的原理是编译器优化，可以使用 intern 方法，主动将串池中还没有的字符串对象放入串池中；如果串池中没有该字符串对象，则放入成功，如果有该字符串对象，则放入失败，无论放入是否成功，都会返回串池中的字符串对象
 
-可以使用 intern 方法，主动将串池中还没有的字符串对象放入串池中
-
-- 如果串池中没有该字符串对象，则放入成功
-- 如果有该字符串对象，则放入失败，无论放入是否成功，都会返回串池中的字符串对象
-
-注意：此时如果调用 intern 方法成功，堆内存与串池中的字符串对象是同一个对象；如果失败，则不是同一个对象
-
-例 1：
+注意：此时如果调用 `intern` 方法成功，堆内存与串池中的字符串对象是同一个对象；如果失败，则不是同一个对象，可以通过 `intern` 方法减少重复入池
 
 ```java
 public class T {
@@ -278,12 +249,8 @@ public class T {
     }
 }
 
-```
-
-例 2：
-
 ```java
-public class Main {
+public class T {
     public static void main(String[] args) {
         // 此处创建字符串对象 "ab" ，因为串池中还没有 "ab" ，所以将其放入串池中
         String str3 = "ab";
@@ -301,33 +268,15 @@ public class Main {
 }
 ```
 
-6）StringTable 的位置
 
-Jdk1.6 StringTable 位置是在永久代中，1.8 StringTable 位置是在堆中。
+因为 `StringTable` 是由 HashTable 实现的，所以可以适当增加 HashTable 桶的个数，来减少字符串放入串池所需要的时间
 
-7）StringTable 垃圾回收
+`-XX:StringTableSize=桶个数`(最少设置为 1009 以上)
 
--Xmx10m 指定堆内存大小
-
--XX:+PrintStringTableStatistics 打印字符串常量池信息
-
--XX:+PrintGCDetails
-
--verbose:gc 打印 gc 的次数，耗费时间等信息
-
-8）StringTable 性能调优
-
-- 因为 StringTable 是由 HashTable 实现的，所以可以适当增加 HashTable 桶的个数，来减少字符串放入串池所需要的时间
-
--XX:StringTableSize=桶个数(最少设置为 1009 以上)
-
-考虑是否需要将字符串对象入池
-
-可以通过 intern 方法减少重复入池
 
 ### 6、直接内存
 
-直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域，但是这部分内存也被频繁地使用，而且也可能导致频繁地使用，而且也可能导致OutOfMemoryError异常出现，常见于NIO操作时，用于数据缓冲区
+直接内存（`Direct Memory`）并不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域，但是这部分内存也被频繁地使用，而且也可能导致频繁地使用，而且也可能导致OutOfMemoryError异常出现，常见于NIO操作时，用于数据缓冲区
 
 在JDK1.4中新加入NIO（New Input、output）
 
@@ -400,9 +349,10 @@ public static ByteBuffer allocateDirect(int capacity){
 
 底层是创建了一个`DirectByteBuffer`对象。
 
-第二步：DirectByteBuffer类
+第二步：`DirectByteBuffer`类
 
 ```java
+class T{
 DirectByteBuffer(int cap){   // package-private
 
         super(-1,0,cap,cap);
@@ -428,6 +378,7 @@ DirectByteBuffer(int cap){   // package-private
         cleaner=Cleaner.create(this,new Deallocator(base,size,cap)); // 通过虚引用，来实现直接内存的释放，this为虚引用的实际对象, 第二个参数是一个回调，实现了 runnable 接口，run 方法中通过 unsafe 释放内存。
         att=null;
         }
+}
 ```
 
 社区报备 这里调用了一个 Cleaner 的 create 方法，且后台线程还会对虚引用的对象监测，如果虚引用的实际对象(这里是 DirectByteBuffer )被回收以后，就会调用 Cleaner 的 clean 方法，来清除直接内存中占用的内存。
@@ -502,12 +453,12 @@ public class T {
 -XX:+DisableExplicitGC  // 静止显示的 GC
 ```
 
-意思就是禁止我们手动的GC，比如手动`System.gc()`无效，它是一种`full gc`，会回收新生代、老年代，会造成程序执行的时间比较长。所以我们就通过unsafe对象调用`free Memory`的方式释放内存。
+意思就是禁止我们手动的GC，比如手动`System.gc()`无效，它是一种`full gc`，会回收新生代、老年代，会造成程序执行的时间比较长。所以我们就通过unsafe对象调用``free Memory``的方式释放内存。
 
 - [csdn](https://blog.csdn.net/weixin_50280576/article/details/113742011)
 - [bilibili](https://www.bilibili.com/video/BV1yE411Z7AP?from=search&seid=14402867104835325411&spm_id_from=333.337.0.0)
 
-## JVM堆内存详解
+## 三、JVM堆内存详解
 
 在jvm的堆内存中有三个区域：
 
@@ -541,7 +492,7 @@ JDK1.8之后，取消perm永久代，转而用元空间代替
 
 年轻代和老年代的内存回收算法完全不同，因为年轻代存活的对象很少，标记清楚再压缩的效率很低，所以采用复制算法将存活对象移到survivor区，更高效。而老年代则相反，存活对象的变动很少，所以采用标记清除压缩算法更合适。
 
-## 内存分配策略
+## 四、内存分配策略
 
 ### 优先在Eden区分配
 

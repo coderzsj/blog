@@ -1,28 +1,45 @@
 ---
-title: 本地线程 
+title: ThreadLocal的介绍与使用
 category: 锁机制 
 tag:
  - ThreadLocal
-
 ---
 
-## ThreadLocal
+## ThreadLocal简介
 
-### 概念
+我们已经知道了变量值的共享可以使用public static变量的形式，所有的线程都使用同一个被public static修饰的变量。
+
+那么如果我们想实现每一个线程都有自己的共享变量该如何解决哪？JDK提供的ThreadLocal正是为了解决这样的问题的。
 
 类ThreadLocal主要解决的就是每个线程绑定自己的值，可以将ThreadLocal类比喻成全局存放数据的盒子，盒子中可以存储每个线程的私有变量。
 
 首先，它是一个数据结构，有点像 HashMap，可以保存"key : value"键值对，但是一个 ThreadLocal 只能保存一个，并且各个线程的数据互不干扰。
 
+## 先举个栗子
+
 ```java
-ThreadLocal<String> localName=new ThreadLocal();localName.set("zs");String name=localName.get();
+class T{
+    void m(){
+        ThreadLocal<String> tl = new ThreadLocal<String>();
+        tl.set("hello");
+        System.out.println(tl.get());
+    }
+}
 ```
 
-在线程 1 中初始化了一个 ThreadLocal 对象 localName，并通过 set 方法，保存了一个值 zs，同时在线程 1 中通过 localName.get()可以拿到之前设置的值，但是如果在线程 2 中，拿到的将是一个 null。
+在线程1中初始化了一个ThreadLocal对象tl，并通过set方法，保存了一个值zs，同时在线程1中通过tl.get()可以拿到之前设置的值，但是如果在线程2中，拿到的将是一个null。
 
-这是为什么，如何实现？不过之前也说了，ThreadLocal 保证了各个线程的数据互不干扰。
+可以，看出虽然多个线程对同一个变量进行访问，但是由于threadLocal变量由ThreadLocal 修饰，则不同的线程访问的就是该线程设置的值，这里也就体现出来ThreadLocal的作用。
 
-看看 set(T value)和 get()方法的源码
+当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本。
+
+## ThreadLocal与synchronized同步机制的比较
+
+在同步机制中，通过对象的锁机制保证同一时间只有一个线程访问变量。这时该变量是多个线程共享的，使用同步机制要求程序缜密地分析什么时候对变量进行读写，什么时候需要锁定某个对象，什么时候释放对象锁等繁杂的问题，程序设计和编写难度相对较大。
+
+ThreadLocal是线程局部变量，是一种多线程间并发访问变量的解决方案。和synchronized等加锁的方式不同，ThreadLocal完全不提供锁，而使用以空间换时间的方式，为每个线程提供变量的独立副本，以保证线程的安全。
+
+## 看看set(T value)和get()方法的源码
 
 ```java
 public class T {
@@ -53,15 +70,12 @@ public class T {
         return t.threadLocals;
     }
 }
-
 ```
 
-Thread 线程类中存在 ThreadLoalMap 的对象，它也是一个类似 HashMap 的数据结构，但是在 ThreadLocal 中，并没实现 Map 接口。
+Thread线程类中存在ThreadLoalMap的对象，它也是一个类似HashMap的数据结构，但是在ThreadLocal中，并没实现Map接口。
 
-在 ThreadLoalMap 中，也是初始化一个大小 16 的 Entry 数组，Entry 对象用来保存每一个 key-value 键值对，只不过这里的 key 永远都是 ThreadLocal 对象，通过 ThreadLocal 对象的 set 方法，结果把 ThreadLocal 对象自己当做 key，放进了 ThreadLoalMap 中。
+在ThreadLoalMap中，也是初始化一个大小16的Entry数组，Entry对象用来保存每一个key-value键值对，只不过这里的key永远都是ThreadLocal对象，通过ThreadLocal对象的set方法，结果把ThreadLocal对象自己当做key，放进了ThreadLoalMap中。
 
-### Entry 是继承 WeakReference
+## Entry 是继承 WeakReference
 
-ThreadLoalMap 的 Entry 是继承 WeakReference 这里需要注意的是，
-
-ThreadLoalMap 的 Entry 是继承 WeakReference，和 HashMap 很大的区别是，Entry 中没有 next 字段，所以就不存在链表的情况了。
+这里需要注意的是，ThreadLoalMap的Entry是继承`WeakReference`，和HashMap很大的区别是，Entry中没有next字段，所以就不存在链表的情况了。
