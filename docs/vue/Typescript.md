@@ -12,11 +12,11 @@ tag:
 
 ::: tip 介绍
 
-TypeScript 是强类型的 JavaScript 超集，支持 ES6 语法，支持面向对象编程的概念，如类、接口、继承、泛型等。
+TypeScript是强类型的JavaScript超集，支持ES6语法，支持面向对象编程的概念，如类、接口、继承、泛型等。
 
-TypeScript 并不直接在浏览器上运行，需要编译器编译成纯 JavaScript 来运行。
+TypeScript并不直接在浏览器上运行，需要编译器编译成纯JavaScript来运行。
 
-支持泛型，es6 语法，强类型和静态类型
+支持泛型，es6语法，强类型和静态类型
 
 :::
 
