@@ -26,6 +26,13 @@ export const navbarConfig = defineNavbarConfig([
             {text: "算法", link: "/algo"},
         ]
     },
+    {
+        text: "工具", icon: "tool", prefix: "/tool",
+        children: [
+            {text: "idea", link: "/idea-plugin"},
+            {text: "vscode", link: "/vscode-plugins-and-configuration"},
+        ]
+    },
     {text: "博客", icon: "blog", link: "https://blog.csdn.net/qq_43183527"},
     {text: "关于作者",icon: "guide",link: "/about"},
 ]);

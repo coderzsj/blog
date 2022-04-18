@@ -1,5 +1,5 @@
 ---
-title: "VSCode插件和配置"
+title: VSCode插件和配置
 category: 工具
 icon: vscode
 ---
@@ -27,7 +27,7 @@ icon: vscode
 - 删除行：`ctrl+y`
 
 ## vscode配置修改
-
+ 
 1、选中单词的分隔符
 
 Editor: `Word Separators`：执行单词相关的导航或操作时作为单词分隔符的字符。
@@ -46,4 +46,8 @@ autosave：选为onfocuschange
 
 3、 搜索文件，排除某些文件夹
 
-![排除某些文件夹](assets/vscode-plugins-and-configuration-1650151717352.png)  
+exclude
+
+功能-》搜索 配置glob模式以在全文搜索和快速打开中排除文件和文件夹
+
+![排除某些文件夹](./assets/vscode-plugins-and-configuration-1650151717352.png)  
