@@ -4,11 +4,16 @@ icon: algo
 category: 算法
 tag:
   - algo
+  - 回溯算法
 ---
+
+maximum-path-of-binary-tree
 
 # 八皇后问题
 
-八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即：任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法(92)。
+回溯算法的典型案例。
+
+在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即：任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法(92)。
 
 ## 八皇后问题算法思路分析
 
@@ -22,50 +27,50 @@ tag:
 package interview;
 
 public class BHH {
- int[][] board = new int[8][8];
+    int[][] board = new int[8][8];
 
- boolean check(int x, int y) {
-  for (int i = 0; i < y; i++) {
-   if (board[x][i] == 1) {
-    return false;
-   }
-   //检查左侧斜向
-   if(x-1-i >= 0 && board[x-1-i][y-1-i] == 1) {
-    return false;
-   }
-   //检查右侧斜向
-   if (x+i+1 < 8 && board[x+i+1][y-1-i] == 1) {
-    return false;
-   }
-  }
-  return true;
- }
-
-
- boolean settleQ(int y) {
-  if (y == 8) return true;
-  for (int i = 0; i < 8; i++) {
-   for(int x=8; x<8; x++) {
-    board[x][y]=0;
-   }
-
-   if (check(i, y)) {
-    board[i][y] = 1;
-    if (settleQ(y+1)) {
-     return true;
+    boolean check(int x, int y) {
+        for (int i = 0; i < y; i++) {
+            if (board[x][i] == 1) {
+                return false;
+            }
+            //检查左侧斜向
+            if (x - 1 - i >= 0 && board[x - 1 - i][y - 1 - i] == 1) {
+                return false;
+            }
+            //检查右侧斜向
+            if (x + i + 1 < 8 && board[x + i + 1][y - 1 - i] == 1) {
+                return false;
+            }
+        }
+        return true;
     }
-   }
-  }
-  return true;
- }
 
- void print() {
-  for (int i = 0; i < 8; i++) {//纵坐标
-   for (int j = 0; j < 8; j++) {//横坐标
-    System.out.print(board[j][i]);
-   }
-   System.out.println();
-  }
- }
+
+    boolean settleQ(int y) {
+        if (y == 8) return true;
+        for (int i = 0; i < 8; i++) {
+            for (int x = 8; x < 8; x++) {
+                board[x][y] = 0;
+            }
+
+            if (check(i, y)) {
+                board[i][y] = 1;
+                if (settleQ(y + 1)) {
+                    return true;
+                }
+            }
+        }
+        return true;
+    }
+
+    void print() {
+        for (int i = 0; i < 8; i++) {//纵坐标
+            for (int j = 0; j < 8; j++) {//横坐标
+                System.out.print(board[j][i]);
+            }
+            System.out.println();
+        }
+    }
 }
 ```

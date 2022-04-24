@@ -88,14 +88,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, ArticleEntity> i
 我们可以用 SqlSessionFactory 来手工打开数据库连接，将 Controller 方法修改如下：
 
 ```java
-@GetMapping("foo/scan/1/{limit}")
-public void scanFoo1(@PathVariable("limit") int limit) throws Exception {
-    try (
-        SqlSession sqlSession = sqlSessionFactory.openSession();  // 1
-        Cursor<Foo> cursor = 
-              sqlSession.getMapper(FooMapper.class).scan(limit)   // 2
-    ) {
-        cursor.forEach(foo -> { });
+class T {
+    @GetMapping("foo/scan/1/{limit}")
+    public void scanFoo1(@PathVariable("limit") int limit) throws Exception {
+        try (
+                SqlSession sqlSession = sqlSessionFactory.openSession();  // 1
+                Cursor<Foo> cursor =
+                        sqlSession.getMapper(FooMapper.class).scan(limit)   // 2
+        ) {
+            cursor.forEach(foo -> {
+            });
+        }
     }
 }
 ```
@@ -110,21 +113,29 @@ public void scanFoo1(@PathVariable("limit") int limit) throws Exception {
 在 Spring 中，我们可以用 TransactionTemplate 来执行一个数据库事务，这个过程中数据库连接同样是打开的。代码如下：
 
 ```java
-@GetMapping("foo/scan/2/{limit}")
-public void scanFoo2(@PathVariable("limit") int limit) throws Exception {
-    TransactionTemplate transactionTemplate = 
-            new TransactionTemplate(transactionManager);  // 1
- 
-    transactionTemplate.execute(status -> {               // 2
-        try (Cursor<Foo> cursor = fooMapper.scan(limit)) {
-            cursor.forEach(foo -> { });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    });
+class T {
+
+    @GetMapping("foo/scan/2/{limit}")
+    public void scanFoo2(@PathVariable("limit") int limit) throws Exception {
+        TransactionTemplate transactionTemplate =
+                new TransactionTemplate(transactionManager);  // 1
+
+        transactionTemplate.execute(status -> {               // 2
+            try (Cursor<Foo> cursor = fooMapper.scan(limit)) {
+                cursor.forEach(foo -> {
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        });
+    }
 }
 ```
+
+limit分页有一个问题就是当偏移量较大时查询遍历的数据越多，效率会逐渐降低，例如limit 1000,10这样的查询这时MYSQL需要查询出1020条记录然后只返回最后20条，前面的1000条记录都会被抛弃，代价较高。如果每个分页被访问的数据频率都相同要优化这种查询要么是在页面中限制分页的数量要么是优化大偏移量的性能。
+
+优化此类分页查询的最简单的一个办法就是尽可能地使用**索引覆盖**扫描，而不是查询所有的列。然后根据需要做一次关联操作再返回所需的列，对于偏移量很大的时候，这样做的效率会提升很大。
 
 上面的代码中，
 
