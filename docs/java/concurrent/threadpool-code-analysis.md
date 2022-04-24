@@ -5,8 +5,6 @@ tag:
   - 线程池
 ---
 
-# threadpool
-
 ## 线程池 ThreadPoolExecutor 源码分析
 
 ## 1、构造方法
@@ -16,29 +14,29 @@ tag:
 ```java
 public class ThreadPoolExecutor extends AbstractExecutorService {
     public ThreadPoolExecutor(int corePoolSize,
-            int maximumPoolSize,
-            long keepAliveTime,
-            TimeUnit unit,
-            BlockingQueue<Runnable> workQueue,
-            ThreadFactory threadFactory,
-            RejectedExecutionHandler handler) {
-     if (corePoolSize < 0 ||
-      maximumPoolSize <= 0 ||
-      maximumPoolSize < corePoolSize ||
-      keepAliveTime < 0)
-      throw new IllegalArgumentException();
-     if (workQueue == null || threadFactory == null || handler == null)
-      throw new NullPointerException();
-     this.acc = System.getSecurityManager() == null ?
-       null :
-       AccessController.getContext();
-     this.corePoolSize = corePoolSize;
-     this.maximumPoolSize = maximumPoolSize;
-     this.workQueue = workQueue;
-     this.keepAliveTime = unit.toNanos(keepAliveTime);
-     this.threadFactory = threadFactory;
-     this.handler = handler;
-}
+                              int maximumPoolSize,
+                              long keepAliveTime,
+                              TimeUnit unit,
+                              BlockingQueue<Runnable> workQueue,
+                              ThreadFactory threadFactory,
+                              RejectedExecutionHandler handler) {
+        if (corePoolSize < 0 ||
+                maximumPoolSize <= 0 ||
+                maximumPoolSize < corePoolSize ||
+                keepAliveTime < 0)
+            throw new IllegalArgumentException();
+        if (workQueue == null || threadFactory == null || handler == null)
+            throw new NullPointerException();
+        this.acc = System.getSecurityManager() == null ?
+                null :
+                AccessController.getContext();
+        this.corePoolSize = corePoolSize;
+        this.maximumPoolSize = maximumPoolSize;
+        this.workQueue = workQueue;
+        this.keepAliveTime = unit.toNanos(keepAliveTime);
+        this.threadFactory = threadFactory;
+        this.handler = handler;
+    }
 }
 ```
 
@@ -50,14 +48,16 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
 
 ```java
 public static class CallerRunsPolicy implements RejectedExecutionHandler {
- public CallerRunsPolicy() { }
- //使用主线程执行新任务
- public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
-  if (!e.isShutdown()) {
-   //此方法相同于同步方法
-   r.run();
-  }
- }
+    public CallerRunsPolicy() {
+    }
+
+    //使用主线程执行新任务
+    public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+        if (!e.isShutdown()) {
+            //此方法相同于同步方法
+            r.run();
+        }
+    }
 }
 ```
 
@@ -68,11 +68,12 @@ public static class CallerRunsPolicy implements RejectedExecutionHandler {
 ```java
 
 public static class AbortPolicy implements RejectedExecutionHandler {
- public AbortPolicy() { }
+    public AbortPolicy() {
+    }
 
- public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
-  throw new RejectedExecutionException("Task " + r.toString() + " rejected from " + e.toString());
- }
+    public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+        throw new RejectedExecutionException("Task " + r.toString() + " rejected from " + e.toString());
+    }
 }
 ```
 
@@ -83,8 +84,11 @@ public static class AbortPolicy implements RejectedExecutionHandler {
 ```java
 
 public static class DiscardPolicy implements RejectedExecutionHandler {
- public DiscardPolicy() { }
- public void rejectedExecution(Runnable r, ThreadPoolExecutor e) { }
+    public DiscardPolicy() {
+    }
+
+    public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+    }
 }
 ```
 
@@ -94,13 +98,15 @@ public static class DiscardPolicy implements RejectedExecutionHandler {
 
 ```java
 public static class DiscardOldestPolicy implements RejectedExecutionHandler {
- public DiscardOldestPolicy() { }
- public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
-  if (!e.isShutdown()) {
-   e.getQueue().poll();
-   e.execute(r);
-  }
- }
+    public DiscardOldestPolicy() {
+    }
+
+    public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+        if (!e.isShutdown()) {
+            e.getQueue().poll();
+            e.execute(r);
+        }
+    }
 }
 ```
 
@@ -130,54 +136,57 @@ Java.util.concurrent.ThreadPoolExecutor.execute
 ```java
 public class ThreadPoolExecutor extends AbstractExecutorService {
     private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));
-private static int workerCountOf(int c) {
- return c & CAPACITY;
-}
-//任务队列
-private final BlockingQueue<Runnable> workQueue;
-public void execute(Runnable command) {
-    //如果任务为null,则抛出异常
-     if (command == null)
-      throw new NullPointerException();
-     //获取线程池状态和有效线程数
-     int c = ctl.get();
-     //以下有3步：
-     //步骤1：
-     //如果线程池工作的线程小于核心线程数
-     if (workerCountOf(c) < corePoolSize) {
-      //则增加一个线程，并把该任务交给它去执行
-      if (addWorker(command, true))
-       //成功则返回
-       return;
-      //这里说明创建核心线程失败，需要再次获取临时变量c
-      c = ctl.get();
-     }
-//步骤2：
- // 走到这里说明创建新的核心线程失败，也就是当前工作线程数大于等于corePoolSize
- // 线程池的运行状态是RUNNING，并且尝试将新任务加入到阻塞队列，成功返回true
- if (isRunning(c) && workQueue.offer(command)) {
-  //进入到这里，是已经向任务队列投放任务成功
-  //再次获取线程池状态和有效线程数
-  int recheck = ctl.get();
-  //如果线程池状态不是RUNNING（线程池异常终止了）,将线程从工作队列中移除
-  if (! isRunning(recheck) && remove(command))
-   //执行饱和策略
-   reject(command);
-  // 走到这里说明线程池状态可能是RUNNING
-  // 也可能是移除线程任务失败了（失败的最大的可能是已经执行完毕了）
-  //因为所有存活的工作线程有可能在最后一次检查之后已经终结,所以需要二次检查线程池工作线程的状态
-  //这里博主也是看了半天，大家好好体会下
-  else if (workerCountOf(recheck) == 0)
-   //若当前线程池工作线程数为0，则新建一个线程并执行
-   addWorker(null, false);
- }
- //步骤3：
- // 如果任务队列已满，就需要创建非核心线程
- // 如果新建非核心线程失败，则执行饱和策略
- else if (!addWorker(command, false))
-  reject(command);
 
-}
+    private static int workerCountOf(int c) {
+        return c & CAPACITY;
+    }
+
+    //任务队列
+    private final BlockingQueue<Runnable> workQueue;
+
+    public void execute(Runnable command) {
+        //如果任务为null,则抛出异常
+        if (command == null)
+            throw new NullPointerException();
+        //获取线程池状态和有效线程数
+        int c = ctl.get();
+        //以下有3步：
+        //步骤1：
+        //如果线程池工作的线程小于核心线程数
+        if (workerCountOf(c) < corePoolSize) {
+            //则增加一个线程，并把该任务交给它去执行
+            if (addWorker(command, true))
+                //成功则返回
+                return;
+            //这里说明创建核心线程失败，需要再次获取临时变量c
+            c = ctl.get();
+        }
+//步骤2：
+        // 走到这里说明创建新的核心线程失败，也就是当前工作线程数大于等于corePoolSize
+        // 线程池的运行状态是RUNNING，并且尝试将新任务加入到阻塞队列，成功返回true
+        if (isRunning(c) && workQueue.offer(command)) {
+            //进入到这里，是已经向任务队列投放任务成功
+            //再次获取线程池状态和有效线程数
+            int recheck = ctl.get();
+            //如果线程池状态不是RUNNING（线程池异常终止了）,将线程从工作队列中移除
+            if (!isRunning(recheck) && remove(command))
+                //执行饱和策略
+                reject(command);
+                // 走到这里说明线程池状态可能是RUNNING
+                // 也可能是移除线程任务失败了（失败的最大的可能是已经执行完毕了）
+                //因为所有存活的工作线程有可能在最后一次检查之后已经终结,所以需要二次检查线程池工作线程的状态
+                //这里博主也是看了半天，大家好好体会下
+            else if (workerCountOf(recheck) == 0)
+                //若当前线程池工作线程数为0，则新建一个线程并执行
+                addWorker(null, false);
+        }
+        //步骤3：
+        // 如果任务队列已满，就需要创建非核心线程
+        // 如果新建非核心线程失败，则执行饱和策略
+        else if (!addWorker(command, false))
+            reject(command);
+
+    }
 
 }
 
