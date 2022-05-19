@@ -191,3 +191,22 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
 }
 
 ```
+
+## 常用的线程池配置
+
+1. 单线程
+2. 固定线程数
+3. 执行时间很短，切换比较快；
+4. 队列长度无限 任务堆积
+
+监控
+
+parallel stream，不能用IO阻塞
+
+ForkJoinPool，核心思想是分治还有任务窃取，每个工作线程都维护自己的一个双端队列，用来存储分配给自己的任务，工作从自己的队尾获取任务，
+
+1. 单例
+2. 策略
+3. 适配器
+4. 构造者
+5. 模板方法
