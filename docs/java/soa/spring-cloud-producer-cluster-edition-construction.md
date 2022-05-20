@@ -6,10 +6,10 @@ title: spring-cloud生产者集群版构建
 
 你看得见爱在满红殆尽的燃烧着吗
 
-1. 注册中心：eureka(属于Netflix,2.x版本不在开源，1.x版本让在更新)
-2. 服务调用：ribbon(属于Netflix,停止更新，已经彻底被移除）、spring Loadbalancer(属于Spring Cloud官方,目前的默认方案)
-3. 服务降级：hystrix(属于Netflix,停止更新，已经彻底被移除）
-4. 路由网关：zuul(属于Netflix,停止更新，已经彻底被移除）、gateway(属于spring Cloud官方, 推荐方案)
+1. 注册中心：`eureka`(属于Netflix,2.x版本不在开源，1.x版本让在更新)
+2. 服务调用：`ribbon`(属于Netflix,停止更新，已经彻底被移除）、spring `Loadbalancer`(属于Spring Cloud官方,目前的默认方案)
+3. 服务降级：`hystrix`(属于Netflix,停止更新，已经彻底被移除）
+4. 路由网关：`zuul`(属于Netflix,停止更新，已经彻底被移除）、gateway(属于spring Cloud官方, 推荐方案)
 
 找一套更好的解决方案势在必行，也就引出了我们本章的主角：spring cloud alibaba
 

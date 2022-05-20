@@ -283,3 +283,12 @@ MinorGC所用时间远小于FullGC
 `-XX:CMSInitiatingOccupancyFraction=percent`
 
 [JVM 学习笔记（二）垃圾回收](https://blog.csdn.net/weixin_50280576/article/details/113775575)
+
+
+- `GC`：表示进行了一次Minor GC，即从年轻代空间(包括 Eden 和 Survivor 区域)回收内存
+- Allocation Failure：在年轻代中没有足够的空间能够存储新的数据
+- `Full GC` (Ergonomics)：表示进行了一次Full GC，即清理整个堆空间(包含年轻代和老年代)
+- `PSYoungGen`: 1024K->1024K(1536K)：垃圾回收器是Paralle Scavenge，年轻代区GC前->GC后该区域已使用量，后面的1536表示该区域总量
+- `ParOldGen`: 4032K->4032K(4096K)：老年代区，GC前->GC后该区域已使用量，后面的4096表示该区域总量
+5056K->5056K(5632K)：GC前 -> GC后Java堆的使用量，后面的5632表示Java堆总量
+- `Metaspace`: 3117K->3117K(1056768K)：JDK8中取消了永久代，新增了一个叫元空间(Metaspace)的区域，对应的还是JVM规范中的方法区(主要存放一些`class`和元数据的信息)，该数据表示该区GC前后使用量

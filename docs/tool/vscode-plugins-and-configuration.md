@@ -36,17 +36,17 @@ Editor: `Word Separators`：执行单词相关的导航或操作时作为单词�
 
 2、自动保存
 
-autosave：选为onfocuschange
+`autosave`：选为`onfocuschange`
 
 其它选项分别是
 
-- off：永不自动保存更新后的文件 （他是个默认选项）
-- afterDelay：当文件修改后的时间超过“Files:Auto Save Delay”中配置的值时自动进行保存
-- onWindowChange：窗口失去焦点时自动保存更新后的文件
+- `off`：永不自动保存更新后的文件 （他是个默认选项）
+- `afterDelay`：当文件修改后的时间超过`Files:Auto Save Delay`中配置的值时自动进行保存
+- `onWindowChange`：窗口失去焦点时自动保存更新后的文件
 
 3、 搜索文件，排除某些文件夹
 
-exclude
+`exclude`
 
 功能-》搜索 配置glob模式以在全文搜索和快速打开中排除文件和文件夹
 
