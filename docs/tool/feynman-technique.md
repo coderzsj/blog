@@ -1,6 +1,6 @@
-# 费曼技巧：最强的学习方法
+# 璐规浖鎶�宸э細鏈�寮虹殑瀛︿範鏂规硶
 
 1. choose conception
 2. noob
-3. Encounter problems，recheck the material
+3. Encounter problems锛宺echeck the material
 4. Simplify your language
