@@ -44,7 +44,7 @@ date: 2018-09-05
 
 测试用例应该尽可能详细，尽量保证测试用例走完能确保产品能上线发布。下图是我们在登录注册时用到的一部分用例：
 
-![登录注册用到的一部分用例](docs/note/assets/20220414/killing-a-programmer-doesnt-require-a-gun-just-change-the-requirements-three-times-1649933460463.png)
+![登录注册用到的一部分用例](./assets/killing-a-programmer-doesnt-require-a-gun-just-change-the-requirements-three-times-1649933460463.png)
 
 
 ## 二、WHERE - 文档应该放在何处
@@ -94,7 +94,7 @@ Windows用户可以使用Visio，Mac用户可以使用`OmniGraffle`，还可以�
 
 我之前就用ProcessOn画了一个设置了缓存的网络请求的流程图，这里作个参考：
 
-![缓存的网络请求的流程图](docs/note/assets/20220414/killing-a-programmer-doesnt-require-a-gun-just-change-the-requirements-three-times-1649933535494.png)
+![缓存的网络请求的流程图](./assets/killing-a-programmer-doesnt-require-a-gun-just-change-the-requirements-three-times-1649933535494.png)
 
 
 6、人员角色“实例化”
@@ -157,7 +157,7 @@ Windows用户可以使用Visio，Mac用户可以使用`OmniGraffle`，还可以�
 
 下图是左侧是一个首页，右侧是一个点击透析预警的详细页面:
 
-![登录后首页](docs/note/assets/20220414/killing-a-programmer-doesnt-require-a-gun-just-change-the-requirements-three-times-1649934048137.png)
+![登录后首页](./assets/killing-a-programmer-doesnt-require-a-gun-just-change-the-requirements-three-times-1649934048137.png)
 
 首页包括功能点：
 

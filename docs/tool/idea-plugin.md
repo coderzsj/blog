@@ -44,7 +44,7 @@ C:\Users\Administrator\AppData\Roaming\JetBrains\IntelliJIdea2021.3
 
 初次弹窗：我们选择start trial  - log in to JetBrains Account，弹出界面：
 
-![idea初次弹窗](assets/idea-plugin-1650265183670.png)  
+![idea初次弹窗](./assets/idea-plugin-1650265183670.png)  
 
 没有账号的话，自己注册一个账号，免费的。
 
